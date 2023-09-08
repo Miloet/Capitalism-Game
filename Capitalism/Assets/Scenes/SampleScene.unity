@@ -293,6 +293,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 376c72e1c44eddb45bfafcf9769df4d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  assetPlace: {fileID: 0}
+  currentAsset: {fileID: 0}
 --- !u!61 &235085075
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -462,6 +464,7 @@ GameObject:
   m_Component:
   - component: {fileID: 412483972}
   - component: {fileID: 412483971}
+  - component: {fileID: 412483974}
   - component: {fileID: 412483973}
   m_Layer: 0
   m_Name: Capsule
@@ -582,6 +585,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &412483974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 412483970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5610874abf3dc3c43bea2ec455bb38d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1430,7 +1446,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6e2b8eb824166a4994ad5b0192049d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  test: {fileID: 0}
+  selected: {fileID: 0}
 --- !u!4 &1667695516
 Transform:
   m_ObjectHideFlags: 0
