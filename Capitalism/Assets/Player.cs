@@ -1,11 +1,5 @@
 using System;
-using System.IO;
-using System.Linq;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -14,20 +8,26 @@ public class Player : MonoBehaviour
     public static int stress = 0;
 
     public static char[] skills = {'A','A','B','B','C'};
-    public static Stock[] assets;
+    public static Stock[] assets = {new Stock("APPL")};
 
     public static float assetValue = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-        var g = Resources.Load<GameObject>("Card");
+        var c = Resources.Load<GameObject>("Card");
+        var a = Resources.Load<GameObject>("Asset");
         //updateValue();
 
-        foreach(char skill in skills)
+        foreach (char skill in skills)
         {
-            assignSkill(Instantiate(g), skill);
+            assignSkill(Instantiate(c), skill);
+        }
+        MouseInput.updateCardCount();
 
+        foreach(Stock asset in assets)
+        {
+            Instantiate(a).GetComponent<Asset>().Assign(asset);
         }
     }
 
@@ -48,7 +48,7 @@ public class Player : MonoBehaviour
             case 'A':
                 newCard.AddComponent<SkillAccumulate>();
                 break;
-
+                /*
             case 'B':
                 //newCard.AddComponent<SkillB>();
                 break;
@@ -152,7 +152,7 @@ public class Player : MonoBehaviour
                 break;
 
             #endregion 
-                
+                */
             default:
                 newCard.AddComponent<SkillBase>();
                 break;

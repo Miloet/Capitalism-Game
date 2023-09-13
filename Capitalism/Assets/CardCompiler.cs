@@ -83,7 +83,7 @@ public class CardCompiler : MonoBehaviour
             if (card.requireAsset)
             {
                 string asset = "";
-                if (card.currentAsset != null) asset = card.currentAsset.name;
+                if (card.currentAsset != null) asset = card.currentAsset.self.stockSymbol;
                 else asset = "!";
                 text += $"({asset})";
             }

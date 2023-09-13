@@ -56,7 +56,9 @@ public class MouseInput : MonoBehaviour
                 switch(selected.tag)
                 {
                     case "Asset":
-                        foreach (CardBehavior card in cards)
+
+                        print(cards.Length);
+                        foreach (SkillBase card in cards)
                         {
                             if (IsClose(card.assetPlace.position, 1))
                             {
@@ -65,8 +67,9 @@ public class MouseInput : MonoBehaviour
                                 asset.owner = card;
                                 break;
                             }
-                            else resetSelected();
                         }
+                        resetSelected(false);
+
                         break;
 
                     case "Skill":
@@ -76,7 +79,7 @@ public class MouseInput : MonoBehaviour
                         }
                         else resetSelected();
 
-                        break;
+                    break;
                 }
 
                
@@ -93,16 +96,17 @@ public class MouseInput : MonoBehaviour
             {
                 selected = null;
             }
+            CardCompiler.UpdateText();
         }
 
         if (selected != null) selected.transform.position = worldPosition;
 
-        CardCompiler.UpdateText();
+        
     }
 
     public static void updateCardCount()
     {
-        cards = GameObject.FindObjectsOfType<CardBehavior>();
+        cards = FindObjectsByType<SkillBase>(FindObjectsSortMode.None);
     }
 
     private void resetSelected(bool original = true)

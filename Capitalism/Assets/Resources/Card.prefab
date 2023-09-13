@@ -1071,7 +1071,6 @@ GameObject:
   - component: {fileID: 2991080243839553567}
   - component: {fileID: 3537347411009456689}
   - component: {fileID: 2423588543943432993}
-  - component: {fileID: 6831607134674490762}
   m_Layer: 0
   m_Name: Card
   m_TagString: Skill
@@ -1171,22 +1170,3 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &6831607134674490762
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8936224763858376470}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 979a795c8dbd19d4894a76e6659b38d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  assetPlace: {fileID: 0}
-  currentAsset: {fileID: 0}
-  id: 0
-  requireAsset: 0
-  letter: 0
-  name: Null
-  description: Removes 1 Stress and gives 1$

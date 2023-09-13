@@ -2,17 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillAccumulate : MonoBehaviour
+public class SkillAccumulate : SkillBase
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void Start()
     {
-        
+        requireAsset = true;
+
+        letter = "A";
+        name = "Accumulate";
+        description = "Procure intrest on money giving you money equal to a stock!";
+
+        spriteResourcePath = "Skills/Accumulate";
+
+        base.Start();
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Effect(float multiplier = 1f)
     {
-        
+        Player.money += currentAsset.value * multiplier;
+
+        base.Effect(multiplier);
     }
 }

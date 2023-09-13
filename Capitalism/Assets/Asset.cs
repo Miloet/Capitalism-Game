@@ -12,16 +12,25 @@ public class Asset : MonoBehaviour
 {
     public CardBehavior owner;
 
-    Stock self;
-    public float value;
+    public Stock self;
+    public float value = 100f;
     public float multiplier;
 
     
     void Start()
     {
         //value = self.getPrice();
-        owner = null;
+        Free();
     }
+    public void Assign(string symbol)
+    {
+        self = new Stock(symbol,"1y","1m", 100);
+    }
+    public void Assign(Stock newAsset)
+    {
+        self = newAsset;
+    }
+
     public void Free()
     {
         if (owner != null)
@@ -30,7 +39,6 @@ public class Asset : MonoBehaviour
             owner = null;
         }
     }
-
     public float GetValue()
     {
         return value;
@@ -130,7 +138,7 @@ public class Stock
         }
         catch (Exception ex)
         {
-            //Console.WriteLine($"Error: {ex.Message}");
+           Debug.LogError($"Error: {ex.Message}");
         }
         price = ReverseOrder(prices);
 

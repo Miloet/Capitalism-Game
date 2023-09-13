@@ -5,21 +5,20 @@ using TMPro;
 
 public class SkillBase : CardBehavior
 {
-    public int id;
     public bool requireAsset = false;
 
     public string letter = "0";
-    public string name = "Null";
+    public new string name = "Null";
     public string description = "Removes 1 Stress and gives 100$";
 
-    string spriteResourcePath = "Resources/SkillImages/Error";
+    public string spriteResourcePath = "Skills/Error";
     SpriteRenderer image;
     TextMeshPro displayName;
     TextMeshPro displayDescription;
 
 
 
-    private void Start()
+    public virtual void Start()
     {
         assetPlace = transform.Find("AssetInput/AssetPosition");
 
@@ -36,8 +35,8 @@ public class SkillBase : CardBehavior
     }
     public virtual void Effect(float multiplier = 1f)
     {
-        Player.stress -= Game.IntMultiply(1 * multiplier);
-        Player.money += 100f * multiplier;
+        //Player.stress -= Game.IntMultiply(1 * multiplier);
+        //Player.money += 100f * multiplier;
         print($"{name} effect played");
     }
 
