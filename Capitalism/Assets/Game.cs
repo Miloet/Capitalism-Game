@@ -33,4 +33,10 @@ public class Game : MonoBehaviour
         textEnemyMoney.text = $"Stress: {Enemy.stress}";
         textEnemyStress.text = $"Money: {Enemy.money}";
 }
+
+
+    public static int IntMultiply(float n)
+    {
+        return Mathf.RoundToInt(n);
+    }
 }

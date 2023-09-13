@@ -36,7 +36,6 @@ public class MouseInput : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             print("Left Pressed");
-
             
            
             if (selected == null)
@@ -54,30 +53,42 @@ public class MouseInput : MonoBehaviour
             }
             else
             {
-                if (selected.tag == "Asset")
+                switch(selected.tag)
                 {
-                    foreach (CardBehavior card in cards)
-                    {
-                        if (IsClose(card.assetPlace.position, 1))
+                    case "Asset":
+                        foreach (CardBehavior card in cards)
                         {
-                            var asset = selected.GetComponent<Asset>();
-                            card.currentAsset = asset;
-                            asset.owner = card;
-                            break;
+                            if (IsClose(card.assetPlace.position, 1))
+                            {
+                                var asset = selected.GetComponent<Asset>();
+                                card.currentAsset = asset;
+                                asset.owner = card;
+                                break;
+                            }
+                            else resetSelected();
                         }
-                    }
+                        break;
+
+                    case "Skill":
+                        if (CardCompiler.inBounds(selected.transform))
+                        {
+                            resetSelected(false);
+                        }
+                        else resetSelected();
+
+                        break;
                 }
 
-                selected.transform.position = orginialPos;
-                selected = null;
+               
             }
-            
 
+            CardCompiler.UpdateText();
         }
 
         if (Input.GetMouseButtonDown(1))
         {
             print("Right Pressed");
+            
             if (selected != null)
             {
                 selected = null;
@@ -86,7 +97,7 @@ public class MouseInput : MonoBehaviour
 
         if (selected != null) selected.transform.position = worldPosition;
 
-        
+        CardCompiler.UpdateText();
     }
 
     public static void updateCardCount()
@@ -94,11 +105,15 @@ public class MouseInput : MonoBehaviour
         cards = GameObject.FindObjectsOfType<CardBehavior>();
     }
 
+    private void resetSelected(bool original = true)
+    {
+        if(original) selected.transform.position = orginialPos;
+        selected = null;
+    }
     public static bool IsClose(Vector2 pos, float distance = 1f)
     {
         return Vector2.Distance(pos, worldPosition) < distance;
     }
-
     static bool tagCheck(string tag, string[] tagsToCheck)
     {
         foreach (string t in tagsToCheck)
