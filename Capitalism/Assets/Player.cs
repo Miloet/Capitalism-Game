@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     public static int stress = 0;
 
     public static char[] skills = {'A','A','B','B','C'};
-    public static Stock[] assets = {new Stock("APPL")};
+    public static Stock[] assets;// = {new Stock("AAPL")};
 
     public static float assetValue = 0;
 
@@ -24,11 +24,12 @@ public class Player : MonoBehaviour
             assignSkill(Instantiate(c), skill);
         }
         MouseInput.updateCardCount();
-
+        Instantiate(a).GetComponent<Asset>().Assign("AAPL");
+        /*
         foreach(Stock asset in assets)
         {
             Instantiate(a).GetComponent<Asset>().Assign(asset);
-        }
+        }*/
     }
 
     public void updateValue()

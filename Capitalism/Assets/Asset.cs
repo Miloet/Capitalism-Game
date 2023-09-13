@@ -32,15 +32,24 @@ public class Asset : MonoBehaviour
 
         price.text = "10$";
     }
+    private void Update()
+    {
+        print(self != null);
+        print(self.price != null);
+        if (price != null) print(self.price.Count);
+    }
+
+    #region
+
     public void Assign(string symbol)
     {
-        self = new Stock(symbol,"1y","1m", 100);
+        self = new Stock();
+        self.CreateStock(symbol, "1y", "1d", 100);
     }
     public void Assign(Stock newAsset)
     {
         self = newAsset;
     }
-
     public void Free()
     {
         if (owner != null)
@@ -60,8 +69,12 @@ public class Asset : MonoBehaviour
     }
     public void UpdateStock()
     {
+        value = self.price.Count;
+        price.text = value + "$";
         //Update value and growth each time a month passes.
     }
+
+    #endregion
 }
 
 
@@ -74,13 +87,16 @@ public class Stock
 
     public static string url = "https://query1.finance.yahoo.com/v8/finance/chart/";
 
-    public Stock(string symbol, string range = "10y", string interval = "1m", int Ammount = 0)
+    public async void CreateStock(string symbol, string range = "1y", string interval = "1d", int Ammount = 0)
     {
         stockSymbol = symbol;
+        float time = Time.time;
 
-        getStockHistoricalPrices(range, interval).Wait();
+        await getStockHistoricalPrices(range, interval);
 
-        creation = getTimeFromRange(range);
+        MonoBehaviour.print(Time.time - time + "seconds have passed");
+
+        //creation = getTimeFromRange(range);
 
         ammount = Ammount;
     }
@@ -95,7 +111,7 @@ public class Stock
         return -1;
     }
 
-    public async Task<float[]> getStockHistoricalPrices(string range, string interval)
+    public async Task getStockHistoricalPrices(string range, string interval)
     {
         List<float> prices = new List<float>();
 
@@ -153,70 +169,9 @@ public class Stock
         }
         catch (Exception ex)
         {
-            //Debug.LogError($"Error: {ex.Message}");
+            Debug.LogError($"Error: {ex.Message}");
         }
         price = ReverseOrder(prices);
-
-
-
-        return prices.ToArray();
-    }
-
-    public async Task getCurrentStockPrice()
-    {
-        string stockUrl = url + stockSymbol;
-
-        Console.WriteLine(stockUrl);
-
-        try
-        {
-            // Send an HTTP GET request to the website
-            using (HttpClient client = new HttpClient())
-            {
-                HttpResponseMessage response = await client.GetAsync(stockUrl);
-
-                // Ensure the request was successful
-                response.EnsureSuccessStatusCode();
-
-                // Read the HTML content
-                string htmlContent = await response.Content.ReadAsStringAsync();
-
-                // Extract stock information using regular expressions
-                string pattern = $@"<fin-streamer[^>]+class=""[^""]*\bFw\(b\)[^""]*""[^>]+data-symbol=""{stockSymbol}""[^>]+data-test=""qsp-price""[^>]+value=""(\d+(?:\.\d+)?)""[^>]*>";
-                Match match = Regex.Match(htmlContent, pattern);
-
-
-                // Store stock prices in an array
-                price = new List<float>();
-
-                if (match.Success)
-                {
-
-                    if (float.TryParse(match.Groups[1].Value.Replace('.', ','), out float stockPrice))
-                    {
-                        price.Add(stockPrice);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Unable to parse stock price.");
-                        Console.WriteLine($"The returned value was: {match.Groups[1].Value}");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Stock information not found.");
-                }
-
-
-                // Display the stock prices
-                Console.Write($"Stock prices for {stockSymbol}:");
-                Console.Write(string.Join(" - ", price) + "$\n");
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"An error occurred: {ex.Message}");
-        }
     }
 
     private static List<float> ReverseOrder(List<float> prices)
