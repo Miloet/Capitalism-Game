@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using UnityEngine;
+using TMPro;
 
 public class Asset : MonoBehaviour
 {
@@ -16,11 +17,20 @@ public class Asset : MonoBehaviour
     public float value = 100f;
     public float multiplier;
 
-    
+
+    TextMeshPro assetName;
+    TextMeshPro price;
+
+
     void Start()
     {
         //value = self.getPrice();
         Free();
+
+        assetName = transform.Find("Name").GetComponent<TextMeshPro>();
+        price = transform.Find("Price").GetComponent<TextMeshPro>();
+
+        price.text = "10$";
     }
     public void Assign(string symbol)
     {
@@ -42,6 +52,11 @@ public class Asset : MonoBehaviour
     public float GetValue()
     {
         return value;
+    }
+
+    public void UpdateText()
+    {
+        assetName.text = self.stockSymbol;
     }
     public void UpdateStock()
     {
@@ -138,7 +153,7 @@ public class Stock
         }
         catch (Exception ex)
         {
-           Debug.LogError($"Error: {ex.Message}");
+            //Debug.LogError($"Error: {ex.Message}");
         }
         price = ReverseOrder(prices);
 
