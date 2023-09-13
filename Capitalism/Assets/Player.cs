@@ -4,18 +4,24 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public static float money = 0;
+    public static float money = 1000;
     public static int stress = 0;
 
-    public static SkillBase[] skills;
-    public static Asset[] assets;
+    public static char[] skills = {'A','A','B','B','C'};
+    public static string[] assets;
 
     public static float assetValue = 0;
 
     // Start is called before the first frame update
     void Start()
     {
+
         //updateValue();
+
+        foreach(char skill in skills)
+        {
+
+        }
     }
 
     // Update is called once per frame
