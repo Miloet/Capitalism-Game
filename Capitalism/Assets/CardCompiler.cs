@@ -9,10 +9,10 @@ public class CardCompiler : MonoBehaviour
 
     public static void Compile()
     {
-        CardBehavior[] cards = GameObject.FindObjectsOfType<CardBehavior>();
-        List<CardBehavior> cardsInPlay = new List<CardBehavior>();
+        SkillBase[] cards = GameObject.FindObjectsOfType<SkillBase>();
+        List<SkillBase> cardsInPlay = new List<SkillBase>();
         
-        foreach(CardBehavior card in cards)
+        foreach(SkillBase card in cards)
         {
             if(inBounds(card.transform)) cardsInPlay.Add(card);
         }
@@ -20,25 +20,30 @@ public class CardCompiler : MonoBehaviour
         cards = SortArray(cardsInPlay.ToArray());
 
         bool valid = true;
+        string reason = ""; 
 
-        foreach(CardBehavior c in cards)
+        foreach(SkillBase c in cards)
         {
-            //if(!c.checkStuff()) 
+            if(!c.Validate()) 
             {
+                reason += c.ValidateReason();
                 valid = false;
-                break;
             }
 
 
         }
 
-        if (!valid) return; //Send error message to player
 
-        foreach(CardBehavior c in cards)
+        if (!valid)
         {
-            //c.Effect();
+            print(reason);
+            return;
         }
 
+        foreach(SkillBase c in cards)
+        {
+            c.Effect();
+        }
     }
 
     public static bool inBounds(Transform t)
@@ -47,7 +52,7 @@ public class CardCompiler : MonoBehaviour
             && t.position.y > -bounds.y && t.position.y < bounds.y) return true;
         return false;
     }
-    public static CardBehavior[] SortArray(CardBehavior[] array)
+    public static SkillBase[] SortArray(SkillBase[] array)
     {
         return array.OrderBy(go => go.transform.position.x).ToArray();
     }

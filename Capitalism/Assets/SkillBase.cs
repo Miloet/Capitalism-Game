@@ -23,4 +23,12 @@ public class SkillBase : CardBehavior
             else return false;
         else return true;
     }
+
+    public string ValidateReason()
+    {
+        if (requireAsset)
+            if (currentAsset != null) return "This is a validation Error.\n";
+            else return $"{name} card does not have an Asset!\n";
+        else return "This is a validation Error.\n";
+    }
 }
