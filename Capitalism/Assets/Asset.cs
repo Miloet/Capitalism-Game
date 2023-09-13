@@ -5,17 +5,16 @@ using UnityEngine;
 public class Asset : MonoBehaviour
 {
     public CardBehavior owner;
+
+    public string symbol;
+    public float value;
+    public int ammount;
+
+    
     void Start()
     {
         owner = null;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void Free()
     {
         if (owner != null)
@@ -23,5 +22,14 @@ public class Asset : MonoBehaviour
             owner.currentAsset = null;
             owner = null;
         }
+    }
+
+    public float GetValue()
+    {
+        return ammount * value;
+    }
+    public void UpdateStock()
+    {
+        //Update value and growth each time a month passes.
     }
 }
