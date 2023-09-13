@@ -1,20 +1,25 @@
 using System;
-using System.Collections;
+using System.IO;
+using System.Linq;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
 using UnityEngine;
 
 public class Asset : MonoBehaviour
 {
     public CardBehavior owner;
 
-    public string symbol;
+    Stock self;
     public float value;
-    public int ammount;
     public float multiplier;
 
     
     void Start()
     {
+        //value = self.getPrice();
         owner = null;
     }
     public void Free()
@@ -28,7 +33,7 @@ public class Asset : MonoBehaviour
 
     public float GetValue()
     {
-        return ammount * value;
+        return value;
     }
     public void UpdateStock()
     {
@@ -41,12 +46,12 @@ public class Stock
 {
     public int ammount;
     public string stockSymbol { get; private set; }
-    public List<Decimal> price { get; private set; }
+    public List<float> price { get; private set; }
     public DateTime creation { get; private set; }
 
     public static string url = "https://query1.finance.yahoo.com/v8/finance/chart/";
 
-    public Stock(string symbol, string range, string interval, int Ammount = 0)
+    public Stock(string symbol, string range = "10y", string interval = "1m", int Ammount = 0)
     {
         stockSymbol = symbol;
 
@@ -56,75 +61,22 @@ public class Stock
 
         ammount = Ammount;
     }
-
-    public decimal Buy(int Ammount, DateTime time, decimal money)
-    {
-        if (Ammount > 0)
-        {
-            decimal price = getPrice(time);
-            if (money >= Ammount * price)
-            {
-                ammount = Ammount;
-                return price * Ammount;
-            }
-            else return -1;
-        }
-        else return -1;
-    }
-    public decimal Sell(int Ammount, DateTime time, decimal money)
-    {
-        if (Ammount > 0)
-        {
-            decimal price = getPrice(time);
-
-            ammount -= Ammount;
-            return price * Ammount;
-
-        }
-        else return -1;
-    }
-
     public bool VaildDate(DateTime date)
     {
         return date >= creation && date <= DateTime.Today;
     }
-
-    #region Gather Data
-
-    public decimal getCurrentPrice()
+    public float getValue(int time)
     {
-        return getPrice(Clock.Time);
-    }
-
-    public decimal getPrice(DateTime time)
-    {
-        int index = (time - creation).Days;
-
-        if (time >= creation) return price[price.Count - index];
+        if (time >= price.Count) return price[price.Count - time];
         Console.WriteLine($"Price not found for {stockSymbol} at {time}");
         return -1;
     }
-    public decimal getAveragePrice(DateTime date, int days)
+
+    public async Task<float[]> getStockHistoricalPrices(string range, string interval)
     {
-        decimal t = 0;
-        for (int i = 0; i < days; i++)
-        {
-            t += getPrice(date.AddDays(-i));
-        }
-        return t / (decimal)days;
-    }
+        List<float> prices = new List<float>();
 
-
-    public static int Convert(DateTime first, DateTime second)
-    {
-        return (first.Date - second.Date).Days;
-    }
-
-    public async Task<decimal[]> getStockHistoricalPrices(string range, string interval)
-    {
-        List<decimal> prices = new List<decimal>();
-
-        string endpoint = $"{stockSymbol}?range={range}&interval={interval}"; // Adjust the range and interval as per your requirements
+        string endpoint = $"{stockSymbol}?range={range}&interval={interval}";
 
         try
         {
@@ -142,18 +94,18 @@ public class Stock
                 YahooFinanceApiResponse apiResponse = JsonConvert.DeserializeObject<YahooFinanceApiResponse>(responseContent);
 
                 // Extract historical prices from the response
-                List<decimal> historicalPrices = new List<decimal>();
+                List<float> historicalPrices = new List<float>();
 
                 if (apiResponse?.Chart?.Result?.Length > 0)
                 {
                     var quote = apiResponse.Chart.Result[0]?.Indicators?.Quote;
                     if (quote != null && quote.Length > 0)
                     {
-                        decimal? previousPrice = null;
+                        float? previousPrice = null;
 
                         foreach (var closePrice in quote[0]?.Close)
                         {
-                            decimal price = closePrice ?? previousPrice ?? 0;
+                            float price = closePrice ?? previousPrice ?? 0;
                             historicalPrices.Add(price);
                             previousPrice = price;
                         }
@@ -162,17 +114,17 @@ public class Stock
 
                 if (historicalPrices.Count > 0)
                 {
-                    foreach (decimal? price in historicalPrices)
+                    foreach (float? price in historicalPrices)
                     {
                         if (price.HasValue)
                         {
-                            prices.Add(Math.Round(price.Value, 2));
+                            prices.Add((float)Math.Round(price.Value, 2));
                         }
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Historical stock prices not found.");
+                    Debug.LogError("Historical stock prices not found.");
                 }
             }
         }
@@ -212,12 +164,12 @@ public class Stock
 
 
                 // Store stock prices in an array
-                price = new List<decimal>();
+                price = new List<float>();
 
                 if (match.Success)
                 {
 
-                    if (decimal.TryParse(match.Groups[1].Value.Replace('.', ','), out decimal stockPrice))
+                    if (float.TryParse(match.Groups[1].Value.Replace('.', ','), out float stockPrice))
                     {
                         price.Add(stockPrice);
                     }
@@ -244,9 +196,9 @@ public class Stock
         }
     }
 
-    private static List<decimal> ReverseOrder(List<decimal> prices)
+    private static List<float> ReverseOrder(List<float> prices)
     {
-        List<decimal> reversedPrices = new List<decimal>(prices.Count);
+        List<float> reversedPrices = new List<float>(prices.Count);
         for (int i = prices.Count - 1; i >= 0; i--)
         {
             reversedPrices.Add(prices[i]);
@@ -282,9 +234,6 @@ public class Stock
         }
         return currentDate + time;
     }
-
-    #endregion
-
 }
 
 
@@ -313,95 +262,10 @@ public class YahooFinanceIndicators
 
 public class YahooFinanceQuote
 {
-    public decimal?[] Close { get; set; }
+    public float?[] Close { get; set; }
 }
 
 
 
 #endregion
 
-
-public class Files
-{
-    string path = ""; //debug folder
-    string filename = "";
-
-    public Files(string file)
-    {
-        filename = Path.Combine(path, file);
-    }
-
-    public void WriteFile<T>(T text, bool replace = false)
-    {
-        if (!File.Exists(filename)) CreateFile(filename);
-
-        using (StreamWriter writer = new StreamWriter(filename, !replace))
-        {
-            writer.Write(text);
-            writer.Close();
-        }
-    }
-
-    public void WriteFileArray<T>(T[] text, bool replace = false)
-    {
-        if (!File.Exists(filename)) CreateFile(filename);
-
-        using (StreamWriter writer = new StreamWriter(filename, !replace))
-        {
-            foreach (T s in text)
-            {
-                writer.WriteLine(s);
-            }
-            writer.Close();
-        }
-    }
-
-    public void CreateFile(string name)
-    {
-        File.Create(filename).Close();
-    }
-
-    public string[] ReadFile()
-    {
-        return File.ReadLines(filename).ToArray();
-    }
-
-
-    public string[] ReadStockSymbols()
-    {
-        List<string> symbols = new List<string>();
-
-        string[] fileResult = ReadFile();
-
-        for (int i = 0; i < fileResult.Length; i++)
-        {
-            string s = "";
-            for (int c = 0; c < fileResult[i].Length; c++)
-            {
-                s += fileResult[i][c];
-            }
-            symbols.Add(s);
-        }
-
-        /*for (int i = 0; i < fileResult.Length; i++)
-        {
-            Console.WriteLine("Line:  "+ i);
-            string s = "";
-            for(int c = 0; fileResult[i][c] != '	'; c++)
-            {
-                Console.WriteLine("Char  "+ c);
-                s += fileResult[i][c];
-            }
-            symbols.Add(s);
-        }
-
-        /*
-        foreach (string text in fileResult)
-        {
-            string t = text.Replace(" ", string.Empty);
-            symbols.AddRange(t.Split(':'));
-        }*/
-
-        return symbols.ToArray();
-    }
-}
