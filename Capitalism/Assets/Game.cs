@@ -30,8 +30,8 @@ public class Game : MonoBehaviour
         textPlayerStress.text = $"Stress: {Player.stress}";
         textPlayerMoney.text = $"Money: {Player.money}";
 
-        textEnemyMoney.text = $"Stress: {Enemy.stress}";
-        textEnemyStress.text = $"Money: {Enemy.money}";
+        textEnemyStress.text = $"Stress: {Enemy.stress}";
+        textEnemyMoney.text = $"Money: {Enemy.money}";
 }
 
 
