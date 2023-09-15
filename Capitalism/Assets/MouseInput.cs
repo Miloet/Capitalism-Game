@@ -56,8 +56,6 @@ public class MouseInput : MonoBehaviour
                 switch(selected.tag)
                 {
                     case "Asset":
-
-                        print(cards.Length);
                         foreach (SkillBase card in cards)
                         {
                             if (IsClose(card.assetPlace.position, 1))

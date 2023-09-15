@@ -43,3 +43,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Card
+    uniqueID: 588371381
+    locked: 0
+  - name: Asset
+    uniqueID: 351411459
+    locked: 0
+  - name: UI
+    uniqueID: 110474701
+    locked: 0

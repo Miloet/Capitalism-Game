@@ -9,7 +9,7 @@ public class SkillBase : CardBehavior
 
     public string letter = "0";
     public new string name = "Null";
-    public string description = "Removes 1 Stress and gives 100$";
+    public string description = "Does nothing.";
 
     public string spriteResourcePath = "Skills/Error";
     SpriteRenderer image;
@@ -33,11 +33,18 @@ public class SkillBase : CardBehavior
         if (!requireAsset) transform.Find("AssetInput").gameObject.SetActive(false);
 
     }
-    public virtual void Effect(float multiplier = 1f)
+    public virtual void Effect(float multipier = 1f)
     {
         //Player.stress -= Game.IntMultiply(1 * multiplier);
         //Player.money += 100f * multiplier;
+        print(multipier);
+        if (letter != "B") CardCompiler.multiplier = 1f;
         print($"{name} effect played");
+    }
+
+    public virtual string writeEffect()
+    {
+        return "Nothing.";
     }
 
     public bool Validate()

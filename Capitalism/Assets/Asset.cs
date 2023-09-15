@@ -30,13 +30,14 @@ public class Asset : MonoBehaviour
         assetName = transform.Find("Name").GetComponent<TextMeshPro>();
         price = transform.Find("Price").GetComponent<TextMeshPro>();
 
-        price.text = "10$";
+        assetName.text = "Asset";
+        price.text = "-";
     }
     private void Update()
     {
-        print(self != null);
-        print(self.price != null);
-        if (price != null) print(self.price.Count);
+        //print(self != null);
+        //print(self.price != null);
+        //if (price != null) print(self.price.Count);
     }
 
     #region
@@ -49,6 +50,8 @@ public class Asset : MonoBehaviour
     public void Assign(Stock newAsset)
     {
         self = newAsset;
+        UpdateStock();
+        UpdateText();
     }
     public void Free()
     {
@@ -58,10 +61,6 @@ public class Asset : MonoBehaviour
             owner = null;
         }
     }
-    public float GetValue()
-    {
-        return value;
-    }
 
     public void UpdateText()
     {
@@ -69,7 +68,7 @@ public class Asset : MonoBehaviour
     }
     public void UpdateStock()
     {
-        value = self.price.Count;
+        value = self.getValue();
         price.text = value + "$";
         //Update value and growth each time a month passes.
     }
@@ -94,7 +93,7 @@ public class Stock
 
         await getStockHistoricalPrices(range, interval);
 
-        MonoBehaviour.print(Time.time - time + "seconds have passed");
+        Player.loadingStock = true;
 
         //creation = getTimeFromRange(range);
 
@@ -104,10 +103,14 @@ public class Stock
     {
         return date >= creation && date <= DateTime.Today;
     }
-    public float getValue(int time)
+    public float getValue()
     {
-        if (time >= price.Count) return price[price.Count - time];
-        Console.WriteLine($"Price not found for {stockSymbol} at {time}");
+
+        for(int i = 0; i < price.Count; i++)
+        {
+            if (price[i] != -1) return price[i];
+        }
+        Console.WriteLine($"No valid prices not found for {stockSymbol}");
         return -1;
     }
 

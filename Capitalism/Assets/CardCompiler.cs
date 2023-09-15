@@ -8,10 +8,13 @@ public class CardCompiler : MonoBehaviour
 {
     public static Vector2 bounds = new Vector2(5,3.5f/2f);
     private static TextMeshPro abilityText;
+    private static TextMeshProUGUI effectText;
+    public static float multiplier = 1f; 
 
     private void Start()
     {
         abilityText = transform.Find("Text").GetComponent<TextMeshPro>();
+        effectText = GameObject.Find("EffectCompileText").GetComponent<TextMeshProUGUI>();
     }
 
     public static void Compile()
@@ -40,6 +43,8 @@ public class CardCompiler : MonoBehaviour
 
         }
 
+        multiplier = 1f;
+
         if (!valid)
         {
             print(reason);
@@ -47,7 +52,7 @@ public class CardCompiler : MonoBehaviour
         else
             foreach(SkillBase c in cards)
             {
-                c.Effect();
+                c.Effect(multiplier);
             }
     }
 
@@ -89,5 +94,14 @@ public class CardCompiler : MonoBehaviour
             }
         }
         abilityText.text = text;
+
+        string effects="";
+        foreach(SkillBase card in cards)
+        {
+            effects += card.writeEffect() + "\n";
+        }
+        effectText.text = effects;
+
+
     }
 }

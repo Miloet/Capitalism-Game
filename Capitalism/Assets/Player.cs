@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,8 +8,10 @@ public class Player : MonoBehaviour
     public static float money = 1000;
     public static int stress = 0;
 
-    public static char[] skills = {'A','A','B','B','C'};
+    public static char[] skills = {'A','B','A','B','B','B','C'};
     public static Stock[] assets;// = {new Stock("AAPL")};
+
+    public static bool loadingStock;
 
     public static float assetValue = 0;
 
@@ -18,26 +21,38 @@ public class Player : MonoBehaviour
         var c = Resources.Load<GameObject>("Card");
         var a = Resources.Load<GameObject>("Asset");
         //updateValue();
+        int ammountOfStocks = 5; //TEMPORARY
 
-        foreach (char skill in skills)
+        int am = skills.Length + ammountOfStocks;
+        float x = 16f / am;
+
+        for(int i = 0; i < skills.Length; i++)
         {
-            assignSkill(Instantiate(c), skill);
+            var g = Instantiate(c);
+            g.transform.position = new Vector2(x*(i- am/2), -3.5f);
+            assignSkill(g, skills[i]);
         }
+
         MouseInput.updateCardCount();
-        Instantiate(a).GetComponent<Asset>().Assign("AAPL");
-        /*
-        foreach(Stock asset in assets)
+
+        List<Asset> l = new List<Asset>();
+        for (int i = 0; i < ammountOfStocks; i++)
         {
-            Instantiate(a).GetComponent<Asset>().Assign(asset);
-        }*/
+            var g = Instantiate(a);
+            g.transform.position = new Vector2(x * (i + skills.Length - am / 2), -3.5f);
+            l.Add(g.GetComponent<Asset>());
+        }
+        StartCoroutine(assignAssets(l.ToArray()));
     }
+
+
 
     public void updateValue()
     {
         float value = 0;
         foreach(Stock a in assets)
         {
-            value += a.getValue(1);
+            value += a.getValue();
         }
         assetValue = value;
     }
@@ -49,17 +64,17 @@ public class Player : MonoBehaviour
             case 'A':
                 newCard.AddComponent<SkillAccumulate>();
                 break;
-                /*
+                
             case 'B':
-                //newCard.AddComponent<SkillB>();
+                newCard.AddComponent<SkillBribe>();
                 break;
 
             case 'C':
-                //newCard.AddComponent<SkillC>();
+                newCard.AddComponent<SkillCounterfeit>();
                 break;
 
             #region Unused Letters
-
+                /*
             case 'D':
                 // newCard.AddComponent<SkillD>();
                 break;
@@ -157,6 +172,20 @@ public class Player : MonoBehaviour
             default:
                 newCard.AddComponent<SkillBase>();
                 break;
+
+                #endregion
+        }
+    }
+
+    public IEnumerator assignAssets(Asset[] array)
+    {
+        foreach(Asset asset in array)
+        {
+            loadingStock = false;
+            Stock s = new Stock();
+            s.CreateStock("AAPL", "1w","1d",1);
+            yield return new WaitUntil(() => loadingStock);
+            asset.Assign(s);
         }
     }
 }
