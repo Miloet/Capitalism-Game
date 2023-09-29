@@ -27,8 +27,8 @@ public class Asset : MonoBehaviour
         //value = self.getPrice();
         Free();
 
-        assetName = transform.Find("Name").GetComponent<TextMeshPro>();
-        price = transform.Find("Price").GetComponent<TextMeshPro>();
+        assetName = transform.Find("Asset/Name").GetComponent<TextMeshPro>();
+        price = transform.Find("Asset/Price").GetComponent<TextMeshPro>();
 
         assetName.text = "Asset";
         price.text = "-";

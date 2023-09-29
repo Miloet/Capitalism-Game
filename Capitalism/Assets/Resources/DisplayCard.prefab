@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 202505708702099318}
   - component: {fileID: 649041308545839481}
   - component: {fileID: 4991562729418297511}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -184,7 +184,7 @@ GameObject:
   - component: {fileID: 7267049732781398793}
   - component: {fileID: 9179612752954294947}
   - component: {fileID: 3320085638491998800}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: 'Asset:'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -357,7 +357,7 @@ GameObject:
   - component: {fileID: 8172296909373172618}
   - component: {fileID: 3804236992155546981}
   - component: {fileID: 8277033616493688139}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -527,7 +527,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6515890545928734310}
   - component: {fileID: 3573578538617118676}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: AssetInput
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -613,7 +613,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7787134397283965820}
   - component: {fileID: 359366425934131686}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Picture
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -696,7 +696,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6129555628501788794}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: AssetPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -728,7 +728,7 @@ GameObject:
   m_Component:
   - component: {fileID: 513169002719149287}
   - component: {fileID: 2342465507131372829}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -813,7 +813,7 @@ GameObject:
   - component: {fileID: 2991080243839553567}
   - component: {fileID: 3537347411009456689}
   - component: {fileID: 2423588543943432993}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DisplayCard
   m_TagString: Untagged
   m_Icon: {fileID: 0}

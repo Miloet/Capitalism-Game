@@ -6,14 +6,14 @@ using System.Linq;
 
 public class CardCompiler : MonoBehaviour
 {
-    public static Vector2 bounds = new Vector2(5,3.5f/2f);
-    private static TextMeshPro abilityText;
+    public static Vector3 bounds = new Vector3(4.5f, 2f, 4.5f);
+    private static TextMeshProUGUI abilityText;
     private static TextMeshProUGUI effectText;
     public static float multiplier = 1f; 
 
     private void Start()
     {
-        abilityText = transform.Find("Text").GetComponent<TextMeshPro>();
+        abilityText = GameObject.Find("CompilerText").GetComponent<TextMeshProUGUI>();
         effectText = GameObject.Find("EffectCompileText").GetComponent<TextMeshProUGUI>();
     }
 
@@ -59,7 +59,8 @@ public class CardCompiler : MonoBehaviour
     public static bool inBounds(Transform t)
     {
         if (t.position.x > -bounds.x && t.position.x < bounds.x
-            && t.position.y > -bounds.y && t.position.y < bounds.y) return true;
+            && t.position.y > -bounds.y && t.position.y < bounds.y
+            && t.position.z > -bounds.z && t.position.z < bounds.z) return true;
         return false;
     }
     public static SkillBase[] SortArray(SkillBase[] array)
@@ -88,7 +89,7 @@ public class CardCompiler : MonoBehaviour
             if (card.requireAsset)
             {
                 string asset = "";
-                if (card.currentAsset != null) asset = card.currentAsset.self.stockSymbol;
+                if (card.currentAsset != null) if(card.currentAsset.self != null) asset = card.currentAsset.self.stockSymbol;
                 else asset = "!";
                 text += $"({asset})";
             }

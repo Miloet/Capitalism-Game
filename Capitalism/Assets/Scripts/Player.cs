@@ -179,12 +179,15 @@ public class Player : MonoBehaviour
 
     public IEnumerator assignAssets(Asset[] array)
     {
+
+
         foreach(Asset asset in array)
         {
             loadingStock = false;
             Stock s = new Stock();
             s.CreateStock("AAPL", "1w","1d",1);
             yield return new WaitUntil(() => loadingStock);
+            yield return new WaitForSeconds(1);
             asset.Assign(s);
         }
     }
