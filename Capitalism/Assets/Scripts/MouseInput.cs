@@ -17,7 +17,7 @@ public class MouseInput : MonoBehaviour
 
     private Vector2 orginialPos = Vector2.zero;
 
-    public GameObject selected;
+    public static GameObject selected;
 
     LayerMask defaultLM;
     LayerMask csLM;

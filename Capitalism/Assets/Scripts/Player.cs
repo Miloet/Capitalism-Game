@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,34 +14,93 @@ public class Player : MonoBehaviour
 
     public static float assetValue = 0;
 
+    GameObject hand;
+
+    GameObject card;
+    GameObject asset;
+
+
+    public List<GameObject> currentHand = new List<GameObject>();
+
     // Start is called before the first frame update
     void Start()
     {
-        var c = Resources.Load<GameObject>("Card");
-        var a = Resources.Load<GameObject>("Asset");
-        //updateValue();
-        int ammountOfStocks = 5; //TEMPORARY
+        card = Resources.Load<GameObject>("Card");
+        asset = Resources.Load<GameObject>("Asset");
 
-        int am = skills.Length + ammountOfStocks;
-        float x = 16f / am;
+        hand = GameObject.Find("HandPlane");
 
-        for(int i = 0; i < skills.Length; i++)
+        string[] Symbols = { "AAPL", "MSFT", "GOOGL", "AMZN", "TSLA", "JPM", "WMT", "NVDA", "DIS" };
+        List<Stock> stocks = new List<Stock>();
+        Stock stock;
+        foreach (string s in Symbols)
         {
-            var g = Instantiate(c);
-            g.transform.position = new Vector2(x*(i- am/2), -3.5f);
-            assignSkill(g, skills[i]);
+            stock = new Stock();
+            
+            StartCoroutine(assignStock(stock, s));
+            stocks.Add(stock);
         }
+
+        assets = stocks.ToArray();
+
+        StartRound();
+    }
+
+    private void Update()
+    {
+        
+        int ammount = currentHand.Count;
+        int offset = 0;
+        if (MouseInput.selected != null) offset = 1;
+        int a = 0;
+        for (int i = 0; i < ammount; i++)
+        {
+            if (currentHand[i] != MouseInput.selected) currentHand[i].transform.position = hand.transform.position +
+                    new Vector3(8f / (ammount - offset) * ((i-a) - (ammount-1f-offset) / 2f),
+                    .05f + Mathf.Pow(Mathf.Sin(Time.time + i), 2));
+            else a = 1;
+        }
+    }
+
+
+    public void StartRound()
+    {
+        /*
+        int draw = 5;
+        if(skills.Length > 5 || assets.Length > 5)
+        {
+            draw = Random.Range(0, assets.Length);
+        }*/
+
+        currentHand.Clear();
+
+        int ammount = skills.Length + assets.Length;
+        float x = 8f / ammount;
+
+        for (int i = 0; i < 3; i++)
+        {
+            var g = Instantiate(card);
+            g.transform.forward = -hand.transform.up;
+            g.transform.position = hand.transform.position + new Vector3(x * (i - ammount / 2), .05f);
+            currentHand.Add(g);
+
+
+            assignSkill(g, skills[Random.Range(0, skills.Length)]);
+        }
+
+        for (int i = 0; i < 2; i++)
+        {
+            var g = Instantiate(asset);
+            g.transform.forward = -hand.transform.up;
+            g.transform.position = hand.transform.position + new Vector3(x * (i + skills.Length - ammount / 2), .05f);
+            currentHand.Add(g);
+
+
+            g.GetComponent<Asset>().Assign(assets[Random.Range(0, assets.Length)]);
+        }
+
 
         MouseInput.updateCardCount();
-
-        List<Asset> l = new List<Asset>();
-        for (int i = 0; i < ammountOfStocks; i++)
-        {
-            var g = Instantiate(a);
-            g.transform.position = new Vector2(x * (i + skills.Length - am / 2), -3.5f);
-            l.Add(g.GetComponent<Asset>());
-        }
-        StartCoroutine(assignAssets(l.ToArray()));
     }
 
 
@@ -175,6 +233,15 @@ public class Player : MonoBehaviour
 
                 #endregion
         }
+    }
+
+    public IEnumerator assignStock(Stock s, string symbol)
+    {
+        loadingStock = false;
+        s.CreateStock(symbol, "1w", "1d", Random.Range(1, 10));
+        yield return new WaitUntil(() => loadingStock);
+        yield return new WaitForSeconds(1);
+
     }
 
     public IEnumerator assignAssets(Asset[] array)

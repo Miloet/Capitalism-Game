@@ -1254,7 +1254,7 @@ GameObject:
   - component: {fileID: 760205056}
   - component: {fileID: 760205059}
   m_Layer: 0
-  m_Name: Plane
+  m_Name: HandPlane
   m_TagString: Hand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2431,7 +2431,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e59bc632f34e42429c69377fe7a408a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sound: {fileID: 0}
+  sound: {fileID: 8300000, guid: 6a2bff9d60b3b1a4ab3f0988bc1e3429, type: 3}
 --- !u!114 &1210033420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3426,6 +3426,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e626a757ceeccf44849b19b90f8ddf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentHand: []
 --- !u!1 &1851197893
 GameObject:
   m_ObjectHideFlags: 0

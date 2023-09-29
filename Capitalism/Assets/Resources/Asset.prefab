@@ -440,7 +440,7 @@ GameObject:
   - component: {fileID: 8604276186082492351}
   - component: {fileID: 9186351036787773490}
   m_Layer: 6
-  m_Name: Square
+  m_Name: Graph
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

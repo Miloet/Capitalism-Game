@@ -1,9 +1,7 @@
 using System;
-using System.IO;
-using System.Linq;
+
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -16,11 +14,13 @@ public class Asset : MonoBehaviour
     public Stock self;
     public float value = 100f;
     public float multiplier;
-
+    
 
     TextMeshPro assetName;
     TextMeshPro price;
 
+    SpriteRenderer background;
+    SpriteRenderer graph;
 
     void Start()
     {
@@ -30,14 +30,21 @@ public class Asset : MonoBehaviour
         assetName = transform.Find("Asset/Name").GetComponent<TextMeshPro>();
         price = transform.Find("Asset/Price").GetComponent<TextMeshPro>();
 
+        background = transform.Find("Asset").GetComponent<SpriteRenderer>();
+        graph = transform.Find("Asset/Graph").GetComponent<SpriteRenderer>();
+
         assetName.text = "Asset";
         price.text = "-";
     }
-    private void Update()
+   
+    public void updateOrder(int baseID)
     {
-        //print(self != null);
-        //print(self.price != null);
-        //if (price != null) print(self.price.Count);
+        background.sortingOrder = baseID;
+
+        assetName.sortingOrder = baseID + 1;
+        price.sortingOrder = baseID + 1;
+
+        graph.sortingOrder = baseID + 1;
     }
 
     #region
@@ -50,8 +57,8 @@ public class Asset : MonoBehaviour
     public void Assign(Stock newAsset)
     {
         self = newAsset;
-        UpdateStock();
-        UpdateText();
+        StartCoroutine(UpdateStock());
+        StartCoroutine(UpdateText());
     }
     public void Free()
     {
@@ -62,12 +69,14 @@ public class Asset : MonoBehaviour
         }
     }
 
-    public void UpdateText()
+    public IEnumerator<WaitUntil> UpdateText()
     {
+        yield return new WaitUntil(() => !self.loading);
         assetName.text = self.stockSymbol;
     }
-    public void UpdateStock()
+    public IEnumerator<WaitUntil> UpdateStock()
     {
+        yield return new WaitUntil(() => !self.loading);
         value = self.getValue();
         price.text = value + "$";
         //Update value and growth each time a month passes.
@@ -84,16 +93,20 @@ public class Stock
     public List<float> price { get; private set; }
     public DateTime creation { get; private set; }
 
+    public bool loading;
+
     public static string url = "https://query1.finance.yahoo.com/v8/finance/chart/";
 
     public async void CreateStock(string symbol, string range = "1y", string interval = "1d", int Ammount = 0)
     {
+        loading = true;
         stockSymbol = symbol;
         float time = Time.time;
 
         await getStockHistoricalPrices(range, interval);
 
         Player.loadingStock = true;
+        loading = false;
 
         //creation = getTimeFromRange(range);
 
