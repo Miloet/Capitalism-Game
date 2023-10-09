@@ -7,20 +7,21 @@ public class Player : MonoBehaviour
     public static float money = 1000;
     public static int stress = 0;
 
-    public static char[] skills = {'A','B','A','B','B','B','C'};
+    public static char[] skills = { 'A', 'B', 'A', 'B', 'B', 'B', 'C' };
     public static Stock[] assets;// = {new Stock("AAPL")};
 
     public static bool loadingStock;
 
     public static float assetValue = 0;
 
-    GameObject hand;
+    static GameObject hand;
 
     GameObject card;
     GameObject asset;
 
 
-    public List<GameObject> currentHand = new List<GameObject>();
+    public static List<GameObject> currentHand = new List<GameObject>();
+    public static List<CardBehavior> currentHandCB = new List<CardBehavior>();
 
     // Start is called before the first frame update
     void Start()
@@ -36,29 +37,44 @@ public class Player : MonoBehaviour
         foreach (string s in Symbols)
         {
             stock = new Stock();
-            
+
             StartCoroutine(assignStock(stock, s));
             stocks.Add(stock);
         }
 
         assets = stocks.ToArray();
 
-        StartRound();
+        StartRound(); 
+        UpdateCardInHand();
     }
 
-    private void Update()
+    public static void UpdateCardInHand()
     {
-        
-        int ammount = currentHand.Count;
+        UpdateCardBehavoir();
+        int numberOfCards = currentHand.Count;
         int offset = 0;
+        float cardSpacing = 2f;
+
         if (MouseInput.selected != null) offset = 1;
-        int a = 0;
-        for (int i = 0; i < ammount; i++)
+
+        for (int i = 0; i < numberOfCards; i++)
         {
-            if (currentHand[i] != MouseInput.selected) currentHand[i].transform.position = hand.transform.position +
-                    new Vector3(8f / (ammount - offset) * ((i-a) - (ammount-1f-offset) / 2f),
-                    .05f + Mathf.Pow(Mathf.Sin(Time.time + i), 2));
-            else a = 1;
+            if (MouseInput.selected != null || currentHand[i] != MouseInput.selected)
+            {
+                float xOffset = (numberOfCards - 1) * 0.5f * cardSpacing;
+                float cardPositionX = i * cardSpacing - xOffset;
+                currentHandCB[i].MoveTo(hand.transform.position + new Vector3(cardPositionX, .05f, 0f));
+                currentHand[i].transform.forward = -hand.transform.up;
+            }
+        }
+    }
+
+    public static void UpdateCardBehavoir()
+    {
+        currentHandCB = new List<CardBehavior>();
+        foreach(GameObject g in currentHand)
+        {
+            currentHandCB.Add(g.GetComponent<CardBehavior>());
         }
     }
 
@@ -103,7 +119,33 @@ public class Player : MonoBehaviour
         MouseInput.updateCardCount();
     }
 
-
+    public static void AddUnique(GameObject g)
+    {
+        bool unique = true;
+        foreach(GameObject obj in currentHand)
+        {
+            if (obj == g)
+            {
+                unique = false;
+                break;
+            }
+        }
+        if (unique) currentHand.Add(g);
+        UpdateCardInHand();
+    }
+    public static void Check(GameObject g)
+    {
+        bool unique = true;
+        foreach (GameObject obj in currentHand)
+        {
+            if (obj == g)
+            {
+                break;
+            }
+        }
+        if (unique) currentHand.Add(g);
+        UpdateCardInHand();
+    }
 
     public void updateValue()
     {

@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 using UnityEngine;
 using TMPro;
 
-public class Asset : MonoBehaviour
+public class Asset : CardBehavior
 {
     public CardBehavior owner;
 

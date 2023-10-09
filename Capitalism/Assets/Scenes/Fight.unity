@@ -3369,7 +3369,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6e2b8eb824166a4994ad5b0192049d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selected: {fileID: 0}
 --- !u!4 &1667695516
 Transform:
   m_ObjectHideFlags: 0
@@ -3426,7 +3425,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e626a757ceeccf44849b19b90f8ddf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHand: []
 --- !u!1 &1851197893
 GameObject:
   m_ObjectHideFlags: 0
@@ -3872,8 +3870,8 @@ SceneRoots:
   - {fileID: 1667695516}
   - {fileID: 1123054308}
   - {fileID: 1415453602}
-  - {fileID: 127625736}
   - {fileID: 790100436}
   - {fileID: 1959059346}
   - {fileID: 760205058}
   - {fileID: 1481259662}
+  - {fileID: 127625736}

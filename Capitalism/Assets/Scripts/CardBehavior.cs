@@ -8,6 +8,9 @@ public class CardBehavior : MonoBehaviour
     public Transform assetPlace;
     public Asset currentAsset;
 
+    public Vector3 next;
+    float speed;
+
     public bool closed;
     public bool placed;
 
@@ -19,6 +22,9 @@ public class CardBehavior : MonoBehaviour
     private SpriteRenderer background;
     private SpriteRenderer picture;
     private SpriteRenderer assetInput;
+
+    Vector3 originalPosition;
+    float time;
 
     private void Start()
     {
@@ -32,8 +38,8 @@ public class CardBehavior : MonoBehaviour
         nameText = transform.Find("Name").GetComponent<TextMeshPro>();
         descriptionText = transform.Find("Body").GetComponent<TextMeshPro>();
         asset = transform.Find("AssetInput/Asset:").GetComponent<TextMeshPro>();
-        
 
+        next = transform.position;
     }
 
     private void Update()
@@ -44,9 +50,16 @@ public class CardBehavior : MonoBehaviour
             currentAsset.transform.rotation = assetPlace.rotation;
         }
 
-        if(closed && currentAsset != null)
+        if (closed && currentAsset != null)
         {
             currentAsset.Free();
+        }
+
+        if (MouseInput.selected != gameObject)
+        {
+            time += Time.deltaTime;
+            float t = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(time));
+            transform.position = Vector3.Lerp(originalPosition, next, t);
         }
     }
 
@@ -61,5 +74,10 @@ public class CardBehavior : MonoBehaviour
         asset.sortingOrder = baseID + 2;
     }
 
-
+    public void MoveTo(Vector3 pos)
+    {
+        time = 0;
+        originalPosition = transform.position;
+        next = pos;
+    }
 }
