@@ -16,6 +16,7 @@ public class MouseInput : MonoBehaviour
     public static CardBehavior[] cards;
 
     private Vector3 originalPos = Vector2.zero;
+    private Vector3 originalUp = Vector2.zero;
 
     public static GameObject selected;
 
@@ -44,7 +45,6 @@ public class MouseInput : MonoBehaviour
         {
             OnLeftClick();
         }
-        
 
         if (Input.GetMouseButtonDown(1))
         {
@@ -76,7 +76,8 @@ public class MouseInput : MonoBehaviour
             {
                 originalPos = hit.transform.position;
                 selected = hit.transform.gameObject;
-                Player.AddUnique(selected);
+                Player.currentHand.Remove(selected);
+                Player.UpdateCardInHand();
                 if (selected.tag == "Asset")
                 {
                     selected.GetComponent<Asset>().Free();
@@ -88,6 +89,7 @@ public class MouseInput : MonoBehaviour
             switch (selected.tag)
             {
                 case "Asset":
+                    bool inRange = false; 
                     foreach (SkillBase card in cards)
                     {
                         if (IsClose(card.assetPlace.position, 1))
@@ -95,12 +97,11 @@ public class MouseInput : MonoBehaviour
                             var asset = selected.GetComponent<Asset>();
                             card.currentAsset = asset;
                             asset.owner = card;
-                            Player.currentHand.Remove(selected);
-                            Player.UpdateCardInHand();
+                            inRange = true;
                             break;
                         }
                     }
-                    resetSelected(false);
+                    resetSelected(false, !inRange);
 
                     break;
 
@@ -108,9 +109,7 @@ public class MouseInput : MonoBehaviour
                     if (CardCompiler.inBounds(selected.transform))
                     {
                         selected.GetComponent<CardBehavior>().MoveTo(selected.transform.position);
-                        Player.currentHand.Remove(selected);
-                        resetSelected(false);
-                        Player.UpdateCardInHand();
+                        resetSelected(false, false);
                     }
                     else resetSelected();
                     break;
@@ -125,10 +124,8 @@ public class MouseInput : MonoBehaviour
     private void OnRightClick()
     {
         CameraController.UpdateCamera(CameraController.State.Default);
-        Player.AddUnique(selected);
         resetSelected();
         CardCompiler.UpdateText();
-        
     }
 
 
@@ -152,15 +149,21 @@ public class MouseInput : MonoBehaviour
     }
 
 
-    private void resetSelected(bool original = true)
+    private void resetSelected(bool original = true, bool add = true)
     {
-        CardBehavior cb = selected.GetComponent<CardBehavior>();
-        if (original)
+        if (selected != null)
         {
-            if (cb != null) cb.MoveTo(originalPos);
-            else selected.transform.position = originalPos;
+            CardBehavior cb = selected.GetComponent<CardBehavior>();
+            if (original)
+            {
+                if (cb != null) cb.MoveTo(originalPos);
+                else selected.transform.position = originalPos;
+            }
+            if (add) Player.AddUnique(selected);
+
+            Player.UpdateCardInHand();
+            selected = null;
         }
-        selected = null;
     }
     public bool IsClose(Vector3 pos, float distance = 1f)
     {

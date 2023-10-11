@@ -23,12 +23,14 @@ public class CardBehavior : MonoBehaviour
     private SpriteRenderer picture;
     private SpriteRenderer assetInput;
 
+    public bool move = true;
+
     Vector3 originalPosition;
     float time;
 
     private void Start()
     {
-        assetPlace = transform.Find("AssetInput/AssetCollider");
+        assetPlace = transform.Find("AssetInput/AssetPosition");
         currentAsset = null;
 
         background = transform.Find("Background").GetComponent<SpriteRenderer>();
@@ -44,10 +46,13 @@ public class CardBehavior : MonoBehaviour
 
     private void Update()
     {
+        print("move: " + move);
+
         if (currentAsset != null)
         {
+            currentAsset.move = false;
             currentAsset.transform.position = assetPlace.position;
-            currentAsset.transform.rotation = assetPlace.rotation;
+            currentAsset.transform.rotation = assetPlace.rotation; 
         }
 
         if (closed && currentAsset != null)
@@ -55,7 +60,7 @@ public class CardBehavior : MonoBehaviour
             currentAsset.Free();
         }
 
-        if (MouseInput.selected != gameObject)
+        if (MouseInput.selected != gameObject && move)
         {
             time += Time.deltaTime;
             float t = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(time));

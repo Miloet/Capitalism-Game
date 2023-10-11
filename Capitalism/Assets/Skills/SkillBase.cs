@@ -35,9 +35,6 @@ public class SkillBase : CardBehavior
     }
     public virtual void Effect(float multipier = 1f)
     {
-        //Player.stress -= Game.IntMultiply(1 * multiplier);
-        //Player.money += 100f * multiplier;
-        print(multipier);
         if (letter != "B") CardCompiler.multiplier = 1f;
         print($"{name} effect played");
     }

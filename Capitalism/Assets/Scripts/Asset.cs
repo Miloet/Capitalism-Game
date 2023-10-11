@@ -35,6 +35,7 @@ public class Asset : CardBehavior
 
         assetName.text = "Asset";
         price.text = "-";
+        move = true;
     }
    
     public void updateOrder(int baseID)
@@ -64,6 +65,7 @@ public class Asset : CardBehavior
     {
         if (owner != null)
         {
+            owner.currentAsset.move = true;
             owner.currentAsset = null;
             owner = null;
         }

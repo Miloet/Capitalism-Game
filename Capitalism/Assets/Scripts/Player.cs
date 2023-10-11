@@ -52,10 +52,7 @@ public class Player : MonoBehaviour
     {
         UpdateCardBehavoir();
         int numberOfCards = currentHand.Count;
-        int offset = 0;
         float cardSpacing = 2f;
-
-        if (MouseInput.selected != null) offset = 1;
 
         for (int i = 0; i < numberOfCards; i++)
         {
@@ -97,9 +94,8 @@ public class Player : MonoBehaviour
         {
             var g = Instantiate(card);
             g.transform.forward = -hand.transform.up;
-            g.transform.position = hand.transform.position + new Vector3(x * (i - ammount / 2), .05f);
+            g.transform.position = new Vector3(-5,0,0);
             currentHand.Add(g);
-
 
             assignSkill(g, skills[Random.Range(0, skills.Length)]);
         }
@@ -108,14 +104,11 @@ public class Player : MonoBehaviour
         {
             var g = Instantiate(asset);
             g.transform.forward = -hand.transform.up;
-            g.transform.position = hand.transform.position + new Vector3(x * (i + skills.Length - ammount / 2), .05f);
+            g.transform.position = new Vector3(-5, 0, 0);
             currentHand.Add(g);
-
 
             g.GetComponent<Asset>().Assign(assets[Random.Range(0, assets.Length)]);
         }
-
-
         MouseInput.updateCardCount();
     }
 

@@ -6,6 +6,7 @@ public class Boop : MonoBehaviour
 {
     AudioSource a;
     public AudioClip sound;
+    static bool once = false;
     private void Start()
     {
         a = gameObject.AddComponent<AudioSource>();
@@ -14,5 +15,10 @@ public class Boop : MonoBehaviour
     public void BoopTheSnoot()
     {
         a.Play();
+        if(once == false)
+        {
+            once = true;
+            Player.stress--;
+        }
     }
 }
