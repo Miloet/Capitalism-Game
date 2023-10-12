@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,6 +20,8 @@ public class Player : MonoBehaviour
     GameObject card;
     GameObject asset;
 
+    public GameObject cardOriginPoint;
+
 
     public static List<GameObject> currentHand = new List<GameObject>();
     public static List<CardBehavior> currentHandCB = new List<CardBehavior>();
@@ -30,6 +33,7 @@ public class Player : MonoBehaviour
         asset = Resources.Load<GameObject>("Asset");
 
         hand = GameObject.Find("HandPlane");
+        cardOriginPoint = GameObject.Find("CardDeck");
 
         string[] Symbols = { "AAPL", "MSFT", "GOOGL", "AMZN", "TSLA", "JPM", "WMT", "NVDA", "DIS" };
         List<Stock> stocks = new List<Stock>();
@@ -52,7 +56,7 @@ public class Player : MonoBehaviour
     {
         UpdateCardBehavoir();
         int numberOfCards = currentHand.Count;
-        float cardSpacing = 2f;
+        float cardSpacing = 6f / numberOfCards;
 
         for (int i = 0; i < numberOfCards; i++)
         {
@@ -87,29 +91,47 @@ public class Player : MonoBehaviour
 
         currentHand.Clear();
 
-        int ammount = skills.Length + assets.Length;
-        float x = 8f / ammount;
+        DrawCards(5);
 
-        for (int i = 0; i < 3; i++)
-        {
-            var g = Instantiate(card);
-            g.transform.forward = -hand.transform.up;
-            g.transform.position = new Vector3(-5,0,0);
-            currentHand.Add(g);
-
-            assignSkill(g, skills[Random.Range(0, skills.Length)]);
-        }
-
-        for (int i = 0; i < 2; i++)
-        {
-            var g = Instantiate(asset);
-            g.transform.forward = -hand.transform.up;
-            g.transform.position = new Vector3(-5, 0, 0);
-            currentHand.Add(g);
-
-            g.GetComponent<Asset>().Assign(assets[Random.Range(0, assets.Length)]);
-        }
+        
         MouseInput.updateCardCount();
+    }
+
+
+    public void DrawCards(int n)
+    {
+        List<char> skillList =  skills.OfType<char>().ToList();
+        List<Stock> assetList = assets.OfType<Stock>().ToList();
+
+        int Max = skillList.Count + assetList.Count;
+
+
+        for (int i = 0; i < Mathf.Clamp(n, 0, Max); i++)
+        {
+            int pick = Random.Range(0, skillList.Count + assetList.Count);
+            GameObject g;
+            if (pick < skillList.Count)
+            {
+                g = Instantiate(card);
+                assignSkill(g, skillList[pick]);
+
+                skillList.RemoveAt(pick);
+            }
+            else
+            {
+                pick -= skillList.Count;
+
+                g = Instantiate(asset);
+                g.GetComponent<Asset>().Assign(assetList[pick]);
+
+                assetList.RemoveAt(pick);
+            }
+
+            g.transform.forward = -hand.transform.up;
+            g.transform.position = cardOriginPoint.transform.position;
+            currentHand.Add(g);
+        }
+        
     }
 
     public static void AddUnique(GameObject g)
@@ -120,19 +142,6 @@ public class Player : MonoBehaviour
             if (obj == g)
             {
                 unique = false;
-                break;
-            }
-        }
-        if (unique) currentHand.Add(g);
-        UpdateCardInHand();
-    }
-    public static void Check(GameObject g)
-    {
-        bool unique = true;
-        foreach (GameObject obj in currentHand)
-        {
-            if (obj == g)
-            {
                 break;
             }
         }

@@ -1,5 +1,4 @@
 using System;
-
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -36,6 +35,20 @@ public class Asset : CardBehavior
         assetName.text = "Asset";
         price.text = "-";
         move = true;
+
+
+
+        StartCoroutine(sorting());
+    }
+
+    private IEnumerator<WaitForSeconds> sorting()
+    {
+        while (true)
+        {
+            if (MouseInput.selected == gameObject) updateOrder(100);
+            else updateOrder((int) Mathf.Floor(transform.position.x * 10f));
+            yield return new WaitForSeconds(Time.deltaTime + 0.1f);
+        }
     }
    
     public void updateOrder(int baseID)
@@ -68,6 +81,7 @@ public class Asset : CardBehavior
             owner.currentAsset.move = true;
             owner.currentAsset = null;
             owner = null;
+            Player.AddUnique(gameObject);
         }
     }
 

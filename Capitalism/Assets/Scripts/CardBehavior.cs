@@ -42,12 +42,12 @@ public class CardBehavior : MonoBehaviour
         asset = transform.Find("AssetInput/Asset:").GetComponent<TextMeshPro>();
 
         next = transform.position;
+
+        StartCoroutine(sorting());
     }
 
     private void Update()
     {
-        print("move: " + move);
-
         if (currentAsset != null)
         {
             currentAsset.move = false;
@@ -65,6 +65,16 @@ public class CardBehavior : MonoBehaviour
             time += Time.deltaTime;
             float t = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(time));
             transform.position = Vector3.Lerp(originalPosition, next, t);
+        }
+    }
+
+    private IEnumerator<WaitForSeconds> sorting()
+    {
+        while (true)
+        {
+            if (MouseInput.selected == gameObject) updateOrder(100);
+            else updateOrder((int)Mathf.Floor(transform.position.x * 10f));
+            yield return new WaitForSeconds(Time.deltaTime + 0.1f);
         }
     }
 

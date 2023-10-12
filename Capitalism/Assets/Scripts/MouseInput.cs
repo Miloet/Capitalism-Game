@@ -89,19 +89,23 @@ public class MouseInput : MonoBehaviour
             switch (selected.tag)
             {
                 case "Asset":
+                    
                     bool inRange = false; 
                     foreach (SkillBase card in cards)
                     {
                         if (IsClose(card.assetPlace.position, 1))
                         {
+                            if (card.currentAsset != null) card.currentAsset.Free();
+
                             var asset = selected.GetComponent<Asset>();
                             card.currentAsset = asset;
                             asset.owner = card;
                             inRange = true;
+
                             break;
                         }
                     }
-                    resetSelected(false, !inRange);
+                     resetSelected(false, !inRange);
 
                     break;
 
@@ -122,8 +126,9 @@ public class MouseInput : MonoBehaviour
     }
 
     private void OnRightClick()
-    {
-        CameraController.UpdateCamera(CameraController.State.Default);
+    {   if (selected == null && CameraController.self.state != CameraController.State.Selected)
+            CameraController.UpdateCamera(CameraController.State.Selected);
+        else CameraController.UpdateCamera(CameraController.State.Default);
         resetSelected();
         CardCompiler.UpdateText();
     }
@@ -144,7 +149,7 @@ public class MouseInput : MonoBehaviour
         {
             if(CameraController.self.state == CameraController.State.Default) if(mousePosition.y < 200) CameraController.UpdateCamera(CameraController.State.Inspect);
             else CameraController.UpdateCamera(CameraController.State.Default);
-            else if(mousePosition.y > 800) CameraController.UpdateCamera(CameraController.State.Default);
+            else if(CameraController.self.state == CameraController.State.Inspect && mousePosition.y > 800) CameraController.UpdateCamera(CameraController.State.Default);
         }
     }
 

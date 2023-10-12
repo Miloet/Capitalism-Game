@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using System.Linq;
 
@@ -9,12 +10,16 @@ public class CardCompiler : MonoBehaviour
     public static Vector3 bounds = new Vector3(4.5f, 2f, 4.5f);
     private static TextMeshProUGUI abilityText;
     private static TextMeshProUGUI effectText;
+    private static ScrollRect scroll;
     public static float multiplier = 1f; 
 
     private void Start()
     {
         abilityText = GameObject.Find("CompilerText").GetComponent<TextMeshProUGUI>();
         effectText = GameObject.Find("EffectCompileText").GetComponent<TextMeshProUGUI>();
+        scroll = GameObject.Find("Scroll View").GetComponent<ScrollRect>();
+
+        UpdateText();
     }
 
     public static void Compile()
@@ -103,6 +108,8 @@ public class CardCompiler : MonoBehaviour
         }
         effectText.text = effects;
 
-
+        float preferredHeight = effectText.GetPreferredValues().y;
+        RectTransform contentRect = scroll.content;
+        contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, preferredHeight - 200f);
     }
 }
