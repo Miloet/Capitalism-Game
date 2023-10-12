@@ -141,13 +141,14 @@ public class MouseInput : MonoBehaviour
 
     public void UpdateCamera()
     {
-        if (selected)
+        if (DrawPile.showing) CameraController.UpdateCamera(CameraController.State.Default);
+        else if (selected)
         {
             CameraController.UpdateCamera(CameraController.State.Selected);
         }
         else
         {
-            if(CameraController.self.state == CameraController.State.Default) if(mousePosition.y < 200) CameraController.UpdateCamera(CameraController.State.Inspect);
+            if(CameraController.self.state == CameraController.State.Default) if(mousePosition.y < 100) CameraController.UpdateCamera(CameraController.State.Inspect);
             else CameraController.UpdateCamera(CameraController.State.Default);
             else if(CameraController.self.state == CameraController.State.Inspect && mousePosition.y > 800) CameraController.UpdateCamera(CameraController.State.Default);
         }

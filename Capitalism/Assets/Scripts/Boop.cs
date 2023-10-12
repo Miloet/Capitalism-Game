@@ -14,11 +14,14 @@ public class Boop : MonoBehaviour
     }
     public void BoopTheSnoot()
     {
-        a.Play();
-        if(once == false)
+        if (CameraController.self.state == CameraController.State.Default)
         {
-            once = true;
-            Player.stress--;
+            a.Play();
+            if (once == false)
+            {
+                once = true;
+                Player.stress--;
+            }
         }
     }
 }

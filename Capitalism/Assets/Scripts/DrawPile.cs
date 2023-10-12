@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class DrawPile : MonoBehaviour
 {
-    bool showing = false;
+    public GameObject endTurn;
+    public GameObject effectText;
+    public GameObject boopTheSnoot;
+    public static bool showing = false;
 
     private void Start()
     {
@@ -15,6 +18,9 @@ public class DrawPile : MonoBehaviour
         showing = !showing;
         gameObject.SetActive(showing);
 
+        endTurn.SetActive(!showing);
+        effectText.SetActive(!showing);
+        boopTheSnoot.SetActive(!showing);
     }
 
 }

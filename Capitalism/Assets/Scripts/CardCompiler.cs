@@ -55,10 +55,14 @@ public class CardCompiler : MonoBehaviour
             print(reason);
         }
         else
-            foreach(SkillBase c in cards)
+        {
+            foreach (SkillBase c in cards)
             {
                 c.Effect(multiplier);
             }
+            CameraController.UpdateCamera(CameraController.State.Default);
+        }
+
     }
 
     public static bool inBounds(Transform t)
