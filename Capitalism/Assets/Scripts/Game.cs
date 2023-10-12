@@ -14,8 +14,9 @@ public class Game : MonoBehaviour
     public TextMeshProUGUI textPlayerAssets;
     public TextMeshProUGUI textPlayerStress;
 
-    public TextMeshProUGUI textEnemyMoney;
-    public TextMeshProUGUI textEnemyStress;
+    public TextMeshPro enemyName;
+    public TextMeshPro textEnemyMoney;
+    public TextMeshPro textEnemyStress;
 
     // Update is called once per frame
     void Start()
@@ -33,6 +34,7 @@ public class Game : MonoBehaviour
 
             textEnemyStress.text = $"Stress: {Enemy.stress}";
             textEnemyMoney.text = $"Money: {Enemy.money}";
+            enemyName.text = Enemy.name.ToUpper();
 
             yield return new WaitForSeconds(.2f);
         }
