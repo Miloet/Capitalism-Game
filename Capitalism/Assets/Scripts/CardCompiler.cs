@@ -61,10 +61,8 @@ public class CardCompiler : MonoBehaviour
                 c.Effect(multiplier);
             }
             CameraController.UpdateCamera(CameraController.State.Default);
+            Player.self.StartRound();
         }
-
-        Player.self.StartRound();
-
     }
 
     public static bool inBounds(Transform t)

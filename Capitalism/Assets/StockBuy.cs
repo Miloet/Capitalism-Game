@@ -51,19 +51,40 @@ public class StockBuy : MonoBehaviour
 
     public void Add(int add)
     {
-        if (Player.money >= stock.getValue() && add > 0 || stock.amount > 0 && add < 0)
+        if (Player.money >= stock.getValue()*add && add > 0 || stock.amount >= Mathf.Abs(add) && add < 0)
         {
             List<Stock> assets = Player.assets.ToList<Stock>();
             StartCoroutine(UpdateText());
-            if (!assets.Contains(stock)) 
+            if (!Find(stock.stockSymbol, assets)) 
                 assets.Add(stock);
-            
-            if (stock.amount - add < 0)
-                assets.Remove(stock);
+            else
+            if (stock.amount - Mathf.Abs(add) <= 0)
+                Remove(stock.stockSymbol, assets);
 
             Player.assets = assets.ToArray();
             stock.amount += add;
             Player.money -= stock.getValue() * add;
+        }
+    }
+
+
+    private bool Find(string symbol, List<Stock> list)
+    {
+        foreach(Stock stock in list)
+        {
+            if(stock.stockSymbol.ToUpper() == symbol.ToUpper()) return true;
+        }
+        return false;
+    }
+    private void Remove(string symbol, List<Stock> list)
+    {
+        for(int i = 0; i < list.Count; i++)
+        {
+            if (list[i].stockSymbol.ToUpper() == symbol.ToUpper())
+            {
+                list.RemoveAt(i);
+                break;
+            }
         }
     }
 }

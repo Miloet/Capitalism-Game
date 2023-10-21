@@ -53,8 +53,7 @@ public class Player : MonoBehaviour
 
         assets = stocks.ToArray();*/
 
-        StartRound(); 
-        UpdateCardInHand();
+        StartRound();
     }
 
     public static void UpdateCardInHand()
@@ -87,9 +86,11 @@ public class Player : MonoBehaviour
 
     public void StartRound()
     {
-        foreach(GameObject g in currentHand)
+        CardBehavior[] list = FindObjectsOfType<CardBehavior>();
+
+        foreach(CardBehavior g in list)
         {
-            Destroy(g);
+            Destroy(g.gameObject);
         }
 
         /*
@@ -105,6 +106,8 @@ public class Player : MonoBehaviour
 
         
         MouseInput.updateCardCount();
+
+        UpdateCardInHand();
     }
 
 
@@ -139,10 +142,9 @@ public class Player : MonoBehaviour
 
                     assetList.RemoveAt(pick);
                 }
-
-                g.transform.forward = -hand.transform.up;
-                g.transform.position = cardOriginPoint.transform.position;
                 currentHand.Add(g);
+                g.transform.forward = -hand.transform.up;
+                g.transform.position = cardOriginPoint.transform.position + new Vector3(0,0,-1f);
             }
         }
     }

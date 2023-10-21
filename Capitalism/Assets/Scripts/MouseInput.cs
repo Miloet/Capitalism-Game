@@ -105,7 +105,7 @@ public class MouseInput : MonoBehaviour
                             break;
                         }
                     }
-                     resetSelected(false, !inRange);
+                    resetSelected(false, !inRange);
 
                     break;
 

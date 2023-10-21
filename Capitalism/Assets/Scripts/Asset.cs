@@ -46,7 +46,7 @@ public class Asset : CardBehavior
         while (true)
         {
             if (MouseInput.selected == gameObject) updateOrder(100);
-            else updateOrder((int) Mathf.Floor(transform.position.x * 10f));
+            else updateOrder((int) Mathf.Floor(transform.position.x * 50f));
             yield return new WaitForSeconds(Time.deltaTime + 0.1f);
         }
     }
@@ -93,7 +93,7 @@ public class Asset : CardBehavior
     public IEnumerator<WaitUntil> UpdateStock()
     {
         yield return new WaitUntil(() => !self.loading);
-        value = self.getValue();
+        value = self.getValue() * self.amount;
         price.text = value + "$";
         //Update value and growth each time a month passes.
     }

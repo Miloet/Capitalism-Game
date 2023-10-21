@@ -30,7 +30,8 @@ public class CardBehavior : MonoBehaviour
 
     private void Start()
     {
-        assetPlace = transform.Find("AssetInput/AssetPosition");
+        assetPlace = transform.Find("AssetInput/AssetPosition").transform;
+
         currentAsset = null;
 
         background = transform.Find("Background").GetComponent<SpriteRenderer>();
@@ -66,14 +67,17 @@ public class CardBehavior : MonoBehaviour
             float t = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(time));
             transform.position = Vector3.Lerp(originalPosition, next, t);
         }
+
+      
+
     }
 
     private IEnumerator<WaitForSeconds> sorting()
     {
         while (true)
         {
-            if (MouseInput.selected == gameObject) updateOrder(100);
-            else updateOrder((int)Mathf.Floor(transform.position.x * 10f));
+            if (MouseInput.selected == gameObject) updateOrder(1000);
+            else updateOrder((int)Mathf.Floor(transform.position.x * 50f));
             yield return new WaitForSeconds(Time.deltaTime + 0.1f);
         }
     }
