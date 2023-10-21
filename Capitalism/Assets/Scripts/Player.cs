@@ -40,20 +40,7 @@ public class Player : MonoBehaviour
 
         self = this;
 
-        /*string[] Symbols = { "AAPL", "MSFT", "GOOGL", "AMZN", "TSLA", "JPM", "WMT", "NVDA", "DIS" };
-        List<Stock> stocks = new List<Stock>();
-        Stock stock;
-        foreach (string s in Symbols)
-        {
-            stock = new Stock();
-
-            StartCoroutine(assignStock(stock, s));
-            stocks.Add(stock);
-        }
-
-        assets = stocks.ToArray();*/
-
-        StartRound();
+        //StartCoroutine(StartRound());
     }
 
     public static void UpdateCardInHand()
@@ -62,7 +49,7 @@ public class Player : MonoBehaviour
         int numberOfCards = currentHand.Count;
         float cardSpacing = 6f / numberOfCards;
 
-        for (int i = 0; i < numberOfCards; i++)
+        for(int i = 0; i < numberOfCards; i++)
         {
             if (MouseInput.selected != null || currentHand[i] != MouseInput.selected)
             {
@@ -79,35 +66,27 @@ public class Player : MonoBehaviour
         currentHandCB = new List<CardBehavior>();
         foreach(GameObject g in currentHand)
         {
-            currentHandCB.Add(g.GetComponent<CardBehavior>());
+            CardBehavior cb = g.GetComponent<CardBehavior>();
+            if(cb.currentAsset == null) cb.closed = true;
+            currentHandCB.Add(cb);
         }
     }
 
 
-    public void StartRound()
+    public IEnumerator StartRound()
     {
-        CardBehavior[] list = FindObjectsOfType<CardBehavior>();
-
-        foreach(CardBehavior g in list)
-        {
-            Destroy(g.gameObject);
-        }
-
-        /*
-        int draw = 5;
-        if(skills.Length > 5 || assets.Length > 5)
-        {
-            draw = Random.Range(0, assets.Length);
-        }*/
-
         currentHand.Clear();
 
+        CardBehavior[] list = FindObjectsOfType<CardBehavior>();
+
+        foreach(CardBehavior cb in list)
+        {
+            Destroy(cb.gameObject);
+        }
+
+        yield return null;
+
         DrawCards(5);
-
-        
-        MouseInput.updateCardCount();
-
-        UpdateCardInHand();
     }
 
 
@@ -125,7 +104,7 @@ public class Player : MonoBehaviour
             for (int i = 0; i < Mathf.Clamp(n, 0, Max); i++)
             {
                 int pick = Random.Range(0, skillList.Count + assetList.Count);
-                GameObject g;
+                GameObject g = null;
                 if (pick < skillList.Count)
                 {
                     g = Instantiate(card);
@@ -136,17 +115,23 @@ public class Player : MonoBehaviour
                 else
                 {
                     pick -= skillList.Count;
-
+                    g = null;
                     g = Instantiate(asset);
                     g.GetComponent<Asset>().Assign(assetList[pick]);
 
                     assetList.RemoveAt(pick);
                 }
+
                 currentHand.Add(g);
                 g.transform.forward = -hand.transform.up;
-                g.transform.position = cardOriginPoint.transform.position + new Vector3(0,0,-1f);
+                g.transform.position = cardOriginPoint.transform.position + new Vector3(0, 0, -1f);
+
             }
         }
+
+
+        MouseInput.updateCardCount();
+        UpdateCardInHand();
     }
 
     public static void AddUnique(GameObject g)
@@ -164,12 +149,12 @@ public class Player : MonoBehaviour
         UpdateCardInHand();
     }
 
-    public void updateValue()
+    public static void updateValue()
     {
         float value = 0;
         foreach(Stock a in assets)
         {
-            value += a.getValue();
+            value += a.getValue() * a.amount;
         }
         assetValue = value;
     }

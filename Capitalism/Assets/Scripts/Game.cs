@@ -28,12 +28,12 @@ public class Game : MonoBehaviour
     {
         while (true)
         {
-            textPlayerAssets.text = $"Asset value: {Player.assetValue}";
+            textPlayerAssets.text = $"Asset value: {Player.assetValue}$";
             textPlayerStress.text = $"Stress: {Player.stress}";
-            textPlayerMoney.text = $"Money: {Player.money}";
+            textPlayerMoney.text = $"Money: {Player.money}$";
 
             textEnemyStress.text = $"Stress: {Enemy.stress}";
-            textEnemyMoney.text = $"Money: {Enemy.money}";
+            textEnemyMoney.text = $"Money: {Enemy.money}$";
             enemyName.text = Enemy.name.ToUpper();
 
             yield return new WaitForSeconds(.2f);

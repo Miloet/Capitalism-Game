@@ -64,6 +64,8 @@ public class StockBuy : MonoBehaviour
             Player.assets = assets.ToArray();
             stock.amount += add;
             Player.money -= stock.getValue() * add;
+
+            Player.updateValue();
         }
     }
 

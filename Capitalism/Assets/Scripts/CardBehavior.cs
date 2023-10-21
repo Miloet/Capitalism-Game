@@ -9,9 +9,8 @@ public class CardBehavior : MonoBehaviour
     public Asset currentAsset;
 
     public Vector3 next;
-    float speed;
 
-    public bool closed;
+    public bool closed = true;
     public bool placed;
 
     private TextMeshPro nameText;
@@ -23,28 +22,36 @@ public class CardBehavior : MonoBehaviour
     private SpriteRenderer picture;
     private SpriteRenderer assetInput;
 
+    public Transform assetInputTransfrom;
+
+    private float assetInputTime;
+    private Vector3 assetInputOriginal;
+
     public bool move = true;
 
     Vector3 originalPosition;
     float time;
-
-    private void Start()
+    
+    private void Awake()
     {
         assetPlace = transform.Find("AssetInput/AssetPosition").transform;
 
-        currentAsset = null;
-
         background = transform.Find("Background").GetComponent<SpriteRenderer>();
         picture = transform.Find("Picture").GetComponent<SpriteRenderer>();
+
         assetInput = transform.Find("AssetInput").GetComponent<SpriteRenderer>();
+        assetInputTransfrom = assetInput.transform;
+        assetInputOriginal = assetInputTransfrom.localPosition;
 
         nameText = transform.Find("Name").GetComponent<TextMeshPro>();
         descriptionText = transform.Find("Body").GetComponent<TextMeshPro>();
         asset = transform.Find("AssetInput/Asset:").GetComponent<TextMeshPro>();
 
         next = transform.position;
+        
+        StartCoroutine(Sorting());
 
-        StartCoroutine(sorting());
+        currentAsset = null;
     }
 
     private void Update()
@@ -67,12 +74,20 @@ public class CardBehavior : MonoBehaviour
             float t = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(time));
             transform.position = Vector3.Lerp(originalPosition, next, t);
         }
-
-      
-
+        if (assetInputTransfrom != null)
+        {
+            if (closed)
+                assetInputTime = Mathf.Clamp01(assetInputTime + Time.deltaTime);
+            else
+                assetInputTime = Mathf.Clamp01(assetInputTime - Time.deltaTime);
+            assetInputTransfrom.localPosition =
+                Vector3.Lerp(assetInputOriginal,
+                new Vector3(assetInputOriginal.x - 1.7f,
+                assetInputOriginal.y), assetInputTime);
+        }
     }
 
-    private IEnumerator<WaitForSeconds> sorting()
+    private IEnumerator<WaitForSeconds> Sorting()
     {
         while (true)
         {
@@ -84,13 +99,14 @@ public class CardBehavior : MonoBehaviour
 
     public void updateOrder(int baseID)
     {
-        background.sortingOrder = baseID + 1;
-        picture.sortingOrder = baseID + 2;
-        assetInput.sortingOrder = baseID + 0;
+        background.sortingOrder = baseID + 2;
+        picture.sortingOrder = baseID + 4;
+        descriptionText.sortingOrder = baseID + 3;
+        nameText.sortingOrder = baseID + 3;
+        
 
-        nameText.sortingOrder = baseID + 2;
-        descriptionText.sortingOrder = baseID + 2;
-        asset.sortingOrder = baseID + 2;
+        assetInput.sortingOrder = baseID + 0;
+        asset.sortingOrder = baseID + 1;
     }
 
     public void MoveTo(Vector3 pos)

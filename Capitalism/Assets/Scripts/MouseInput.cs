@@ -82,6 +82,10 @@ public class MouseInput : MonoBehaviour
                 {
                     selected.GetComponent<Asset>().Free();
                 }
+                if (selected.tag == "Skill")
+                {
+                    selected.GetComponent<CardBehavior>().closed = false;
+                }
             }
         }
         else
@@ -96,7 +100,7 @@ public class MouseInput : MonoBehaviour
                         if (IsClose(card.assetPlace.position, 1))
                         {
                             if (card.currentAsset != null) card.currentAsset.Free();
-
+                            card.closed = false;
                             var asset = selected.GetComponent<Asset>();
                             card.currentAsset = asset;
                             asset.owner = card;

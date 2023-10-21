@@ -18,18 +18,17 @@ public class Asset : CardBehavior
     TextMeshPro assetName;
     TextMeshPro price;
 
-    SpriteRenderer background;
+    SpriteRenderer Background;
     SpriteRenderer graph;
 
-    void Start()
+    void Awake()
     {
-        //value = self.getPrice();
         Free();
 
         assetName = transform.Find("Asset/Name").GetComponent<TextMeshPro>();
         price = transform.Find("Asset/Price").GetComponent<TextMeshPro>();
 
-        background = transform.Find("Asset").GetComponent<SpriteRenderer>();
+        Background = transform.Find("Asset").GetComponent<SpriteRenderer>();
         graph = transform.Find("Asset/Graph").GetComponent<SpriteRenderer>();
 
         assetName.text = "Asset";
@@ -38,22 +37,24 @@ public class Asset : CardBehavior
 
 
 
-        StartCoroutine(sorting());
+        StartCoroutine(Sorting());
     }
 
-    private IEnumerator<WaitForSeconds> sorting()
+
+
+    private IEnumerator<WaitForSeconds> Sorting()
     {
         while (true)
         {
-            if (MouseInput.selected == gameObject) updateOrder(100);
-            else updateOrder((int) Mathf.Floor(transform.position.x * 50f));
+            if (MouseInput.selected == gameObject) UpdateOrder(100);
+            else UpdateOrder((int) Mathf.Floor(transform.position.x * 50f));
             yield return new WaitForSeconds(Time.deltaTime + 0.1f);
         }
     }
    
-    public void updateOrder(int baseID)
+    public void UpdateOrder(int baseID)
     {
-        background.sortingOrder = baseID;
+        Background.sortingOrder = baseID;
 
         assetName.sortingOrder = baseID + 1;
         price.sortingOrder = baseID + 1;

@@ -44,8 +44,6 @@ public class CardCompiler : MonoBehaviour
                 reason += c.ValidateReason();
                 valid = false;
             }
-
-
         }
 
         multiplier = 1f;
@@ -61,7 +59,7 @@ public class CardCompiler : MonoBehaviour
                 c.Effect(multiplier);
             }
             CameraController.UpdateCamera(CameraController.State.Default);
-            Player.self.StartRound();
+            Player.self.StartCoroutine(Player.self.StartRound());
         }
     }
 

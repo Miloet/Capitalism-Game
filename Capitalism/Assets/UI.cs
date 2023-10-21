@@ -22,13 +22,11 @@ public class UI : MonoBehaviour
     void Update()
     {
         if(CameraController.self.state == CameraController.State.Inspect)
-        {
             time = Mathf.Clamp01(time + Time.deltaTime);
-        }
-        else
-        {
+
+        else 
             time = Mathf.Clamp01(time - Time.deltaTime);
-        }
+
 
         endTurn.transform.position = Vector3.Lerp(endTurnOriginal, new Vector3(endTurnOriginal.x - 1000, endTurnOriginal.y), time);
         cardList.transform.position = Vector3.Lerp(cardListOriginal, new Vector3(cardListOriginal.x + 1000, cardListOriginal.y), time);
