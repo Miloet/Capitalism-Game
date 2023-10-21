@@ -104,7 +104,7 @@ public class Asset : CardBehavior
 
 public class Stock
 {
-    public int ammount;
+    public int amount;
     public string stockSymbol { get; private set; }
     public List<float> price { get; private set; }
     public DateTime creation { get; private set; }
@@ -113,7 +113,7 @@ public class Stock
 
     public static string url = "https://query1.finance.yahoo.com/v8/finance/chart/";
 
-    public async void CreateStock(string symbol, string range = "1y", string interval = "1d", int Ammount = 0)
+    public async void CreateStock(string symbol, string range = "1y", string interval = "1d", int Amount = 0)
     {
         loading = true;
         stockSymbol = symbol;
@@ -126,7 +126,7 @@ public class Stock
 
         //creation = getTimeFromRange(range);
 
-        ammount = Ammount;
+        amount = Amount;
     }
     public bool VaildDate(DateTime date)
     {
@@ -134,11 +134,11 @@ public class Stock
     }
     public float getValue()
     {
-
-        for(int i = 0; i < price.Count; i++)
-        {
-            if (price[i] != -1) return price[i];
-        }
+        if(price != null)
+            for(int i = 0; i < price.Count; i++)
+            {
+                if (price[i] != -1) return price[i];
+            }
         Console.WriteLine($"No valid prices not found for {stockSymbol}");
         return -1;
     }

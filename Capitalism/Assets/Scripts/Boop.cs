@@ -11,6 +11,7 @@ public class Boop : MonoBehaviour
     {
         a = gameObject.AddComponent<AudioSource>();
         a.clip = sound;
+        a.playOnAwake = false;
     }
     public void BoopTheSnoot()
     {

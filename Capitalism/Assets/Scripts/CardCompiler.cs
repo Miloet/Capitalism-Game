@@ -17,7 +17,7 @@ public class CardCompiler : MonoBehaviour
     {
         abilityText = GameObject.Find("CompilerText").GetComponent<TextMeshProUGUI>();
         effectText = GameObject.Find("EffectCompileText").GetComponent<TextMeshProUGUI>();
-        scroll = GameObject.Find("Scroll View").GetComponent<ScrollRect>();
+        scroll = GameObject.Find("CardEffects").GetComponent<ScrollRect>();
 
         UpdateText();
     }
@@ -62,6 +62,8 @@ public class CardCompiler : MonoBehaviour
             }
             CameraController.UpdateCamera(CameraController.State.Default);
         }
+
+        Player.self.StartRound();
 
     }
 

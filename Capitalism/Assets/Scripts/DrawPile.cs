@@ -4,23 +4,28 @@ using UnityEngine;
 
 public class DrawPile : MonoBehaviour
 {
+    //Show out of menu
     public GameObject endTurn;
     public GameObject effectText;
     public GameObject boopTheSnoot;
-    public static bool showing = false;
+    //Show in menu
+    public GameObject cards;
+    public GameObject stocks;
+
+    public static bool showing = true;
 
     private void Start()
     {
-        gameObject.SetActive(false);
+        DisplayDrawPile();
     }
     public void DisplayDrawPile()
     {
         showing = !showing;
-        gameObject.SetActive(showing);
+        cards.SetActive(showing);
+        stocks.SetActive(showing);
 
         endTurn.SetActive(!showing);
         effectText.SetActive(!showing);
         boopTheSnoot.SetActive(!showing);
     }
-
 }

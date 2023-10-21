@@ -5,11 +5,14 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+
+    public static Player self;
+
     public static float money = 1000;
     public static int stress = 0;
 
     public static char[] skills = { 'A', 'B', 'A', 'B', 'B', 'B', 'C' };
-    public static Stock[] assets;// = {new Stock("AAPL")};
+    public static Stock[] assets = new Stock[0];// = {new Stock("AAPL")};
 
     public static bool loadingStock;
 
@@ -35,7 +38,9 @@ public class Player : MonoBehaviour
         hand = GameObject.Find("HandPlane");
         cardOriginPoint = GameObject.Find("CardDeck");
 
-        string[] Symbols = { "AAPL", "MSFT", "GOOGL", "AMZN", "TSLA", "JPM", "WMT", "NVDA", "DIS" };
+        self = this;
+
+        /*string[] Symbols = { "AAPL", "MSFT", "GOOGL", "AMZN", "TSLA", "JPM", "WMT", "NVDA", "DIS" };
         List<Stock> stocks = new List<Stock>();
         Stock stock;
         foreach (string s in Symbols)
@@ -46,7 +51,7 @@ public class Player : MonoBehaviour
             stocks.Add(stock);
         }
 
-        assets = stocks.ToArray();
+        assets = stocks.ToArray();*/
 
         StartRound(); 
         UpdateCardInHand();
@@ -82,6 +87,11 @@ public class Player : MonoBehaviour
 
     public void StartRound()
     {
+        foreach(GameObject g in currentHand)
+        {
+            Destroy(g);
+        }
+
         /*
         int draw = 5;
         if(skills.Length > 5 || assets.Length > 5)
@@ -100,38 +110,41 @@ public class Player : MonoBehaviour
 
     public void DrawCards(int n)
     {
-        List<char> skillList =  skills.OfType<char>().ToList();
-        List<Stock> assetList = assets.OfType<Stock>().ToList();
+        List<char> skillList = new List<char>();
+        List<Stock> assetList = new List<Stock>();
+        if(skills.Length != 0) skillList = skills.OfType<char>().ToList();
+        if(assets.Length != 0) assetList = assets.OfType<Stock>().ToList();
 
         int Max = skillList.Count + assetList.Count;
 
-
-        for (int i = 0; i < Mathf.Clamp(n, 0, Max); i++)
+        if (Max > 0)
         {
-            int pick = Random.Range(0, skillList.Count + assetList.Count);
-            GameObject g;
-            if (pick < skillList.Count)
+            for (int i = 0; i < Mathf.Clamp(n, 0, Max); i++)
             {
-                g = Instantiate(card);
-                assignSkill(g, skillList[pick]);
+                int pick = Random.Range(0, skillList.Count + assetList.Count);
+                GameObject g;
+                if (pick < skillList.Count)
+                {
+                    g = Instantiate(card);
+                    assignSkill(g, skillList[pick]);
 
-                skillList.RemoveAt(pick);
+                    skillList.RemoveAt(pick);
+                }
+                else
+                {
+                    pick -= skillList.Count;
+
+                    g = Instantiate(asset);
+                    g.GetComponent<Asset>().Assign(assetList[pick]);
+
+                    assetList.RemoveAt(pick);
+                }
+
+                g.transform.forward = -hand.transform.up;
+                g.transform.position = cardOriginPoint.transform.position;
+                currentHand.Add(g);
             }
-            else
-            {
-                pick -= skillList.Count;
-
-                g = Instantiate(asset);
-                g.GetComponent<Asset>().Assign(assetList[pick]);
-
-                assetList.RemoveAt(pick);
-            }
-
-            g.transform.forward = -hand.transform.up;
-            g.transform.position = cardOriginPoint.transform.position;
-            currentHand.Add(g);
         }
-        
     }
 
     public static void AddUnique(GameObject g)
@@ -282,16 +295,13 @@ public class Player : MonoBehaviour
     public IEnumerator assignStock(Stock s, string symbol)
     {
         loadingStock = false;
-        s.CreateStock(symbol, "1w", "1d", Random.Range(1, 10));
+        s.CreateStock(symbol, "1w", "1d", 0);
         yield return new WaitUntil(() => loadingStock);
         yield return new WaitForSeconds(1);
-
     }
 
     public IEnumerator assignAssets(Asset[] array)
     {
-
-
         foreach(Asset asset in array)
         {
             loadingStock = false;
