@@ -75,14 +75,14 @@ public class Asset : CardBehavior
         StartCoroutine(UpdateStock());
         StartCoroutine(UpdateText());
     }
-    public void Free()
+    public void Free(bool ignoreAdd = false)
     {
         if (owner != null)
         {
             owner.currentAsset.move = true;
             owner.currentAsset = null;
             owner = null;
-            Player.AddUnique(gameObject);
+            if(!ignoreAdd) Player.AddUnique(gameObject);
         }
     }
 

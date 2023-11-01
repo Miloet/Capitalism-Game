@@ -27,7 +27,7 @@ public class SkillAccumulate : SkillBase
     public override string writeEffect()
     {
         string effect = "<color=red>(no asset)</color>";
-        if (currentAsset != null) effect = (currentAsset.value * 2.5f).ToString();
+        if (currentAsset != null) effect = (currentAsset.value * 2.5f * GetMultiplier()).ToString();
         return $"Deal {effect} damage";
     }
 }

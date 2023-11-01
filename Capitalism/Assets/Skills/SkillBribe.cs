@@ -26,7 +26,7 @@ public class SkillBribe : SkillBase
     public override string writeEffect()
     {
         string effect = "<color=red>(no asset)</color>";
-        if (currentAsset != null) effect = (100 + currentAsset.value).ToString("0.0");
+        if (currentAsset != null) effect = ((100 + currentAsset.value) * GetMultiplier()).ToString("0.0");
         return $"Increase next cards effect by {effect}%";
     }
 }

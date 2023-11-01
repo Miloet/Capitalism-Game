@@ -54,13 +54,19 @@ public class CardCompiler : MonoBehaviour
         }
         else
         {
+            int stress = Player.stress;
+
+
             foreach (SkillBase c in cards)
             {
-                c.Effect(multiplier);
+                if(!c.burnt) c.Effect(multiplier);
+                else if (stress < 0) c.Effect(multiplier * 2f);
             }
             CameraController.UpdateCamera(CameraController.State.Default);
             Player.self.StartCoroutine(Player.self.StartRound());
         }
+
+        UpdateText();
     }
 
     public static bool inBounds(Transform t)

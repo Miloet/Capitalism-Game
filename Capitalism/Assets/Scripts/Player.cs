@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     public static Player self;
 
     public static float money = 1000;
+    public static float income = 300;
     public static int stress = 0;
 
     public static char[] skills = { 'A', 'B', 'A', 'B', 'B', 'B', 'C' };

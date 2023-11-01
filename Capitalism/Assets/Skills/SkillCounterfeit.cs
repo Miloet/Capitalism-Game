@@ -28,7 +28,7 @@ public class SkillCounterfeit : SkillBase
     public override string writeEffect()
     {
         string effect = "<color=red>(no asset)</color>";
-        if (currentAsset != null) effect = (currentAsset.value * 10f).ToString();
+        if (currentAsset != null) effect = (currentAsset.value * 10f * GetMultiplier()).ToString();
         return $"Gain {effect} money";
     }
 }

@@ -80,7 +80,7 @@ public class MouseInput : MonoBehaviour
                 Player.UpdateCardInHand();
                 if (selected.tag == "Asset")
                 {
-                    selected.GetComponent<Asset>().Free();
+                    selected.GetComponent<Asset>().Free(true);
                 }
                 if (selected.tag == "Skill")
                 {
