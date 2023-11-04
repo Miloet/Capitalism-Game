@@ -62,6 +62,7 @@ public class SkillBase : CardBehavior
         return "Nothing.";
     }
 
+
     public bool Validate()
     {
         if (requireAsset)

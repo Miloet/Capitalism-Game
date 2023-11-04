@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     public static float income = 300;
     public static int stress = 0;
 
-    public static char[] skills = { 'A', 'B', 'A', 'B', 'B', 'B', 'C' };
+    public static char[] skills = { 'A', 'B', 'A', 'B', 'B'};
     public static Stock[] assets = new Stock[0];// = {new Stock("AAPL")};
 
     public static bool loadingStock;
