@@ -1,0 +1,6 @@
+create events system
+
+write down events
+
+making time passing (not looking forward to it)
+fix the stocks passing time with the time of the game
