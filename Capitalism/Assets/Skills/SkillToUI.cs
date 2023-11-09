@@ -8,17 +8,19 @@ public class SkillToUI : MonoBehaviour
 {
 
     public static GameObject card;
-    private void Start()
+    public static bool Done;
+
+    private void Awake()
     {
         RectTransform sourceRect = GetComponent<RectTransform>();
-        
-        sourceRect.sizeDelta = new Vector2(sourceRect.rect.width, (Player.skills.Length / 6 + 1) * 295f);
-        Vector2 upperBound = new Vector2(sourceRect.anchoredPosition.x, 
+
+        sourceRect.sizeDelta = new Vector2(sourceRect.rect.width, ((Player.skills.Length-1) / 6 + 1) * 280f);
+        Vector2 upperBound = new Vector2(sourceRect.anchoredPosition.x,
             sourceRect.anchoredPosition.y);
 
         card = Resources.Load<GameObject>("DisplayCard");
 
-        for(int i = 0; i < Player.skills.Length; i++)
+        for (int i = 0; i < Player.skills.Length; i++)
         {
             var g = Instantiate(card, transform);
             SetText(Player.skills[i],
@@ -28,12 +30,12 @@ public class SkillToUI : MonoBehaviour
             g.transform.Find("AssetInput").gameObject);
 
             RectTransform rtrans = g.GetComponent<RectTransform>();
-            rtrans.anchoredPosition = GetPosition(i, upperBound, rtrans) + new Vector2(rtrans.rect.width / 2f, rtrans.rect.height / 2f);
+            rtrans.anchoredPosition = GetPosition(i, upperBound, rtrans) + new Vector2(rtrans.rect.width / 2f, -rtrans.rect.height / 2f - 10f);
         }
     }
     public static Vector2 GetPosition(int n, Vector2 upperBound, RectTransform trans)
     {
-        return new Vector2(upperBound.x + Mathf.Repeat(n, 6) * (trans.rect.width + 30), upperBound.y - n / 6 * (trans.rect.height + 10)); //- n * trans.rect.height + 190f);
+        return new Vector2(upperBound.x + Mathf.Repeat(n, 6) * (trans.rect.width + 30),  0-(n / 6 * (trans.rect.height + 10))); //- n * trans.rect.height + 190f);
     }
     public static void SetText(char skill, TextMeshProUGUI Name, TextMeshProUGUI Description, Image image, GameObject takeAsset)
     {

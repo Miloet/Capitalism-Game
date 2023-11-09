@@ -130,9 +130,13 @@ public class MouseInput : MonoBehaviour
     }
 
     private void OnRightClick()
-    {   if (selected == null && CameraController.self.state != CameraController.State.Selected)
-            CameraController.UpdateCamera(CameraController.State.Selected);
-        else CameraController.UpdateCamera(CameraController.State.Default);
+    {
+        if(!DrawPile.showing)
+        {
+            if (selected == null && CameraController.self.state != CameraController.State.Selected)
+                CameraController.UpdateCamera(CameraController.State.Selected);
+            else CameraController.UpdateCamera(CameraController.State.Default);
+        }
         resetSelected();
         CardCompiler.UpdateText();
     }

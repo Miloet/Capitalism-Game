@@ -11,8 +11,9 @@ public class Player : MonoBehaviour
     public static float money = 1000;
     public static float income = 300;
     public static int stress = 0;
+    public int SetStress;
 
-    public static char[] skills = { 'A', 'B', 'A', 'B', 'B'};
+    public static char[] skills = { 'A', 'A', 'B','B', 'C', 'C'};
     public static Stock[] assets = new Stock[0];// = {new Stock("AAPL")};
 
     public static bool loadingStock;
@@ -42,6 +43,11 @@ public class Player : MonoBehaviour
         self = this;
 
         //StartCoroutine(StartRound());
+    }
+
+    private void Update()
+    {
+        stress = SetStress;
     }
 
     public static void UpdateCardInHand()
