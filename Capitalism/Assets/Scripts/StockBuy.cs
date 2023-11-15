@@ -26,9 +26,30 @@ public class StockBuy : MonoBehaviour
     public IEnumerator<WaitUntil> UpdateText()
     {
         yield return new WaitUntil(() => !stock.loading);
+
         name.text = stock.stockSymbol;
-        price.text = stock.getValue().ToString() + "$";
+        price.text = stock.getValue().ToString("N2")+"$";
         amount.text = stock.amount.ToString();
+    }
+    public void DirectUpdateText()
+    {
+        if (!stock.loading)
+        {
+            name.text = stock.stockSymbol;
+            price.text = stock.getValue().ToString("N2") + "$";
+            amount.text = stock.amount.ToString();
+        }
+    }
+
+    public static void UpdateAllText()
+    {
+        Player.updateValue();
+
+        StockBuy[] s = FindObjectsOfType<StockBuy>(true);
+        foreach(StockBuy stockWindow in s)
+        {
+            stockWindow.DirectUpdateText();
+        }
     }
 
     public void Add1()
@@ -43,7 +64,6 @@ public class StockBuy : MonoBehaviour
     {
         Add(-1);
     }
-    
     public void Remove5()
     {
         Add(-5);
@@ -68,8 +88,6 @@ public class StockBuy : MonoBehaviour
             Player.updateValue();
         }
     }
-
-
     private bool Find(string symbol, List<Stock> list)
     {
         foreach(Stock stock in list)

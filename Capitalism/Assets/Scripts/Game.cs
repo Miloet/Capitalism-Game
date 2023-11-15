@@ -40,10 +40,9 @@ public class Game : MonoBehaviour
             float x = 120f / 10f * Player.stress;
 
             selector.localPosition = new Vector3(x, 0, 0);
-            
 
             textEnemyStress.text = $"Stress: {Enemy.stress}";
-            textEnemyMoney.text = $"Money: {Enemy.money}$";
+            textEnemyMoney.text = $"Money: {Enemy.money.ToString("N2")}$";
             enemyName.text = Enemy.name.ToUpper();
 
             yield return new WaitForSeconds(.1f);

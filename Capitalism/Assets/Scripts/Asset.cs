@@ -21,6 +21,10 @@ public class Asset : CardBehavior
     SpriteRenderer Background;
     SpriteRenderer graph;
 
+    LineRenderer graphLine;
+
+    Vector2 graphBounds = new Vector2(0.9f, 0.9f);
+
     void Awake()
     {
         Free();
@@ -35,7 +39,7 @@ public class Asset : CardBehavior
         price.text = "-";
         move = true;
 
-
+        graphLine = graph.GetComponent<LineRenderer>();
 
         StartCoroutine(Sorting());
     }
@@ -95,8 +99,33 @@ public class Asset : CardBehavior
     {
         yield return new WaitUntil(() => !self.loading);
         value = self.getValue() * self.amount;
-        price.text = value + "$";
+        price.text = value.ToString("N2")+"$";
         //Update value and growth each time a month passes.
+
+        //Update graph
+
+        float highest;
+        float lowest;
+
+        List<Vector3> positions = new List<Vector3>();
+
+        float[] prices = self.price.ToArray();
+
+        int max = Mathf.Min(Event.time, 60);
+
+        for(int i = 0; i < max; i++)
+        {
+            //Find highest and lowest values in array
+        }
+        
+        
+
+        for(int i = 0; i < max; i++)
+        {
+            positions.Add(new Vector3(i / max * graphBounds.x,  graphBounds.y, .1f) - (Vector3)graphBounds);
+        }
+        //Map the values of Vector2 GraphBounds to 
+        graphLine.SetPositions(positions.ToArray());
     }
 
     #endregion
@@ -118,8 +147,7 @@ public class Stock
     {
         loading = true;
         stockSymbol = symbol;
-        float time = Time.time;
-
+        range = "5y";
         await getStockHistoricalPrices(range, interval);
 
         Player.loadingStock = true;
@@ -135,11 +163,9 @@ public class Stock
     }
     public float getValue()
     {
-        if(price != null)
-            for(int i = 0; i < price.Count; i++)
-            {
-                if (price[i] != -1) return price[i];
-            }
+        if (price != null)
+            if (price[Event.time] != -1) return price[Event.time];
+
         Console.WriteLine($"No valid prices not found for {stockSymbol}");
         return -1;
     }
@@ -204,11 +230,13 @@ public class Stock
         {
             Debug.LogError($"Error: {ex.Message}");
         }
-        price = ReverseOrder(prices);
+        //price = ReverseOrder(prices);
+        price = prices;
     }
 
     private static List<float> ReverseOrder(List<float> prices)
     {
+        
         List<float> reversedPrices = new List<float>(prices.Count);
         for (int i = prices.Count - 1; i >= 0; i--)
         {
