@@ -17,6 +17,8 @@ public class Asset : CardBehavior
 
     TextMeshPro assetName;
     TextMeshPro price;
+    TextMeshPro upperPrice;
+    TextMeshPro lowerPrice;
 
     SpriteRenderer Background;
     SpriteRenderer graph;
@@ -31,6 +33,8 @@ public class Asset : CardBehavior
 
         assetName = transform.Find("Asset/Name").GetComponent<TextMeshPro>();
         price = transform.Find("Asset/Price").GetComponent<TextMeshPro>();
+        upperPrice = transform.Find("Asset/Upper").GetComponent<TextMeshPro>();
+        lowerPrice = transform.Find("Asset/Lower").GetComponent<TextMeshPro>();
 
         Background = transform.Find("Asset").GetComponent<SpriteRenderer>();
         graph = transform.Find("Asset/Graph").GetComponent<SpriteRenderer>();
@@ -62,7 +66,8 @@ public class Asset : CardBehavior
 
         assetName.sortingOrder = baseID + 1;
         price.sortingOrder = baseID + 1;
-
+        upperPrice.sortingOrder = baseID + 2;
+        lowerPrice.sortingOrder = baseID + 2;
         graph.sortingOrder = baseID + 1;
     }
 
@@ -104,28 +109,45 @@ public class Asset : CardBehavior
 
         //Update graph
 
-        float highest;
-        float lowest;
+        float highest = float.MinValue;
+        float lowest = float.MaxValue;
 
         List<Vector3> positions = new List<Vector3>();
 
         float[] prices = self.price.ToArray();
 
         int max = Mathf.Min(Event.time, 60);
+        Gradient gradient = new Gradient();
 
-        for(int i = 0; i < max; i++)
+        for(int i = Event.time - max; i < Event.time; i++)
         {
-            //Find highest and lowest values in array
+            if (prices[i] > highest)
+            {
+                highest = prices[i];
+            }
+            if (prices[i] < lowest)
+            {
+                lowest = prices[i];
+            }
         }
-        
-        
 
-        for(int i = 0; i < max; i++)
+        for(int i = Event.time - max; i < Event.time; i++)
         {
-            positions.Add(new Vector3(i / max * graphBounds.x,  graphBounds.y, .1f) - (Vector3)graphBounds);
+            positions.Add(new Vector3(
+                (float)(i - Event.time + max) / (float)max * graphBounds.x,  
+                graphBounds.y* FindYPosition(prices[i], highest, lowest) , -.01f
+                ) - (Vector3)graphBounds / 2f);
         }
-        //Map the values of Vector2 GraphBounds to 
+        graphLine.positionCount = positions.Count;
         graphLine.SetPositions(positions.ToArray());
+
+        upperPrice.text = highest.ToString("N1") +"$";
+        lowerPrice.text = lowest.ToString("N1") + "$";
+    }
+
+    private float FindYPosition(float value, float upper, float lower)
+    {
+        return (value - lower) / (upper - lower);
     }
 
     #endregion

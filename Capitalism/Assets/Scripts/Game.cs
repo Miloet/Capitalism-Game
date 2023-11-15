@@ -33,7 +33,7 @@ public class Game : MonoBehaviour
         while (true)
         {
             textPlayerMoney.text = $"{Player.money.ToString("N2")}$";
-            textPlayerIncome.text = $"{Player.income.ToString("N2")}$";
+            textPlayerIncome.text = $"{Player.income.ToString("N2")}$ / Month";
             textPlayerAssets.text = $"{Player.assetValue.ToString("N2")}$";
             textPlayerStress.text = $"Stress: {Player.stress}";
 
