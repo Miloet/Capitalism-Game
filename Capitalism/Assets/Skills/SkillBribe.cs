@@ -10,7 +10,7 @@ public class SkillBribe : SkillBase
 
         letter = "B";
         name = "Bribe";
-        description = "Bribe lawmakers to make new laws in your favor. Multiply your next cards effect by 1 + Price / 100.";
+        description = "Increase your next cards effect by X (price)";
 
         spriteResourcePath = "Skills/Bribe";
 
@@ -19,14 +19,14 @@ public class SkillBribe : SkillBase
 
     public override void Effect(float multiplier = 1f)
     {
-        CardCompiler.multiplier = multiplier * (1 + currentAsset.value / 100f);
+        CardCompiler.multiplier = multiplier * (1 + Mathf.Sqrt(currentAsset.value/50f));
 
         base.Effect();
     }
     public override string writeEffect()
     {
         string effect = "<color=red>(no asset)</color>";
-        if (currentAsset != null) effect = ((100 + currentAsset.value) * GetMultiplier()).ToString("0.0");
-        return $"Increase next cards effect by {effect}%";
+        if (currentAsset != null) effect = (Mathf.Sqrt(currentAsset.value) * GetMultiplier()).ToString("0.0");
+        return $"Increase next cards effect by {effect}x";
     }
 }

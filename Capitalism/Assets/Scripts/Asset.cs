@@ -135,7 +135,7 @@ public class Asset : CardBehavior
         {
             positions.Add(new Vector3(
                 (float)(i - Event.time + max) / (float)max * graphBounds.x,  
-                graphBounds.y* FindYPosition(prices[i], highest, lowest) , -.01f
+                graphBounds.y * FindYPosition(prices[i], highest, lowest) , -.01f
                 ) - (Vector3)graphBounds / 2f);
         }
         graphLine.positionCount = positions.Count;

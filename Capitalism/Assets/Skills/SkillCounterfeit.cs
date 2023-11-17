@@ -10,7 +10,7 @@ public class SkillCounterfeit : SkillBase
 
         letter = "C";
         name = "Counterfeit";
-        description = "Use an asset to print fake money equal to 10 times its value. Add 1 stress.";
+        description = "Gain X (price * 0.7) <color=green>Money</color> and add <color=red>1 Stress";
 
         spriteResourcePath = "Skills/Counterfeit";
 
@@ -19,7 +19,7 @@ public class SkillCounterfeit : SkillBase
 
     public override void Effect(float multiplier = 1f)
     {
-        Player.money += currentAsset.value * multiplier * 10f;
+        Player.money += currentAsset.value * multiplier * 0.7f;
 
         Player.stress++;
 
@@ -28,7 +28,7 @@ public class SkillCounterfeit : SkillBase
     public override string writeEffect()
     {
         string effect = "<color=red>(no asset)</color>";
-        if (currentAsset != null) effect = (currentAsset.value * 10f * GetMultiplier()).ToString();
-        return $"Gain {effect} money";
+        if (currentAsset != null) effect = (currentAsset.value * 0.7f * GetMultiplier()).ToString();
+        return $"Gain {effect} <color=green>Money";
     }
 }
