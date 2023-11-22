@@ -67,8 +67,6 @@ public class CardCompiler : MonoBehaviour
         }
 
         UpdateText();
-
-        Event.NextMonth();
     }
 
     public static bool inBounds(Transform t)

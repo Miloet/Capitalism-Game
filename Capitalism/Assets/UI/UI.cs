@@ -23,7 +23,6 @@ public class UI : MonoBehaviour
     {
         if(CameraController.self.state == CameraController.State.Inspect)
             time = Mathf.Clamp01(time + Time.deltaTime);
-
         else 
             time = Mathf.Clamp01(time - Time.deltaTime);
 
