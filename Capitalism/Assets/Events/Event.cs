@@ -15,8 +15,11 @@ public class Event : MonoBehaviour
 
     public static TextMeshProUGUI textBox;
 
+    public static GameObject eventObject;
+
     void Start()
     {
+        eventObject = gameObject;
         date = DateTime.Parse(StartDate);
     }
 
@@ -45,7 +48,6 @@ public class Event : MonoBehaviour
     public static void NextMonth()
     {
         date = date.AddMonths(1);
-        //date = date.AddDays(1);
         while (date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday) date = date.AddDays(1);
         
         Player.money += Player.income;
@@ -53,6 +55,8 @@ public class Event : MonoBehaviour
         TimeBetween();
         DateUI.UpdateDate();
         StockBuy.UpdateAllText();
+        
+        MonoEvent.NewEvent(MonoEvent.Evnt.Lawyer);
     }
 
 }

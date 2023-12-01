@@ -10,7 +10,7 @@ public class DrawPile : MonoBehaviour
     public GameObject effectText;
     public GameObject boopTheSnoot;
     //In events
-
+    public GameObject Event;
 
     //Show in menu
     public GameObject cards;
@@ -37,7 +37,7 @@ public class DrawPile : MonoBehaviour
         }
         else
         {
-            
+            Event.SetActive(!showing);
         }
     }
 }
