@@ -18,6 +18,8 @@ public class Evnt_Lawyer : MonoEvent
             ,"A 500$ retainer and 200$ flat monthly fee and I am yours through day, night and storm!"};
         responses = new string[] { "Take the deal (Pay 500$ and lose 200$ each month)", "Ask him to leave" };
 
+        eventImage = GetImage("SaulGoodman");
+
         base.Start();
     }
 

@@ -9,7 +9,9 @@ public class Player : MonoBehaviour
     public static Player self;
 
     public static float money = 1000;
-    public static float income = 300;
+    public static float income = 1500;
+    public static List<Expense> expenses = new List<Expense>();
+    
     public static int stress = 0;
 
     public static char[] skills = { 'A', 'A', 'B','B', 'C', 'C'};
@@ -33,6 +35,12 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        expenses.Add(new Expense("Lawyer",299.99f));
+        expenses.Add(new Expense("Food n Livin",600));
+        expenses.Add(new Expense("Death Insurance",20));
+        expenses.Add(new Expense("Morning coffee",0.5f));
+        //expenses.Add(new Expense("Rent (get shit on rentoid)",999999.99f));
+
         card = Resources.Load<GameObject>("Card");
         asset = Resources.Load<GameObject>("Asset");
 
@@ -299,5 +307,18 @@ public class Player : MonoBehaviour
             yield return new WaitForSeconds(1);
             asset.Assign(s);
         }
+    }
+}
+
+
+public class Expense
+{
+    public string Source;
+    public float Cost;
+
+    public Expense(string source, float cost)
+    {
+        Source = source;
+        Cost = cost;
     }
 }

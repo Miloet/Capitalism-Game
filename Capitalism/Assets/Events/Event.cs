@@ -7,11 +7,11 @@ using TMPro;
 
 public class Event : MonoBehaviour
 {
-    public static string StartDate = "9/11-2001";
+    public static string StartDate = "2/5-2011";
     public static DateTime date;
     public static int time;
 
-    public static int month;
+    public static int month = 0;
 
     public static TextMeshProUGUI textBox;
 
@@ -49,14 +49,15 @@ public class Event : MonoBehaviour
     {
         date = date.AddMonths(1);
         while (date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday) date = date.AddDays(1);
-        
+        month++;
+
         Player.money += Player.income;
 
         TimeBetween();
         DateUI.UpdateDate();
         StockBuy.UpdateAllText();
         
-        MonoEvent.NewEvent(MonoEvent.Evnt.Lawyer);
+        //MonoEvent.NewEvent(MonoEvent.Evnt.Lawyer);
     }
 
 }

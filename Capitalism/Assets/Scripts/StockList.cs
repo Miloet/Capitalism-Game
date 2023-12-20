@@ -6,12 +6,12 @@ public class StockList : MonoBehaviour
 {
     GameObject stockTrader;
     Stock[] availableStocks;
+    public static string[] Symbols = { "AAPL", "MSFT", "GOOGL", "AMZN", "TSLA", "JPM", "WMT", "NVDA", "DIS", "TSE", "KO", "NFLX", "BAC", "V", "PG", "INTC", "CSCO", "XOM", "GM", "U" };
 
     void Start()
     {
         stockTrader = Resources.Load<GameObject>("Stock");
 
-        string[] Symbols = { "AAPL", "MSFT", "GOOGL", "AMZN", "TSLA", "JPM", "WMT", "NVDA", "DIS", "TSE", "KO", "NFLX", "BAC", "V", "PG", "INTC", "CSCO", "XOM", "GM", "U"};
         List<Stock> stocks = new List<Stock>();
         Stock stock;
 
@@ -26,7 +26,7 @@ public class StockList : MonoBehaviour
 
         RectTransform sourceRect = GetComponent<RectTransform>();
         sourceRect.sizeDelta = new Vector2(sourceRect.rect.x, availableStocks.Length * 80f - 390f);
-        Vector2 upperBound = new Vector2(sourceRect.anchoredPosition.x, sourceRect.anchoredPosition.y + sourceRect.rect.height / 2f);// - sourceRect.rect.height / 2);
+        Vector2 upperBound = new Vector2(sourceRect.anchoredPosition.x, sourceRect.anchoredPosition.y + sourceRect.rect.height / 2f);
         for(int i = 0; i < availableStocks.Length; i++)
         {
             RectTransform rtrans = Instantiate(stockTrader, transform).GetComponent<RectTransform>();

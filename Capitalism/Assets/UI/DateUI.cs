@@ -26,6 +26,8 @@ public class DateUI : MonoBehaviour
 
         dayPosition = day.transform.position;
         monthPosition = month.transform.position;
+
+        UpdateDate();
     }
 
     private void Update()

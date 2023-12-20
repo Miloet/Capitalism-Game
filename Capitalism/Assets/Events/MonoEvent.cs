@@ -25,9 +25,15 @@ public class MonoEvent : MonoBehaviour
 
     public new string name;
 
+    public Sprite eventImage;
+
     public string[] monolog;
     public string[] responses;
 
+    static GameObject fullUI;
+    static Vector3 uiPosition;
+    
+    
 
     static TextMeshProUGUI eventName;
     static Image image;
@@ -51,10 +57,13 @@ public class MonoEvent : MonoBehaviour
 
     public void FindUI()
     {
-        string s = "UI/Event/";
+        string s = "UI/UI/Event/";
+
+        fullUI = GameObject.Find("UI/UI");
+        uiPosition = fullUI.transform.position;
 
         eventName = GameObject.Find(s + "Name").GetComponent<TextMeshProUGUI>();
-        image = GameObject.Find(s + "Image").GetComponent<Image>();
+        image = GameObject.Find(s + "Image/EventImage").GetComponent<Image>();
 
         GameObject g = GameObject.Find(s + "Dialog");
         monologAnimator = g.GetComponent<TextAnimator>();
@@ -195,5 +204,26 @@ public class MonoEvent : MonoBehaviour
                     break;
             }
         }
+    }
+
+    public IEnumerator EaringsRapport()
+    {
+        Vector3 p_newPos = fullUI.transform.position + new Vector3(-2000, 0);
+        Vector3 p_target = fullUI.transform.position;
+
+        float time = 0;
+
+        while (time < 1)
+        {
+            time += Time.deltaTime;
+            fullUI.transform.position = Vector3.Lerp(p_newPos, p_target, Easing01(time));
+
+            yield return null;
+        }
+    }
+
+    public static Sprite GetImage(string name)
+    {
+        return Resources.Load<Sprite>("Event/" + name);
     }
 }

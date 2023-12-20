@@ -163,6 +163,8 @@ public class Stock
 
     public bool loading;
 
+    int afterTime = 0;
+
     public static string url = "https://query1.finance.yahoo.com/v8/finance/chart/";
 
     public async void CreateStock(string symbol, string range = "1y", string interval = "1d", int Amount = 0)
@@ -186,10 +188,28 @@ public class Stock
     public float getValue()
     {
         if (price != null)
-            if (price[Event.time] != -1) return price[Event.time];
+            if (Event.time-afterTime >= price.Count) price = InFuture();
+            if (price[Event.time - afterTime] != -1) return price[Event.time - afterTime];
 
         Console.WriteLine($"No valid prices not found for {stockSymbol}");
         return -1;
+    }
+
+    public List<float> InFuture()
+    {
+        afterTime = Event.time;
+
+        float max = price[price.Count - 1];
+        float min = price[0];
+
+        List<float> l = new List<float>();
+
+        for(int i = 0; i < 300; i++)
+        {
+            l.Add(min + Mathf.Pow( 
+                MathF.Sin(i * 10),2) * max);
+        }
+        return l;
     }
 
     public async Task getStockHistoricalPrices(string range, string interval)
