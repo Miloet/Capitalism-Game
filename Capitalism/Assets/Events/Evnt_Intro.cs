@@ -8,7 +8,7 @@ public class Evnt_Intro : MonoEvent
     {
         name = "New Day";
 
-        monolog = new string[] { "Welcome to your new job at <color = #97f0ea>CONTROL.</color> Inc. Are you prepared to work yourself to the bone for your new family~?",
+        monolog = new string[] { "Welcome to your new job at <color=#97F0EA>CONTROL.</color> Inc. Are you prepared to work yourself to the bone for your new family~?",
             "Set Goals. Have a ten-year plan. Wake up early. <color=green><wave>Invest.</wave></color> <shake><color=red>CEO Mindset.", 
             "Good luck and once again, welcome to the family."};
         responses = new string[] {"Continue"};

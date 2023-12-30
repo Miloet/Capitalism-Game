@@ -9,16 +9,8 @@ using Febucci.UI;
 
 public class MonoEvent : MonoBehaviour
 {
-    public enum Evnt
-    {
-        Intro,
-        Lawyer,
-        Karen,
-        PartyInvite,
-        TheBill,
-        WalkHome
-    }
 
+    
     public static Evnt[] randomEvents = {Evnt.Karen, Evnt.Lawyer, Evnt.PartyInvite};
 
     public static bool EventDone = true;
@@ -48,8 +40,9 @@ public class MonoEvent : MonoBehaviour
         if (text == null) FindUI();
 
         StartCoroutine(ShowEvent());
-    }
 
+        StartCoroutine(ReverseRapportAnimation());
+    }
     private void Update()
     {
         if (Input.anyKeyDown) monologPlayer.SetTypewriterSpeed(2);
@@ -63,7 +56,8 @@ public class MonoEvent : MonoBehaviour
         uiPosition = fullUI.transform.position;
 
         eventName = GameObject.Find(s + "Name").GetComponent<TextMeshProUGUI>();
-        image = GameObject.Find(s + "Image/EventImage").GetComponent<Image>();
+        image = GameObject.Find(s + "EventImage").GetComponent<Image>();
+        
 
         GameObject g = GameObject.Find(s + "Dialog");
         monologAnimator = g.GetComponent<TextAnimator>();
@@ -84,6 +78,8 @@ public class MonoEvent : MonoBehaviour
 
     public IEnumerator ShowEvent()
     {
+        image.sprite = eventImage;
+
         foreach (Button b in responsButtons)
         {
             b.onClick.RemoveAllListeners();
@@ -179,8 +175,25 @@ public class MonoEvent : MonoBehaviour
             StartCoroutine(ReverseButtonAnimation(i));
         }
 
-        Destroy(this, 1.2f);
+        StartCoroutine(EaringsRapport());
+
+        Destroy(this, 5f);
     }
+    public virtual void RespondNextEvent(Evnt evnt)
+    {
+        EventDone = true;
+
+        for (int i = 0; i < Mathf.Min(responses.Length, responsButtons.Length); i++)
+        {
+            responsButtons[i].onClick.RemoveAllListeners();
+            StartCoroutine(ReverseButtonAnimation(i));
+        }
+
+        NewEvent(evnt);
+
+        Destroy(this, 1f);
+    }
+
 
     public static Evnt GetEvent()
     {
@@ -199,17 +212,20 @@ public class MonoEvent : MonoBehaviour
                     Debug.LogWarning("Event outside defined events OR the NewEvent() does not integrate this event: " + evnt.ToString());
                     break;
 
+                case Evnt.Intro:
+                    g.AddComponent<Evnt_Intro>();
+                    break;
+
                 case Evnt.Lawyer:
                     g.AddComponent<Evnt_Lawyer>();
                     break;
             }
         }
     }
-
     public IEnumerator EaringsRapport()
     {
-        Vector3 p_newPos = fullUI.transform.position + new Vector3(-2000, 0);
-        Vector3 p_target = fullUI.transform.position;
+        Vector3 p_newPos = uiPosition;
+        Vector3 p_target = uiPosition + new Vector3(-2000, 0);
 
         float time = 0;
 
@@ -220,10 +236,37 @@ public class MonoEvent : MonoBehaviour
 
             yield return null;
         }
+        var ir = FindObjectOfType<IncomeReport>();
+        ir.UpdateIncome();
+        ir.sign.enabled = true;
+    }
+    public IEnumerator ReverseRapportAnimation()
+    {
+        Vector3 p_newPos = uiPosition;
+        Vector3 p_target = uiPosition + new Vector3(-2000, 0);
+
+        float time = 1;
+
+        while (time > 0)
+        {
+            time -= Time.deltaTime;
+            fullUI.transform.position = Vector3.Lerp(p_newPos, p_target, Easing01(time));
+
+            yield return null;
+        }
     }
 
     public static Sprite GetImage(string name)
     {
         return Resources.Load<Sprite>("Event/" + name);
     }
+}
+public enum Evnt
+{
+    Intro,
+    Lawyer,
+    Karen,
+    PartyInvite,
+    TheBill,
+    WalkHome
 }

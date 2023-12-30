@@ -14,6 +14,7 @@ public class IncomeReport : MonoBehaviour
     public TextMeshProUGUI subtotal;
     public TextMeshProUGUI total;
     public TextMeshProUGUI date;
+    public Button sign;
 
 
     public Toggle overtime;
@@ -49,6 +50,8 @@ public class IncomeReport : MonoBehaviour
     public void SignReport()
     {
         Player.money += Player.income * (overtime.isOn ? 2f : 1f) - totalCost.Cost;
+        sign.enabled = false;
+        Event.NextMonth();
     }
 
     public Expense GetExpenses()

@@ -21,6 +21,8 @@ public class Event : MonoBehaviour
     {
         eventObject = gameObject;
         date = DateTime.Parse(StartDate);
+
+        if (month == 0) MonoEvent.NewEvent(Evnt.Intro);
     }
 
     public static void TimeBetween()
@@ -57,7 +59,7 @@ public class Event : MonoBehaviour
         DateUI.UpdateDate();
         StockBuy.UpdateAllText();
         
-        //MonoEvent.NewEvent(MonoEvent.Evnt.Lawyer);
+        MonoEvent.NewEvent(Evnt.Lawyer);
     }
 
 }
