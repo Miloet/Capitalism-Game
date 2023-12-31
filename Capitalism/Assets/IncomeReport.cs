@@ -14,6 +14,7 @@ public class IncomeReport : MonoBehaviour
     public TextMeshProUGUI subtotal;
     public TextMeshProUGUI total;
     public TextMeshProUGUI date;
+    public Image signature;
     public Button sign;
 
 
@@ -23,6 +24,8 @@ public class IncomeReport : MonoBehaviour
 
     private void Start()
     {
+        gameObject.SetActive(false);
+
         UpdateIncome();
     }
 
@@ -45,13 +48,31 @@ public class IncomeReport : MonoBehaviour
         RectTransform rt = expensesSource.GetComponent<RectTransform>();
         float preferredHeight = expensesSource.preferredHeight;
         rt.sizeDelta = new Vector2(rt.sizeDelta.x, preferredHeight);
-    }
 
-    public void SignReport()
+        signature.fillAmount = 0;
+    }
+    public void ButtonSignReport()
     {
-        Player.money += Player.income * (overtime.isOn ? 2f : 1f) - totalCost.Cost;
+        StartCoroutine(SignReport());
+    }
+    public IEnumerator SignReport()
+    {
         sign.enabled = false;
+        float time = 0;
+        while (time < 1)
+        {
+            time += Time.deltaTime*2f;
+            signature.fillAmount = time;
+            yield return null;
+        }
+        yield return new WaitUntil(() => Input.anyKeyDown);
+
+        Player.money += Player.income * (overtime.isOn ? 2f : 1f) - totalCost.Cost;
+
         Event.NextMonth();
+
+        yield return new WaitForSeconds(1);
+        sign.enabled = true;
     }
 
     public Expense GetExpenses()

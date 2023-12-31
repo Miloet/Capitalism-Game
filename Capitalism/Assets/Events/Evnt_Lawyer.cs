@@ -8,15 +8,21 @@ public class Evnt_Lawyer : MonoEvent
     {
         name = "Saul... Goodman?";
 
-        monolog = new string[] {"Hey, you handsome corprate bigshot! " +
-            "Did you know you have rights? Constitution says you do!"
+        monolog = new string[] {
+    "Hey there, you dashing corporate bigshot! " +
+    "Let me drop some legal wisdom on you – did you know you've got rights? " +
+    "Constitution's got your back, my friend!",
 
-            ,"I see that look on your face and I understand you're a busy woman so " +
-            "Ill get straight to the point. I want to be your lawyer. This is a tough " +
-            " buissness you're in and if a lowlife like me can change that tide then thats all I am asking for."
+    "Look, I get it. You're a busy lady, and time is money. " +
+    "So, let's cut to the chase. I want to be the legal maestro in your orchestra.",
 
-            ,"A 500$ retainer and 200$ flat monthly fee and I am yours through day, night and storm!"};
-        responses = new string[] { "Take the deal (Pay 500$ and lose 200$ each month)", "Ask him to leave" };
+    "This business of yours is a wild ride, and if a charming rascal like me can help steer the ship, that's all I'm asking for.",
+
+    "For a mere 500 bucks upfront and a sweet 200 smackers each month, " +
+    "I'm your legal guardian angel. Day or night, rain or shine – I'm at your service! " +
+    "Let's make those legal troubles disappear like magic, with a touch of Saul Goodman style."
+};
+        responses = new string[] { "Take the deal (Pay 500$ and 200$ each month)", "Ask him to leave" };
 
         eventImage = GetImage("SaulGoodman");
 
@@ -29,16 +35,26 @@ public class Evnt_Lawyer : MonoEvent
         {
             case 0:
                 Player.money -= 499.99f;
-                Player.income -= 199.99f;
+                Player.expenses.Add(new Expense("Lawyer (the best there is~)", 199f));
+                Player.AddCard('L');
 
                 text.text = "<wave>Glad to make business with you!</wave>";
 
                 break;
             case 1:
-                
+
+                text.text = "Ah, come on! Seriously? " +
+                    "You're turning down the golden opportunity of a lifetime here! " +
+                    "You don't want the legal Picasso in your corner, huh? " +
+                    "Well, good luck navigating the treacherous legal waters without the one and only Saul Goodman. " +
+                    "When you change your mind – and believe me, you will – just remember, I'm the guy who could've made all your legal problems vanish into thin air. " +
+                    "You'll be begging for a second chance, mark my words!";
+
                 break;
         }
 
         base.Respond(n);
+
+        RemoveRandomEvent(Evnt.Lawyer);
     }
 }

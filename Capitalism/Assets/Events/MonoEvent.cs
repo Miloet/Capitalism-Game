@@ -5,15 +5,33 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using Febucci.UI;
+using System.Linq;
 
+public enum Evnt
+{
+    Intro,
+    Lawyer,
+    Karen,
+    TaxMan,
+
+    PartyInvite,
+    Drinking,
+    TheBill,
+    WalkHome,
+
+    Party,
+    Boss1,
+
+}
 
 public class MonoEvent : MonoBehaviour
 {
-
-    
-    public static Evnt[] randomEvents = {Evnt.Karen, Evnt.Lawyer, Evnt.PartyInvite};
+    public static List<Evnt> randomEvents = new List<Evnt> { Evnt.Karen, Evnt.Lawyer };
+    #region var
 
     public static bool EventDone = true;
+
+    public int speedUp = 4;
 
     public new string name;
 
@@ -25,8 +43,6 @@ public class MonoEvent : MonoBehaviour
     static GameObject fullUI;
     static Vector3 uiPosition;
     
-    
-
     static TextMeshProUGUI eventName;
     static Image image;
     static TextAnimator monologAnimator;
@@ -34,19 +50,53 @@ public class MonoEvent : MonoBehaviour
     public static TextMeshProUGUI text;
     static Button[] responsButtons;
     static TextMeshProUGUI[] responsButtonTexts;
+    static GameObject earningsRapport;
 
-    public virtual void Start()
+    #endregion 
+
+    public static void NewEvent(Evnt evnt)
     {
-        if (text == null) FindUI();
+        if (EventDone)
+        {
+            EventDone = false;
+            GameObject g = Event.eventObject;
 
-        StartCoroutine(ShowEvent());
-
-        StartCoroutine(ReverseRapportAnimation());
+            switch (evnt)
+            {
+                default:
+                    Debug.LogWarning("Event outside defined events OR the NewEvent() does not integrate this event: " + evnt.ToString());
+                    EventDone = true;
+                    break;
+                case Evnt.Intro:
+                    g.AddComponent<Evnt_Intro>();
+                    break;
+                case Evnt.Lawyer:
+                    g.AddComponent<Evnt_Lawyer>();
+                    break;
+                case Evnt.PartyInvite:
+                    g.AddComponent<Evnt_PartyInvite>();
+                    break;
+            }
+        }
     }
-    private void Update()
+
+    
+
+    public static void AddRandomEvent(Evnt evnt)
     {
-        if (Input.anyKeyDown) monologPlayer.SetTypewriterSpeed(2);
+        if(!randomEvents.Contains(evnt)) randomEvents.Add(evnt);
     }
+    public static void RemoveRandomEvent(Evnt evnt)
+    {
+        if (randomEvents.Contains(evnt)) randomEvents.Remove(evnt);
+    }
+    public static Evnt GetRandomEvent()
+    {
+        int i = Random.Range(0, randomEvents.Count);
+        return randomEvents[i];
+    }
+
+    #region Animation & UI
 
     public void FindUI()
     {
@@ -74,8 +124,8 @@ public class MonoEvent : MonoBehaviour
             responsButtonTexts[i] = b.transform.Find("Text (TMP)").GetComponent<TextMeshProUGUI>();
         }
 
+        earningsRapport = GameObject.Find("UI/UI/IncomeReport");
     }
-
     public IEnumerator ShowEvent()
     {
         image.sprite = eventImage;
@@ -93,7 +143,7 @@ public class MonoEvent : MonoBehaviour
         {
             yield return new WaitForSeconds(0.25f);
             text.text = s;
-            if (s != monolog[monolog.Length - 1]) yield return new WaitUntil(() => monologAnimator.allLettersShown && Input.anyKeyDown);
+            if (s != monolog[^1]) yield return new WaitUntil(() => monologAnimator.allLettersShown && Input.anyKeyDown);
             else yield return new WaitUntil(() => monologAnimator.allLettersShown);
 
             yield return new WaitForSeconds(0.5f);
@@ -115,8 +165,8 @@ public class MonoEvent : MonoBehaviour
         Image buttonImage = responsButtons[id].GetComponent<Image>();
         RectTransform trans = responsButtons[id].GetComponent<RectTransform>();
 
-        Vector3 newPos = trans.position + new Vector3(1000,0);
-        Vector3 target = trans.position;
+        Vector3 newPos = trans.localPosition + new Vector3(1000,0);
+        Vector3 target = trans.localPosition;
 
         float time = 0;
 
@@ -127,8 +177,7 @@ public class MonoEvent : MonoBehaviour
             var c = buttonImage.color;
             c.a = time;
             buttonImage.color = c;
-
-            trans.position = Vector3.Lerp(newPos, target, Easing01(time));
+            trans.localPosition = Vector3.Lerp(newPos, target, Easing01(time));
 
             yield return null;
         }
@@ -138,8 +187,8 @@ public class MonoEvent : MonoBehaviour
         Image buttonImage = responsButtons[id].GetComponent<Image>();
         RectTransform trans = responsButtons[id].GetComponent<RectTransform>();
 
-        Vector3 newPos = trans.position + new Vector3(1000, 0);
-        Vector3 target = trans.position;
+        Vector3 newPos = trans.localPosition + new Vector3(1000, 0);
+        Vector3 target = trans.localPosition;
 
         float time = 1;
 
@@ -153,18 +202,79 @@ public class MonoEvent : MonoBehaviour
             c.a = time;
             buttonImage.color = c;
 
-            trans.position = Vector3.Lerp(newPos, target, Easing01(time));
+            trans.localPosition = Vector3.Lerp(newPos, target, Easing01(time));
 
             yield return null;
         }
-        trans.position = target;
+        trans.localPosition = target;
     }
-
     public static float Easing01(float t)
     {
         t = Mathf.Clamp01(t);
         return Mathf.Pow(Mathf.Sin(t * Mathf.PI * 0.5f), 2);
     }
+    public IEnumerator EaringsRapport()
+    {
+        yield return new WaitForSeconds(1);
+        yield return new WaitUntil(() => monologAnimator.allLettersShown && Input.anyKeyDown);
+
+        earningsRapport.SetActive(true);
+
+        var ir = FindObjectOfType<IncomeReport>();
+        ir.UpdateIncome();
+
+        Vector3 p_newPos = uiPosition;
+        Vector3 p_target = uiPosition + new Vector3(-2000, 0);
+
+        float time = 0;
+
+        while (time < 1)
+        {
+            time += Time.deltaTime;
+            fullUI.transform.position = Vector3.Lerp(p_newPos, p_target, Easing01(time));
+
+            yield return null;
+        }
+        ir.sign.enabled = true;
+    }
+    public IEnumerator ReverseRapportAnimation()
+    {
+        
+
+        Vector3 p_newPos = uiPosition;
+        Vector3 p_target = uiPosition + new Vector3(-2000, 0);
+
+        float time = 1;
+
+        while (time > 0)
+        {
+            time -= Time.deltaTime;
+            fullUI.transform.position = Vector3.Lerp(p_newPos, p_target, Easing01(time));
+
+            yield return null;
+        }
+    }
+    public static Sprite GetImage(string name)
+    {
+        return Resources.Load<Sprite>("Event/" + name);
+    }
+
+    //Start is virtual for custom text and image
+    public virtual void Start()
+    {
+        if (text == null) FindUI();
+
+        StartCoroutine(ReverseRapportAnimation());
+
+        StartCoroutine(ShowEvent());
+    }
+    private void Update()
+    {
+        if (Input.anyKeyDown) monologPlayer.SetTypewriterSpeed(speedUp);
+    }
+
+    #endregion
+
     public virtual void Respond(int n)
     {
         EventDone = true;
@@ -176,6 +286,20 @@ public class MonoEvent : MonoBehaviour
         }
 
         StartCoroutine(EaringsRapport());
+
+        Destroy(this, 5f);
+    }
+    public void AltResponse(Evnt nextEvent)
+    {
+        EventDone = true;
+
+        for (int i = 0; i < Mathf.Min(responses.Length, responsButtons.Length); i++)
+        {
+            responsButtons[i].onClick.RemoveAllListeners();
+            StartCoroutine(ReverseButtonAnimation(i));
+        }
+
+        NewEvent(nextEvent);
 
         Destroy(this, 5f);
     }
@@ -193,80 +317,6 @@ public class MonoEvent : MonoBehaviour
 
         Destroy(this, 1f);
     }
-
-
-    public static Evnt GetEvent()
-    {
-        return randomEvents[Random.Range(0, randomEvents.Length-1)];
-    }
-    public static void NewEvent(Evnt evnt)
-    {
-        if (EventDone)
-        {
-            EventDone = false;
-            GameObject g = Event.eventObject;
-
-            switch (evnt)
-            {
-                default:
-                    Debug.LogWarning("Event outside defined events OR the NewEvent() does not integrate this event: " + evnt.ToString());
-                    break;
-
-                case Evnt.Intro:
-                    g.AddComponent<Evnt_Intro>();
-                    break;
-
-                case Evnt.Lawyer:
-                    g.AddComponent<Evnt_Lawyer>();
-                    break;
-            }
-        }
-    }
-    public IEnumerator EaringsRapport()
-    {
-        Vector3 p_newPos = uiPosition;
-        Vector3 p_target = uiPosition + new Vector3(-2000, 0);
-
-        float time = 0;
-
-        while (time < 1)
-        {
-            time += Time.deltaTime;
-            fullUI.transform.position = Vector3.Lerp(p_newPos, p_target, Easing01(time));
-
-            yield return null;
-        }
-        var ir = FindObjectOfType<IncomeReport>();
-        ir.UpdateIncome();
-        ir.sign.enabled = true;
-    }
-    public IEnumerator ReverseRapportAnimation()
-    {
-        Vector3 p_newPos = uiPosition;
-        Vector3 p_target = uiPosition + new Vector3(-2000, 0);
-
-        float time = 1;
-
-        while (time > 0)
-        {
-            time -= Time.deltaTime;
-            fullUI.transform.position = Vector3.Lerp(p_newPos, p_target, Easing01(time));
-
-            yield return null;
-        }
-    }
-
-    public static Sprite GetImage(string name)
-    {
-        return Resources.Load<Sprite>("Event/" + name);
-    }
-}
-public enum Evnt
-{
-    Intro,
-    Lawyer,
-    Karen,
-    PartyInvite,
-    TheBill,
-    WalkHome
+    
+    
 }

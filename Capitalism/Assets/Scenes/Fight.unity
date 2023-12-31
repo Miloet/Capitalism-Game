@@ -2114,6 +2114,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 297181663849924993, guid: 203dbd2281cc80e41b3dab6764cf1486, type: 3}
+      propertyPath: m_fontSize
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 297181663849924993, guid: 203dbd2281cc80e41b3dab6764cf1486, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 1246882145964221646, guid: 203dbd2281cc80e41b3dab6764cf1486, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -2137,6 +2145,14 @@ PrefabInstance:
     - target: {fileID: 1408468644355182415, guid: 203dbd2281cc80e41b3dab6764cf1486, type: 3}
       propertyPath: m_AnchorMin.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1768279224521788191, guid: 203dbd2281cc80e41b3dab6764cf1486, type: 3}
+      propertyPath: m_fontSize
+      value: 140
+      objectReference: {fileID: 0}
+    - target: {fileID: 1768279224521788191, guid: 203dbd2281cc80e41b3dab6764cf1486, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 140
       objectReference: {fileID: 0}
     - target: {fileID: 1958631996721451361, guid: 203dbd2281cc80e41b3dab6764cf1486, type: 3}
       propertyPath: m_Pivot.x
@@ -2218,6 +2234,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4199284746121509204, guid: 203dbd2281cc80e41b3dab6764cf1486, type: 3}
+      propertyPath: m_fontSize
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4199284746121509204, guid: 203dbd2281cc80e41b3dab6764cf1486, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 5608125166892992731, guid: 203dbd2281cc80e41b3dab6764cf1486, type: 3}
       propertyPath: m_Size
       value: 1
@@ -2238,9 +2262,13 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 127625734}
+    - target: {fileID: 7043974434695270592, guid: 203dbd2281cc80e41b3dab6764cf1486, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 299.99997
+      objectReference: {fileID: 0}
     - target: {fileID: 7230113419934419698, guid: 203dbd2281cc80e41b3dab6764cf1486, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 199.99979
+      value: 0.000030517578
       objectReference: {fileID: 0}
     - target: {fileID: 8158207258594354766, guid: 203dbd2281cc80e41b3dab6764cf1486, type: 3}
       propertyPath: m_AnchoredPosition.y

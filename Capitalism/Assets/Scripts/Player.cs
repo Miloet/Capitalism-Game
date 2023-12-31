@@ -308,6 +308,14 @@ public class Player : MonoBehaviour
             asset.Assign(s);
         }
     }
+
+
+    public static void AddCard(char card)
+    {
+        var list = skills.ToList();
+        list.Add(card);
+        skills = list.ToArray();
+    }
 }
 
 

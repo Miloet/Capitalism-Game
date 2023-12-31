@@ -53,13 +53,31 @@ public class Event : MonoBehaviour
         while (date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday) date = date.AddDays(1);
         month++;
 
-        Player.money += Player.income;
-
         TimeBetween();
         DateUI.UpdateDate();
         StockBuy.UpdateAllText();
-        
-        MonoEvent.NewEvent(Evnt.Lawyer);
+
+        var e = GetNextEvent();
+
+        MonoEvent.NewEvent(e);
+    }
+
+
+    public static Evnt GetNextEvent()
+    {
+
+        switch(month)
+        {
+            case 0:
+                return Evnt.Intro;
+            case 1:
+                return Evnt.PartyInvite;
+            case 3:
+                return Evnt.TaxMan;
+            case 12:
+                return Evnt.Boss1;
+        }
+        return MonoEvent.GetRandomEvent();
     }
 
 }
