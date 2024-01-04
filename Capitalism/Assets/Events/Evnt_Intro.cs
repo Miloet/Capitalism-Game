@@ -23,11 +23,7 @@ public class Evnt_Intro : MonoEvent
         switch (n)
         {
             case 0:
-                Player.money -= 499.99f;
-                Player.income -= 199.99f;
-
-                text.text = "<wave>Glad to make business with you!</wave>";
-
+                
                 break;
             case 1:
 

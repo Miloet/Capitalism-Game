@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Evnt_Lawyer : MonoEvent
 {
+
+    public static bool hasLawyer = false;
     public override void Start()
     {
         name = "Saul... Goodman?";
@@ -39,6 +41,8 @@ public class Evnt_Lawyer : MonoEvent
                 Player.AddCard('L');
 
                 text.text = "<wave>Glad to make business with you!</wave>";
+
+                hasLawyer = true;
 
                 break;
             case 1:

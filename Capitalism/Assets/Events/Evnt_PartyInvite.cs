@@ -6,6 +6,7 @@ public class Evnt_PartyInvite : MonoEvent
 {
     public override void Start()
     {
+        
         name = "Party...?";
 
         monolog = new string[] {"Yo girl! " +
