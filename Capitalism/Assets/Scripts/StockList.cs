@@ -16,10 +16,22 @@ public class StockList : MonoBehaviour
         Stock stock;
 
         Player player = GameObject.Find("Mouse").GetComponent<Player>();
+
         foreach (string s in Symbols)
         {
+            bool unique = true;
             stock = new Stock();
-            StartCoroutine(player.assignStock(stock, s));
+            for (int i = 0; i < Player.assets.Length; i++)
+            {
+                if (s == Player.assets[i].stockSymbol)
+                {
+                    unique = false;
+                    stock = Player.assets[i];
+                    break;
+                }
+            }
+            if (unique) player.StartCoroutine(player.assignStock(stock, s));
+            
             stocks.Add(stock);
         }
         availableStocks = stocks.ToArray();
@@ -37,7 +49,6 @@ public class StockList : MonoBehaviour
 
             rtrans.GetComponent<StockBuy>().stock = availableStocks[i];
         }
-        
-        
+        print("Stocks are made");
     }
 }

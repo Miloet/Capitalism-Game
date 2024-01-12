@@ -12,15 +12,19 @@ public class StockBuy : MonoBehaviour
     TextMeshProUGUI price;
     TextMeshProUGUI amount;
 
-
     // Start is called before the first frame update
     void Start()
+    {
+        FindUI();
+
+        StartCoroutine(UpdateText());
+    }
+
+    public void FindUI()
     {
         name = transform.Find("Symbol").GetComponent<TextMeshProUGUI>();
         price = transform.Find("Price").GetComponent<TextMeshProUGUI>();
         amount = transform.Find("Number").GetComponent<TextMeshProUGUI>();
-
-        StartCoroutine(UpdateText());
     }
 
     public IEnumerator<WaitUntil> UpdateText()
@@ -33,7 +37,8 @@ public class StockBuy : MonoBehaviour
     }
     public void DirectUpdateText()
     {
-        if (!stock.loading)
+        if (name == null) FindUI();
+        if (stock != null && !stock.loading)
         {
             name.text = stock.stockSymbol;
             price.text = stock.getValue().ToString("N2") + "$";
@@ -71,20 +76,21 @@ public class StockBuy : MonoBehaviour
 
     public void Add(int add)
     {
-        if (Player.money >= stock.getValue()*add && add > 0 || stock.amount >= Mathf.Abs(add) && add < 0)
+        if (Player.money >= stock.getValue() * add && add > 0 || stock.amount >= Mathf.Abs(add) && add < 0)
         {
             List<Stock> assets = Player.assets.ToList<Stock>();
-            StartCoroutine(UpdateText());
-            if (!Find(stock.stockSymbol, assets)) 
+            
+            if (!Find(stock.stockSymbol, assets))
                 assets.Add(stock);
             else
-            if (stock.amount - Mathf.Abs(add) <= 0)
-                Remove(stock.stockSymbol, assets);
+            {
+                if (stock.amount + add <= 0) assets = Remove(stock.stockSymbol, assets);
+            }
 
             Player.assets = assets.ToArray();
             stock.amount += add;
             Player.money -= stock.getValue() * add;
-
+            StartCoroutine(UpdateText());
             Player.updateValue();
         }
     }
@@ -96,7 +102,7 @@ public class StockBuy : MonoBehaviour
         }
         return false;
     }
-    private void Remove(string symbol, List<Stock> list)
+    private List<Stock> Remove(string symbol, List<Stock> list)
     {
         for(int i = 0; i < list.Count; i++)
         {
@@ -106,5 +112,6 @@ public class StockBuy : MonoBehaviour
                 break;
             }
         }
+        return list;
     }
 }

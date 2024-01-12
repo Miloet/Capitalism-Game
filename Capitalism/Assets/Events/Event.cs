@@ -72,8 +72,8 @@ public class Event : MonoBehaviour
                 return Evnt.Intro;
             case 1:
                 return Evnt.PartyInvite;
-            case 3:
-                return Evnt.TaxMan;
+            //case 3:
+                //return Evnt.TaxMan;
             case 12:
                 return Evnt.Boss1;
         }

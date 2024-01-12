@@ -20,6 +20,14 @@ public class Game : MonoBehaviour
     public TextMeshPro textEnemyStress;
 
     // Update is called once per frame
+
+    private void Awake()
+    {
+        enemy = GetComponent<Enemy>();
+        if (enemy == null) gameObject.AddComponent<Enemy>();
+        player = GetComponent<Player>();
+        if (player == null) gameObject.AddComponent<Player>();
+    }
     void Start()
     {
         StartCoroutine(updateText());

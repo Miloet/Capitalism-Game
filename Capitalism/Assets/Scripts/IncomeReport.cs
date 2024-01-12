@@ -6,6 +6,8 @@ using TMPro;
 
 public class IncomeReport : MonoBehaviour
 {
+    public static bool IncomeReady;
+
     public TextMeshProUGUI expensesSource;
     public TextMeshProUGUI expensesCost;
     public TextMeshProUGUI hours;
@@ -25,8 +27,13 @@ public class IncomeReport : MonoBehaviour
     private void Start()
     {
         gameObject.SetActive(false);
-
+        IncomeReady = false;
         UpdateIncome();
+    }
+
+    private void Update()
+    {
+        sign.interactable = IncomeReady;
     }
 
     public void UpdateIncome()
@@ -69,16 +76,19 @@ public class IncomeReport : MonoBehaviour
 
         Player.money += Player.income * (overtime.isOn ? 2f : 1f) - totalCost.Cost;
 
+        if (overtime.isOn) Player.stress++;
+
         Event.NextMonth();
 
         yield return new WaitForSeconds(1);
         sign.enabled = true;
+        IncomeReady = false;
     }
 
     public Expense GetExpenses()
     {
         string sources = "Tax";
-        float costs = Player.income * GetTaxBracket();
+        float costs = Player.income * (overtime.isOn ? 2f : 1f) * GetTaxBracket();
         
         foreach(Expense ex in Player.expenses)
         {
@@ -91,7 +101,7 @@ public class IncomeReport : MonoBehaviour
 
     public string GetExpensesWriten()
     {
-        string costs = $"{GetTaxBracket()*100f:N2}% ({Player.income * GetTaxBracket():N2}$)";
+        string costs = $"{GetTaxBracket()*100f:N2}% ({Player.income * (overtime.isOn ? 2f : 1f) * GetTaxBracket():N2}$)";
 
         foreach (Expense ex in Player.expenses)
         {

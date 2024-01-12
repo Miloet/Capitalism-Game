@@ -2,10 +2,10 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
-
     public static Player self;
 
     public static float money = 1000;
@@ -23,8 +23,8 @@ public class Player : MonoBehaviour
 
     static GameObject hand;
 
-    GameObject card;
-    GameObject asset;
+    static GameObject card;
+    static GameObject asset;
 
     public GameObject cardOriginPoint;
 
@@ -32,14 +32,15 @@ public class Player : MonoBehaviour
     public static List<GameObject> currentHand = new List<GameObject>();
     public static List<CardBehavior> currentHandCB = new List<CardBehavior>();
 
+    public static GameObject DamageIndicator;
+
+    public static int CardsToDraw = 6;
+
     // Start is called before the first frame update
     void Start()
     {
-        expenses.Add(new Expense("Lawyer",299.99f));
-        expenses.Add(new Expense("Food n Livin",600));
-        expenses.Add(new Expense("Death Insurance",20));
-        expenses.Add(new Expense("Morning coffee",0.5f));
-        //expenses.Add(new Expense("Rent (get shit on rentoid)",999999.99f));
+        expenses.Add(new Expense("Food and Rent",900));
+
 
         card = Resources.Load<GameObject>("Card");
         asset = Resources.Load<GameObject>("Asset");
@@ -48,8 +49,23 @@ public class Player : MonoBehaviour
         cardOriginPoint = GameObject.Find("CardDeck");
 
         self = this;
+        DamageIndicator = Resources.Load<GameObject>("Damage");
 
         //StartCoroutine(StartRound());
+    }
+
+    private void Awake()
+    {
+        expenses.Add(new Expense("Food and Rent", 900));
+
+        card = Resources.Load<GameObject>("Card");
+        asset = Resources.Load<GameObject>("Asset");
+
+        hand = GameObject.Find("HandPlane");
+        cardOriginPoint = GameObject.Find("CardDeck");
+
+        self = this;
+        DamageIndicator = Resources.Load<GameObject>("Damage");
     }
 
     public static void UpdateCardInHand()
@@ -95,9 +111,16 @@ public class Player : MonoBehaviour
 
         yield return null;
 
-        DrawCards(5);
+        DrawCards(CardsToDraw);
     }
 
+    public static void TakeDamage(float damage) 
+    {
+        var g = Instantiate(DamageIndicator);
+        g.GetComponent<TextMeshPro>().text = $"-{damage:N2}$";
+
+        money -= damage;
+    }
 
     public void DrawCards(int n)
     {
@@ -308,7 +331,6 @@ public class Player : MonoBehaviour
             asset.Assign(s);
         }
     }
-
 
     public static void AddCard(char card)
     {

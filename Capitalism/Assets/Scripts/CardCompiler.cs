@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class CardCompiler : MonoBehaviour
 {
@@ -11,18 +12,34 @@ public class CardCompiler : MonoBehaviour
     private static TextMeshProUGUI abilityText;
     private static TextMeshProUGUI effectText;
     private static ScrollRect scroll;
-    public static float multiplier = 1f; 
+    public static float multiplier = 1f;
 
-    private void Start()
+    public static TextMeshPro enemyAttack;
+    public static SpriteRenderer enemy;
+    
+
+    private void Awake()
     {
         abilityText = GameObject.Find("CompilerText").GetComponent<TextMeshProUGUI>();
         effectText = GameObject.Find("EffectCompileText").GetComponent<TextMeshProUGUI>();
         scroll = GameObject.Find("CardEffects").GetComponent<ScrollRect>();
 
+        enemyAttack = GameObject.Find("EnemyAttack").GetComponent<TextMeshPro>();
+        enemy = GameObject.Find("Boss").GetComponent<SpriteRenderer>();
+
+        enemy.sprite = Enemy.sprite;
+
+        enemyAttack.text = Enemy.DisplayAttack();
+
         UpdateText();
     }
 
-    public static void Compile()
+    public void Compile()
+    {
+        StartCoroutine(CompileCoroutine());
+    }
+
+    public IEnumerator CompileCoroutine()
     {
         SkillBase[] cards = FindObjectsOfType<SkillBase>();
         List<SkillBase> cardsInPlay = new List<SkillBase>();
@@ -55,18 +72,48 @@ public class CardCompiler : MonoBehaviour
         else
         {
             int stress = Player.stress;
+            CameraController.UpdateCamera(CameraController.State.Default);
 
 
             foreach (SkillBase c in cards)
             {
                 if(!c.burnt) c.Effect(multiplier);
                 else if (stress < 0) c.Effect(multiplier * 2f);
+                yield return new WaitForSeconds(0.1f);
             }
-            CameraController.UpdateCamera(CameraController.State.Default);
-            Player.self.StartCoroutine(Player.self.StartRound());
+
+            if (!(Enemy.money > 0))
+            {
+                SceneManager.sceneLoaded += Win;
+                SceneManager.LoadScene("Event");
+            }
+            else
+            {
+                yield return new WaitForSeconds(0.25f);
+
+                Game.enemy.Attack();
+            }
+            yield return new WaitForSeconds(0.5f);
+            UpdateText();
+
+            if (Player.money > 0 && Enemy.money > 0)
+            {
+                enemyAttack.text = Enemy.DisplayAttack();
+
+                Player.self.StartCoroutine(Player.self.StartRound());
+            }
+            else
+            {
+                if(!(Player.money > 0))
+                {
+                    StartCombat.nextEvent = Evnt.Death;
+                    SceneManager.sceneLoaded += NextEvent;
+                    SceneManager.LoadScene("Event");
+                }
+            }
         }
 
-        UpdateText();
+
     }
 
     public static bool inBounds(Transform t)
@@ -79,6 +126,17 @@ public class CardCompiler : MonoBehaviour
     public static SkillBase[] SortArray(SkillBase[] array)
     {
         return array.OrderBy(go => go.transform.position.x).ToArray();
+    }
+
+    void NextEvent(Scene scene, LoadSceneMode mode)
+    {
+        SceneManager.sceneLoaded -= NextEvent;
+        MonoEvent.NewEvent(StartCombat.nextEvent);
+    }
+    void Win(Scene scene, LoadSceneMode mode)
+    {
+        SceneManager.sceneLoaded -= Win;
+        MonoEvent.NewEvent(Evnt.Victory);
     }
 
     public static void UpdateText()
@@ -119,5 +177,7 @@ public class CardCompiler : MonoBehaviour
         float preferredHeight = effectText.GetPreferredValues().y;
         RectTransform contentRect = scroll.content;
         contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, preferredHeight - 200f);
+
+
     }
 }

@@ -13,9 +13,9 @@ public class Evnt_Drinking : MonoEvent
     {
         name = "Bar";
 
-        monolog = new string[] { "<i>You and your new friend Alicia talk in the bar for a while...</i>", 
-            "-it feels nice to get away from work like this from time to time.", 
-            "Or getting away from life in general I guess. You feel me?" ,
+        monolog = new string[] { "<i>You and your new friend Alicia talk in the bar for a while...</i>" , 
+            "It feels nice to get away from work like this from time to time." , 
+            "Or getting away from life in general, I guess. You feel me?" ,
             "<i>The bartender comes up to you two and asks.</i><color=#6e0000> What are you two ladies gonna drink?"};
         responses = new string[] { "Something strong (severly alcoholic)", "Something sweet (alcoholic)", "What she is having (?)" , "Water (non alcoholic)"};
 

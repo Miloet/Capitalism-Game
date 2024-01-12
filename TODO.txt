@@ -1,6 +1,5 @@
-create events system
+make more events
 
-write down events
 
-making time passing (not looking forward to it)
-fix the stocks passing time with the time of the game
+the victory event ends with it using the startcombat.nextevent as its altrespons
+the death event should close or restart the game

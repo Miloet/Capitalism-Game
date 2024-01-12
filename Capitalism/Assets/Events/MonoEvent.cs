@@ -22,6 +22,9 @@ public enum Evnt
     Party,
     Boss1,
 
+
+    Death,
+    Victory
 }
 
 public class MonoEvent : MonoBehaviour
@@ -45,7 +48,7 @@ public class MonoEvent : MonoBehaviour
     
     static TextMeshProUGUI eventName;
     static Image image;
-    static TextAnimator monologAnimator;
+    public static TextAnimator monologAnimator;
     static TextAnimatorPlayer monologPlayer;
     public static TextMeshProUGUI text;
     static Button[] responsButtons;
@@ -75,6 +78,15 @@ public class MonoEvent : MonoBehaviour
                     break;
                 case Evnt.PartyInvite:
                     g.AddComponent<Evnt_PartyInvite>();
+                    break;
+                case Evnt.Drinking:
+                    g.AddComponent<Evnt_Drinking>();
+                    break;
+                case Evnt.TheBill:
+                    g.AddComponent<Evnt_Bill>();
+                    break;
+                case Evnt.Karen:
+                    g.AddComponent<Evnt_Karen>();
                     break;
             }
         }
@@ -217,11 +229,13 @@ public class MonoEvent : MonoBehaviour
     {
         yield return new WaitForSeconds(1);
         yield return new WaitUntil(() => monologAnimator.allLettersShown && Input.anyKeyDown);
+        Destroy(this,5f);
 
         earningsRapport.SetActive(true);
 
         var ir = FindObjectOfType<IncomeReport>();
         ir.UpdateIncome();
+        IncomeReport.IncomeReady = true;
 
         Vector3 p_newPos = uiPosition;
         Vector3 p_target = uiPosition + new Vector3(-2000, 0);
@@ -287,7 +301,7 @@ public class MonoEvent : MonoBehaviour
 
         StartCoroutine(EaringsRapport());
 
-        Destroy(this, 5f);
+        
     }
     public void AltResponse(Evnt nextEvent)
     {
@@ -302,6 +316,10 @@ public class MonoEvent : MonoBehaviour
         NewEvent(nextEvent);
 
         Destroy(this, 5f);
+    }
+    public virtual IEnumerator Combat()
+    {
+        yield return new WaitUntil(() => monologAnimator.allLettersShown && Input.anyKeyDown);
     }
     public virtual void RespondNextEvent(Evnt evnt)
     {

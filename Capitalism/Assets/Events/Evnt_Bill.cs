@@ -61,7 +61,7 @@ public class Evnt_Bill : MonoEvent
                 break;
             case 2:
 
-                text.text = "Sure hon~~! You take it next time alright!";
+                text.text = "Sure hon~~! You take it next time, alright~~?";
 
                 break;
         }
