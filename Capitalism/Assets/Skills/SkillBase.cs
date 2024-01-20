@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Video;
 using TMPro;
 
 public class SkillBase : CardBehavior
@@ -14,6 +15,8 @@ public class SkillBase : CardBehavior
     public string description = "Does nothing.";
 
     public string spriteResourcePath = "Skills/Error";
+    public string animationResourcePath = "Skills/Error";
+    private static GameObject animation;
     SpriteRenderer image;
     TextMeshPro displayName;
     TextMeshPro displayDescription;
@@ -25,7 +28,8 @@ public class SkillBase : CardBehavior
     {
         if (fireParticles == null) fireParticles = Resources.Load<GameObject>("Burning");
         if (blessParticles == null) blessParticles = Resources.Load<GameObject>("Blessed");
-
+        if (animation == null) animation = Resources.Load<GameObject>("CardAnimation");
+             
         if(Player.stress != 0)
         {
             float f = Random.value;
@@ -44,9 +48,17 @@ public class SkillBase : CardBehavior
         displayName = transform.Find("Name").GetComponent<TextMeshPro>();
         displayDescription = transform.Find("Body").GetComponent<TextMeshPro>();
 
+        animationResourcePath = spriteResourcePath;
+
         image.sprite = Resources.Load<Sprite>(spriteResourcePath);
         displayName.text = letter + " - " + name;
         displayDescription.text = description;
+        /*var ani = Instantiate(animation, new Vector3(0, 1, -5.25f), Quaternion.identity, null);
+
+        VideoPlayer player = ani.GetComponent<VideoPlayer>();
+        player.clip = Resources.Load<VideoClip>(animationResourcePath);
+        player.Play();
+        Destroy(ani, (float)player.length);*/
 
         if (!requireAsset) transform.Find("AssetInput").gameObject.SetActive(false);
 
@@ -88,4 +100,31 @@ public class SkillBase : CardBehavior
             else return 2f;
         }
     }
+
+
+    public static string GainMoney(string input)
+    {
+        return $"<b><color=#44c296>{input}</color></b>";
+    }
+    public static string GainStress(string input)
+    {
+        return $"<b><color=#730000>{input} Stress</color></b>";
+    }
+
+    public static string FinancialDamage(string input, bool assetValue = false)
+    {
+        string s = $"<b><color=#b83100>{input}$ financial damage</color></b>";
+        if (assetValue) s = $"<b><color=#b83100>{MultiplierAssetValue(input)} financial damage</color></b>";
+        return s;
+    }
+    public static string MultiplierAssetValue(string input)
+    {
+        return $"{input}<color=#1f697a>$</color>";
+    }
+
+    public static string NoAsset = "<color=red>(No Asset)</color>";
+
+
+
+
 }

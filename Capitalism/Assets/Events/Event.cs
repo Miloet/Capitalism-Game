@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.EventSystems;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Event : MonoBehaviour
 {
@@ -23,6 +24,12 @@ public class Event : MonoBehaviour
         date = DateTime.Parse(StartDate);
 
         if (month == 0) MonoEvent.NewEvent(Evnt.Intro);
+        print("Next event is " + StartCombat.nextEvent.ToString());
+        if (StartCombat.nextEvent != Evnt.Intro && SceneManager.GetActiveScene().name == "Events") 
+        {
+            MonoEvent.NewEvent(StartCombat.nextEvent);
+            StartCombat.nextEvent = Evnt.Intro;
+        }
     }
 
     public static void TimeBetween()

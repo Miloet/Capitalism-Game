@@ -10,8 +10,6 @@ public class Evnt_Karen : MonoEvent
 
         monolog = new string[] { "Ma'am, i would like to return this product pleaaase~", 
             "<i>She hands you an expired can of baked beans... the experation date is 1985. The company it comes from is a reacently aquired subsidiary of CONTROL Inc.",
-            "",
-
         };
         responses = new string[] {"I... I cant refund you for this... Where did you even get this?" };
 
@@ -33,12 +31,13 @@ public class Evnt_Karen : MonoEvent
                 break;
         }
         StartCoroutine(Combat());
-        //base.Respond(n);
+        base.Respond(n);
         //AltResponse(Evnt.nextEvent);
     }
 
     public override IEnumerator Combat()
     {
+
         yield return new WaitUntil(() => monologAnimator.allLettersShown && Input.anyKeyDown);
 
         Attack[] opening = { new Attack("Give me you manager!", 3, 150, Attack.AttackType.IncreaseDamage),
@@ -49,7 +48,7 @@ public class Evnt_Karen : MonoEvent
 
         yield return new WaitForSeconds(0.5f);
 
-        StartCombat.StartCombatWithEnemy("Karen", 1792, 5, "Karen", opening, repeating);
+        StartCombat.StartCombatWithEnemy("Karen", Random.Range(1500, 4000), 5, "Karen", opening, repeating);
     }
 
 

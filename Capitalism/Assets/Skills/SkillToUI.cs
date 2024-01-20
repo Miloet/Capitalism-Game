@@ -52,120 +52,135 @@ public class SkillToUI : MonoBehaviour
             case 'A':
                 requireAsset = true;
                 name = "Accumulate";
-                description = "Use your Assets to damage the opponents cash. Deal 2.5 x Price dmg";
+                description = $"Deal {SkillBase.FinancialDamage("(+35%)", true)} to the enemy.";
                 spriteResourcePath = "Skills/Accumulate";
                 break;
 
             case 'B':
                 requireAsset = true;
                 name = "Bribe";
-                description = "Bribe lawmakers to make new laws in your favor. Multiply your next cards effect by 1 + Price / 100.";
+                description = $"Increase your next cards effect by {SkillBase.GainMoney(SkillBase.MultiplierAssetValue("(+1%)"))}%";
                 spriteResourcePath = "Skills/Bribe";
                 break;
 
             case 'C':
                 requireAsset = true;
                 name = "Counterfeit";
-                description = "Use an asset to print fake money equal to 10 times its value. Add 1 stress.";
+                description = $"Print {SkillBase.GainMoney($"{SkillBase.MultiplierAssetValue("(+10%)")} Money")} and gain {SkillBase.GainStress("+1")}";
                 spriteResourcePath = "Skills/Counterfeit";
+                break;
+        case 'D':
+                requireAsset = false;
+                name = "Distract and Defund";
+                description = "The enemy permanantly deals 100$ less finacial damage per attack.";
+                spriteResourcePath = "Skills/Distract";
+                break;
+        case 'E':
+                requireAsset = true;
+                name = "Embezzle";
+                description = $"Embezzle {SkillBase.FinancialDamage("(+10%)", true)} of the enemies money and gain it as your own causing them {SkillBase.GainStress("+1")} for every 1000$ of financial damage up to {SkillBase.GainStress("+3")}. " +
+                    $"This ability becomes more effective the more stress you have ranging from {SkillBase.GainMoney("0% - 200%")} based on{SkillBase.GainStress("")}";
                 break;
 
             #region Unused Letters
             /*
-        case 'D':
-            // newCard.AddComponent<SkillD>();
-            break;
+                    case 'F':
+                        // newCard.AddComponent<SkillF>();
+                        break;
 
-        case 'E':
-            // newCard.AddComponent<SkillE>();
-            break;
+                    case 'G':
+                        // newCard.AddComponent<SkillG>();
+                        break;
 
-        case 'F':
-            // newCard.AddComponent<SkillF>();
-            break;
+                    case 'H':
+                        // newCard.AddComponent<SkillH>();
+                        break;
 
-        case 'G':
-            // newCard.AddComponent<SkillG>();
-            break;
+                    case 'I':
+                        // newCard.AddComponent<SkillI>();
+                        break;
 
-        case 'H':
-            // newCard.AddComponent<SkillH>();
-            break;
-
-        case 'I':
-            // newCard.AddComponent<SkillI>();
-            break;
-
-        case 'J':
-            // newCard.AddComponent<SkillJ>();
-            break;
-
-        case 'K':
-            // newCard.AddComponent<SkillK>();
-            break;
-
-        case 'L':
-            // newCard.AddComponent<SkillL>();
-            break;
-
-        case 'M':
-            // newCard.AddComponent<SkillM>();
-            break;
-
-        case 'N':
-            // newCard.AddComponent<SkillN>();
-            break;
-
-        case 'O':
-            // newCard.AddComponent<SkillO>();
-            break;
-
-        case 'P':
-            // newCard.AddComponent<SkillP>();
-            break;
-
-        case 'Q':
-            // newCard.AddComponent<SkillQ>();
-            break;
-
-        case 'R':
-            // newCard.AddComponent<SkillR>();
-            break;
-
-        case 'S':
-            // newCard.AddComponent<SkillS>();
-            break;
-
-        case 'T':
-            // newCard.AddComponent<SkillT>();
-            break;
-
-        case 'U':
-            // newCard.AddComponent<SkillU>();
-            break;
-
-        case 'V':
-            // newCard.AddComponent<SkillV>();
-            break;
-
-        case 'W':
-            // newCard.AddComponent<SkillW>();
-            break;
-
-        case 'X':
-            // newCard.AddComponent<SkillX>();
-            break;
-
-        case 'Y':
-            // newCard.AddComponent<SkillY>();
-            break;
-
-        case 'Z':
-            // newCard.AddComponent<SkillZ>();
-            break;
-
-        #endregion 
+                    case 'J':
+                        // newCard.AddComponent<SkillJ>();
+                        break;
             */
+                #endregion
+
+                case 'K':
+                requireAsset = false;
+                name = "Kustomer";
+                description = $"Deal {SkillBase.FinancialDamage("300", true)} and cause the enemy {SkillBase.GainStress("+1")}";
+                spriteResourcePath = "Skills/Kustomer";
+                break;
+
+                case 'L':
+                requireAsset = false;
+                name = "Lawsuit";
+                description = $"Gain {SkillBase.GainStress("+3")}. If you have more money than the enemy then gain all of their money. Other wise the reverse happends.";
+                spriteResourcePath = "Skills/Lawsuit";
+                break;
+
+            #region Unused Letters
+
+            /*
+                case 'M':
+                    // newCard.AddComponent<SkillM>();
+                    break;
+
+                case 'N':
+                    // newCard.AddComponent<SkillN>();
+                    break;
+
+                case 'O':
+                    // newCard.AddComponent<SkillO>();
+                    break;
+
+                case 'P':
+                    // newCard.AddComponent<SkillP>();
+                    break;
+
+                case 'Q':
+                    // newCard.AddComponent<SkillQ>();
+                    break;
+
+                case 'R':
+                    // newCard.AddComponent<SkillR>();
+                    break;
+
+                case 'S':
+                    // newCard.AddComponent<SkillS>();
+                    break;
+
+                case 'T':
+                    // newCard.AddComponent<SkillT>();
+                    break;
+
+                case 'U':
+                    // newCard.AddComponent<SkillU>();
+                    break;
+
+                case 'V':
+                    // newCard.AddComponent<SkillV>();
+                    break;
+
+                case 'W':
+                    // newCard.AddComponent<SkillW>();
+                    break;
+
+                case 'X':
+                    // newCard.AddComponent<SkillX>();
+                    break;
+
+                case 'Y':
+                    // newCard.AddComponent<SkillY>();
+                    break;
+
+                case 'Z':
+                    // newCard.AddComponent<SkillZ>();
+                    break;
+
+                #endregion 
+                    */
             default:
 
                 Debug.LogError("Card not found for UI");

@@ -84,8 +84,8 @@ public class CardCompiler : MonoBehaviour
 
             if (!(Enemy.money > 0))
             {
-                SceneManager.sceneLoaded += Win;
-                SceneManager.LoadScene("Event");
+                StartCombat.nextEvent = Evnt.Victory;
+                SceneManager.LoadScene("Events");
             }
             else
             {
@@ -107,7 +107,6 @@ public class CardCompiler : MonoBehaviour
                 if(!(Player.money > 0))
                 {
                     StartCombat.nextEvent = Evnt.Death;
-                    SceneManager.sceneLoaded += NextEvent;
                     SceneManager.LoadScene("Event");
                 }
             }
@@ -126,17 +125,6 @@ public class CardCompiler : MonoBehaviour
     public static SkillBase[] SortArray(SkillBase[] array)
     {
         return array.OrderBy(go => go.transform.position.x).ToArray();
-    }
-
-    void NextEvent(Scene scene, LoadSceneMode mode)
-    {
-        SceneManager.sceneLoaded -= NextEvent;
-        MonoEvent.NewEvent(StartCombat.nextEvent);
-    }
-    void Win(Scene scene, LoadSceneMode mode)
-    {
-        SceneManager.sceneLoaded -= Win;
-        MonoEvent.NewEvent(Evnt.Victory);
     }
 
     public static void UpdateText()

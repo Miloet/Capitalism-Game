@@ -11,12 +11,10 @@ public class Evnt_PartyInvite : MonoEvent
 
         monolog = new string[] {"Yo girl! " +
             "Me and some of the other guys at the office are gonna hit a pub later tonight. " +
-            "You new here so I thought I should invite you too.", 
-
-            "You in?" };
+            "You new here so I thought I should invite you too. You in?" };
         responses = new string[] { "Sure thing.", "Fucking finally. I need some of that.", "Nah, got other plans." };
 
-        eventImage = GetImage("imageName");
+        eventImage = GetImage("Party");
 
         base.Start();
     }

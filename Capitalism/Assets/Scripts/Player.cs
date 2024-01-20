@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using TMPro;
 
@@ -10,11 +11,11 @@ public class Player : MonoBehaviour
 
     public static float money = 1000;
     public static float income = 1500;
-    public static List<Expense> expenses = new List<Expense>();
+    public static List<Expense> expenses = new List<Expense>() {new Expense("Food and Rent", 900)};
     
     public static int stress = 0;
 
-    public static char[] skills = { 'A', 'A', 'B','B', 'C', 'C'};
+    public static char[] skills = { 'A', 'B', 'C','D', 'E', 'K', 'L'};
     public static Stock[] assets = new Stock[0];// = {new Stock("AAPL")};
 
     public static bool loadingStock;
@@ -29,8 +30,8 @@ public class Player : MonoBehaviour
     public GameObject cardOriginPoint;
 
 
-    public static List<GameObject> currentHand = new List<GameObject>();
-    public static List<CardBehavior> currentHandCB = new List<CardBehavior>();
+    public List<GameObject> currentHand = new List<GameObject>();
+    public List<CardBehavior> currentHandCB = new List<CardBehavior>();
 
     public static GameObject DamageIndicator;
 
@@ -39,9 +40,6 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        expenses.Add(new Expense("Food and Rent",900));
-
-
         card = Resources.Load<GameObject>("Card");
         asset = Resources.Load<GameObject>("Asset");
 
@@ -56,8 +54,6 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        expenses.Add(new Expense("Food and Rent", 900));
-
         card = Resources.Load<GameObject>("Card");
         asset = Resources.Load<GameObject>("Asset");
 
@@ -71,29 +67,29 @@ public class Player : MonoBehaviour
     public static void UpdateCardInHand()
     {
         UpdateCardBehavoir();
-        int numberOfCards = currentHand.Count;
+        int numberOfCards = self.currentHand.Count;
         float cardSpacing = 6f / numberOfCards;
 
         for(int i = 0; i < numberOfCards; i++)
         {
-            if (MouseInput.selected != null || currentHand[i] != MouseInput.selected)
+            if (MouseInput.selected != null || self.currentHand[i] != MouseInput.selected)
             {
                 float xOffset = (numberOfCards - 1) * 0.5f * cardSpacing;
                 float cardPositionX = i * cardSpacing - xOffset;
-                currentHandCB[i].MoveTo(hand.transform.position + new Vector3(cardPositionX, .05f, 0f));
-                currentHand[i].transform.forward = -hand.transform.up;
+                self.currentHandCB[i].MoveTo(hand.transform.position + new Vector3(cardPositionX, .05f, 0f));
+                self.currentHand[i].transform.forward = -hand.transform.up;
             }
         }
     }
 
     public static void UpdateCardBehavoir()
     {
-        currentHandCB = new List<CardBehavior>();
-        foreach(GameObject g in currentHand)
+        self.currentHandCB = new List<CardBehavior>();
+        foreach(GameObject g in self.currentHand)
         {
             CardBehavior cb = g.GetComponent<CardBehavior>();
             if(cb.currentAsset == null) cb.closed = true;
-            currentHandCB.Add(cb);
+            self.currentHandCB.Add(cb);
         }
     }
 
@@ -169,7 +165,7 @@ public class Player : MonoBehaviour
     public static void AddUnique(GameObject g)
     {
         bool unique = true;
-        foreach(GameObject obj in currentHand)
+        foreach(GameObject obj in self.currentHand)
         {
             if (obj == g)
             {
@@ -177,7 +173,7 @@ public class Player : MonoBehaviour
                 break;
             }
         }
-        if (unique) currentHand.Add(g);
+        if (unique) self.currentHand.Add(g);
         UpdateCardInHand();
     }
 
@@ -207,16 +203,14 @@ public class Player : MonoBehaviour
                 newCard.AddComponent<SkillCounterfeit>();
                 break;
 
-            #region Unused Letters
-                /*
             case 'D':
-                // newCard.AddComponent<SkillD>();
+                newCard.AddComponent<SkillDistractAndDefund>();
                 break;
 
             case 'E':
-                // newCard.AddComponent<SkillE>();
+                newCard.AddComponent<SkillEmbezzle>();
                 break;
-
+                /*
             case 'F':
                 // newCard.AddComponent<SkillF>();
                 break;
@@ -236,14 +230,17 @@ public class Player : MonoBehaviour
             case 'J':
                 // newCard.AddComponent<SkillJ>();
                 break;
-
+                */
             case 'K':
-                // newCard.AddComponent<SkillK>();
+                newCard.AddComponent<SkillKustomer>();
                 break;
 
             case 'L':
-                // newCard.AddComponent<SkillL>();
+                newCard.AddComponent<SkillLawsuit>();
                 break;
+
+            #region Unused Letters
+            /*
 
             case 'M':
                 // newCard.AddComponent<SkillM>();
@@ -301,8 +298,8 @@ public class Player : MonoBehaviour
                 // newCard.AddComponent<SkillZ>();
                 break;
 
-            #endregion 
-                */
+    #endregion 
+        */
             default:
                 newCard.AddComponent<SkillBase>();
                 break;
@@ -310,6 +307,133 @@ public class Player : MonoBehaviour
                 #endregion
         }
     }
+
+    public static string getSkillName(char Skill)
+    {
+        string componentName = "";
+        switch (Skill)
+        {
+            case 'A':
+                componentName = nameof(SkillAccumulate);
+                break;
+
+            case 'B':
+                componentName = nameof(SkillBribe);
+                break;
+
+            case 'C':
+                componentName = nameof(SkillCounterfeit);
+                break;
+
+            case 'D':
+                componentName = nameof(SkillDistractAndDefund);
+                break;
+
+            case 'E':
+                componentName = nameof(SkillEmbezzle);
+                break;
+            #region Unused Letters
+            /*
+            case 'F':
+                componentName = nameof(SkillF);
+                break;
+
+            case 'G':
+                componentName = nameof(SkillG);
+                break;
+
+            case 'H':
+                componentName = nameof(SkillH);
+                break;
+
+            case 'I':
+                componentName = nameof(SkillI);
+                break;
+
+            case 'J':
+                componentName = nameof(SkillJ);
+                break;
+            */
+            #endregion
+
+            case 'K':
+                componentName = nameof(SkillKustomer);
+                break;
+
+            case 'L':
+                componentName = nameof(SkillLawsuit);
+                break;
+
+            #region Unused Letters
+            /*
+            case 'M':
+                componentName = nameof(SkillM);
+                break;
+
+            case 'N':
+                componentName = nameof(SkillN);
+                break;
+
+            case 'O':
+                componentName = nameof(SkillO);
+                break;
+
+            case 'P':
+                componentName = nameof(SkillP);
+                break;
+
+            case 'Q':
+                componentName = nameof(SkillQ);
+                break;
+
+            case 'R':
+                componentName = nameof(SkillR);
+                break;
+
+            case 'S':
+                componentName = nameof(SkillS);
+                break;
+
+            case 'T':
+                componentName = nameof(SkillT);
+                break;
+
+            case 'U':
+                componentName = nameof(SkillU);
+                break;
+
+            case 'V':
+                componentName = nameof(SkillV);
+                break;
+
+            case 'W':
+                componentName = nameof(SkillW);
+                break;
+
+            case 'X':
+                componentName = nameof(SkillX);
+                break;
+
+            case 'Y':
+                componentName = nameof(SkillY);
+                break;
+
+            case 'Z':
+                componentName = nameof(SkillZ);
+                break;
+            */
+            #endregion
+
+            default:
+                return nameof(SkillBase);
+        }
+
+        componentName = componentName.Replace("Skill", "").Trim();
+        componentName = Regex.Replace(componentName, "(\\B[A-Z])", " $1");
+
+        return componentName;
+    }
+
 
     public IEnumerator assignStock(Stock s, string symbol)
     {

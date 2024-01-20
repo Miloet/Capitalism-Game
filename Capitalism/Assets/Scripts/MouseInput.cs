@@ -76,7 +76,7 @@ public class MouseInput : MonoBehaviour
             {
                 originalPos = hit.transform.position;
                 selected = hit.transform.gameObject;
-                Player.currentHand.Remove(selected);
+                Player.self.currentHand.Remove(selected);
                 Player.UpdateCardInHand();
                 if (selected.tag == "Asset")
                 {

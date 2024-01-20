@@ -10,7 +10,7 @@ public class SkillAccumulate : SkillBase
 
         letter = "A";
         name = "Accumulate";
-        description = "Use your Assets to damage the opponents cash. Deal 2.5 x Price dmg";
+        description = $"Deal {FinancialDamage("(+35%)", true)} to the enemy.";
 
         spriteResourcePath = "Skills/Accumulate";
 
@@ -19,15 +19,15 @@ public class SkillAccumulate : SkillBase
 
     public override void Effect(float multiplier = 1f)
     {
-        Enemy.money -= currentAsset.value * multiplier * 2.5f;
+        Enemy.money -= currentAsset.value * multiplier * .35f;
 
         base.Effect();
     }
 
     public override string writeEffect()
     {
-        string effect = "<color=red>(no asset)</color>";
-        if (currentAsset != null) effect = (currentAsset.value * 2.5f * GetMultiplier()).ToString();
-        return $"Deal {effect} damage";
+        string effect = NoAsset;
+        if (currentAsset != null) effect = (currentAsset.value * .35f * GetMultiplier()).ToString("N0");
+        return $"Deal {FinancialDamage(effect)}";
     }
 }

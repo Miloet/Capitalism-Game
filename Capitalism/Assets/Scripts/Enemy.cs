@@ -5,7 +5,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public static float startingMoney;
-    public static float money = 100000f;
+    public static float money = 2f;
     public static int stress = -5;
     public static string name = "Boss";
     public static int str = 0;
@@ -18,19 +18,24 @@ public class Enemy : MonoBehaviour
 
     public void Attack()
     {
+        print("turn before attack " + turn);
         if (turn < openingAttacks.Length) StartCoroutine(openingAttacks[turn].DoAttack());
         else
         {
-            StartCoroutine(repeatingAttacks[turn-openingAttacks.Length].DoAttack());
+            StartCoroutine(repeatingAttacks[(turn - openingAttacks.Length) % repeatingAttacks.Length].DoAttack());
         }
         turn++;
-        turn = (turn % (openingAttacks.Length + repeatingAttacks.Length)) + openingAttacks.Length * (turn / openingAttacks.Length);
     }
     public static string DisplayAttack()
     {
-        print($"It is turn {turn} for the enemy and it has {openingAttacks.Length + repeatingAttacks.Length} attacks");
-        if (turn < openingAttacks.Length) return openingAttacks[turn].GetAttack();
-        else return repeatingAttacks[turn-openingAttacks.Length].GetAttack();
+        int currentAttack = turn;
+
+
+        print($"It is currentAttack {currentAttack} for the enemy and it has {openingAttacks.Length + repeatingAttacks.Length} attacks");
+        print($"current repeating attack {currentAttack - openingAttacks.Length}");
+
+        if (turn < openingAttacks.Length) return openingAttacks[currentAttack].GetAttack();
+        else return repeatingAttacks[(currentAttack- openingAttacks.Length)% repeatingAttacks.Length].GetAttack();
     }
 
     public static float GetStressValue()
@@ -75,7 +80,7 @@ public class Attack
         {
             attack += $"{damage + Enemy.str} ";
             if (times > 1) attack += $"x {times} ";
-            if (Enemy.stress != 1) attack += $"x ({Enemy.GetStressValue()/100f:N0}%) ";
+            if (Enemy.stress != 1) attack += $"x ({Enemy.GetStressValue()*100f:N0}%) ";
         }
         if(types.Length > 0 || types[0] == AttackType.Damage)
         {
@@ -89,7 +94,7 @@ public class Attack
     {
         for(int i = 0; i < times; i++)
         {
-            Player.TakeDamage(damage + Enemy.str);
+            Player.TakeDamage(Mathf.Max(damage + Enemy.str, damage * 0.5f));
             yield return new WaitForSeconds(0.1f);
         }
 

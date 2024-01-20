@@ -45,7 +45,7 @@ public class MonoEvent : MonoBehaviour
 
     static GameObject fullUI;
     static Vector3 uiPosition;
-    
+
     static TextMeshProUGUI eventName;
     static Image image;
     public static TextAnimator monologAnimator;
@@ -55,6 +55,9 @@ public class MonoEvent : MonoBehaviour
     static TextMeshProUGUI[] responsButtonTexts;
     static GameObject earningsRapport;
 
+    static int buttonInView = 550;
+    static int buttonOutofView = buttonInView + 1000;
+
     #endregion 
 
     public static void NewEvent(Evnt evnt)
@@ -62,7 +65,7 @@ public class MonoEvent : MonoBehaviour
         if (EventDone)
         {
             EventDone = false;
-            GameObject g = Event.eventObject;
+            GameObject g = FindObjectOfType<Event>().gameObject;
 
             switch (evnt)
             {
@@ -87,6 +90,9 @@ public class MonoEvent : MonoBehaviour
                     break;
                 case Evnt.Karen:
                     g.AddComponent<Evnt_Karen>();
+                    break;
+                case Evnt.Victory:
+                    g.AddComponent<Evnt_Victory>();
                     break;
             }
         }
@@ -177,8 +183,8 @@ public class MonoEvent : MonoBehaviour
         Image buttonImage = responsButtons[id].GetComponent<Image>();
         RectTransform trans = responsButtons[id].GetComponent<RectTransform>();
 
-        Vector3 newPos = trans.localPosition + new Vector3(1000,0);
-        Vector3 target = trans.localPosition;
+        Vector3 newPos = new Vector3(buttonOutofView, trans.localPosition.y);
+        Vector3 target = new Vector3(buttonInView, trans.localPosition.y);
 
         float time = 0;
 
@@ -199,8 +205,8 @@ public class MonoEvent : MonoBehaviour
         Image buttonImage = responsButtons[id].GetComponent<Image>();
         RectTransform trans = responsButtons[id].GetComponent<RectTransform>();
 
-        Vector3 newPos = trans.localPosition + new Vector3(1000, 0);
-        Vector3 target = trans.localPosition;
+        Vector3 newPos = new Vector3(buttonOutofView, trans.localPosition.y);
+        Vector3 target = new Vector3(buttonInView, trans.localPosition.y);
 
         float time = 1;
 
@@ -312,11 +318,16 @@ public class MonoEvent : MonoBehaviour
             responsButtons[i].onClick.RemoveAllListeners();
             StartCoroutine(ReverseButtonAnimation(i));
         }
-
-        NewEvent(nextEvent);
-
-        Destroy(this, 5f);
+        StartCoroutine(WaitForDialogFinish(nextEvent));
     }
+    public IEnumerator WaitForDialogFinish(Evnt nextEvent)
+    {
+        yield return new WaitForSeconds(1);
+        yield return new WaitUntil(() => monologAnimator.allLettersShown && Input.anyKeyDown);
+        Destroy(this, 5f);
+        NewEvent(nextEvent);
+    }
+
     public virtual IEnumerator Combat()
     {
         yield return new WaitUntil(() => monologAnimator.allLettersShown && Input.anyKeyDown);

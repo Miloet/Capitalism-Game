@@ -6,9 +6,11 @@ using UnityEngine.SceneManagement;
 public class StartCombat : MonoBehaviour
 {
 
-    public static Evnt nextEvent;
+    public static Evnt nextEvent = Evnt.Intro;
     public static void StartCombatWithEnemy(string name, float money, int stress, string picture, Attack[] opening, Attack[] repeat, Evnt next = Evnt.Victory)
     {
+        MonoEvent.text = null;
+
         Enemy.name = name;
         Enemy.money = money;
         Enemy.stress = stress;
