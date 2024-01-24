@@ -12,7 +12,8 @@ public class Player : MonoBehaviour
     public static float money = 1000;
     public static float income = 1500;
     public static List<Expense> expenses = new List<Expense>() {new Expense("Food and Rent", 900)};
-    
+    public static List<Expense> tempExpenses = new List<Expense>();
+
     public static int stress = 0;
 
     public static char[] skills = { 'A', 'B', 'C','D', 'E', 'K', 'L'};
@@ -425,7 +426,8 @@ public class Player : MonoBehaviour
             #endregion
 
             default:
-                return nameof(SkillBase);
+                Debug.LogError("Cannot find the name of card");
+                break;
         }
 
         componentName = componentName.Replace("Skill", "").Trim();
@@ -469,10 +471,38 @@ public class Expense
 {
     public string Source;
     public float Cost;
+    public float newTempCost = 0;
 
     public Expense(string source, float cost)
     {
         Source = source;
         Cost = cost;
+    }
+
+    public float getCost()
+    {
+        if (newTempCost == 0) return Cost;
+        else return newTempCost;
+    }
+    public string getWritenCost()
+    {
+        string c = getCost().ToString("N2");
+
+        if (getCost() > 0) return $"<color=red>{c}</color>";
+        else return $"<color=green>{c}</color>";
+    }
+
+    public string getSource()
+    {
+        if (getCost() > 0) return $"<color=red>{Source}</color>";
+        else return $"<color=green>{Source}</color>";
+    }
+
+    public static void ChangeExpense(string name, float tempCost)
+    {
+        foreach(Expense expense in Player.expenses)
+        {
+            if(name == expense.Source) expense.newTempCost = expense.Cost - tempCost;
+        }
     }
 }

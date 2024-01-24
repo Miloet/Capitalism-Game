@@ -65,6 +65,8 @@ public class Evnt_Drinking : MonoEvent
                 break;
         }
 
+        AliciaFriendShip++;
+
         AltResponse(Evnt.TheBill);
         
     }

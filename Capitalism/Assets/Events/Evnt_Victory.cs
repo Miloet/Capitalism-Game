@@ -24,10 +24,15 @@ public class Evnt_Victory : MonoEvent
             "<i>Good luck and may the sun smile at you with good fortune."};
         responses = new string[CardsRewarded];
 
-        for(int i = 0; i < cards.Length; i++)
+        List<char> selectedSkills = new List<char>();
+
+        for (int i = 0; i < cards.Length; i++)
         {
-            cardChar[i] = skillPool.GetRandomSkill();
-            cards[i] = $"{cardChar[i]} - {Player.getSkillName(cardChar[i])}"; 
+            char randomSkill = skillPool.GetUniqueRandomSkill(selectedSkills);
+            selectedSkills.Add(randomSkill);
+
+            cardChar[i] = randomSkill;
+            cards[i] = $"{cardChar[i]} - {Player.getSkillName(cardChar[i])}";
             responses[i] = $"Take the card {cards[i]}";
         }
 
@@ -40,7 +45,16 @@ public class Evnt_Victory : MonoEvent
     {
         Player.AddCard(cardChar[n]);
 
-        text.text = $"<i>You took the {cards[n]} card. Truely good fortune lies ahead of you.";
+        string responsToCard = $"<i>You took the {cards[n]} card. Truely good fortune lies ahead of you.";
+
+        if (StartCombat.Raise != 0)
+        { 
+            responsToCard += $" Additionally you will get a raise of {StartCombat.Raise}$ per month before overtime.";
+            Player.income += StartCombat.Raise;
+            StartCombat.Raise = 0;
+        }
+
+        text.text = responsToCard;
 
         base.Respond(n);
     }

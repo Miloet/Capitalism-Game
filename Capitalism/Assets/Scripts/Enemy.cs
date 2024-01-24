@@ -30,17 +30,13 @@ public class Enemy : MonoBehaviour
     {
         int currentAttack = turn;
 
-
-        print($"It is currentAttack {currentAttack} for the enemy and it has {openingAttacks.Length + repeatingAttacks.Length} attacks");
-        print($"current repeating attack {currentAttack - openingAttacks.Length}");
-
         if (turn < openingAttacks.Length) return openingAttacks[currentAttack].GetAttack();
         else return repeatingAttacks[(currentAttack- openingAttacks.Length)% repeatingAttacks.Length].GetAttack();
     }
 
     public static float GetStressValue()
     {
-        if (stress < -4) return -stress / 10f + 1f;
+        if (stress > -5) return -stress / 10f + 1f;
         else return Mathf.Pow(-stress - 5 + Mathf.Sqrt(6f) / 2f, 2);
 
     }
@@ -75,19 +71,32 @@ public class Attack
     }
     public string GetAttack()
     {
-        string attack = $"{name}     -     ";
-        if (damage*times > 0)
+        string attack = $"<color=grey><size=25>{name}</size></color>\n";
+        if (damage * times > 0)
         {
-            attack += $"{damage + Enemy.str} ";
-            if (times > 1) attack += $"x {times} ";
-            if (Enemy.stress != 1) attack += $"x ({Enemy.GetStressValue()*100f:N0}%) ";
+            attack += $"<size={GetSize(damage + Enemy.str)}>{damage + Enemy.str}</size> ";
+            if (times > 1) attack += $"x <size={GetSize(times,10,1)}>{times}</size> ";
+            if (Enemy.stress != 1) attack += $"x ({(Enemy.GetStressValue() * 100f):N1}%) ";
         }
-        if(types.Length > 0 || types[0] == AttackType.Damage)
+        if (types.Length > 0 || types[0] == AttackType.Damage)
         {
-            attack += "Special ";
+            attack += "\nSpecial Effect ";
         }
 
         return attack;
+    }
+
+    public static int GetSize(float value, float maxValue = 1000, float minValue = 100, int maxSize = 15, int minSize = 10)
+    {
+        if (value < minValue) return minSize;
+        else if (value > maxValue) return maxSize;
+        else
+        {
+            float normalizedValue = Mathf.InverseLerp(minValue, maxValue, value);
+            int interpolatedSize = Mathf.RoundToInt(Mathf.Lerp(minSize, maxSize, normalizedValue));
+
+            return interpolatedSize;
+        }
     }
 
     public IEnumerator DoAttack()

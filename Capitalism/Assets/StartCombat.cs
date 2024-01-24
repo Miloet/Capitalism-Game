@@ -5,9 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class StartCombat : MonoBehaviour
 {
-
+    public static float Raise;
     public static Evnt nextEvent = Evnt.Intro;
-    public static void StartCombatWithEnemy(string name, float money, int stress, string picture, Attack[] opening, Attack[] repeat, Evnt next = Evnt.Victory)
+    public static void StartCombatWithEnemy(string name, float money, int stress, string picture, Attack[] opening, Attack[] repeat, Evnt next = Evnt.Victory, float raise = 500f)
     {
         MonoEvent.text = null;
 
@@ -23,6 +23,7 @@ public class StartCombat : MonoBehaviour
         Enemy.startingMoney = money;
 
         nextEvent = next;
+        Raise = raise;
 
 
         SceneManager.sceneLoaded += DrawCards;

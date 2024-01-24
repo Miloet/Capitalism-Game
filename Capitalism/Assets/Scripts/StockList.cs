@@ -7,9 +7,12 @@ public class StockList : MonoBehaviour
     GameObject stockTrader;
     Stock[] availableStocks;
     public static string[] Symbols = { "AAPL", "MSFT", "GOOGL", "AMZN", "TSLA", "JPM", "WMT", "NVDA", "DIS", "TSE", "KO", "NFLX", "BAC", "V", "PG", "INTC", "CSCO", "XOM", "GM", "U" };
+    public static bool shuffled = false;
 
     void Start()
     {
+        if(!shuffled) ShuffleSymbols();
+        shuffled = true;
         stockTrader = Resources.Load<GameObject>("Stock");
 
         List<Stock> stocks = new List<Stock>();
@@ -51,4 +54,16 @@ public class StockList : MonoBehaviour
         }
         print("Stocks are made");
     }
+
+    void ShuffleSymbols()
+    {
+        for (int i = Symbols.Length - 1; i > 0; i--)
+        {
+            int j = Random.Range(0, i + 1);
+            string temp = Symbols[i];
+            Symbols[i] = Symbols[j];
+            Symbols[j] = temp;
+        }
+    }
+
 }

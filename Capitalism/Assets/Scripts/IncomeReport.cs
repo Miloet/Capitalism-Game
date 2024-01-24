@@ -77,6 +77,11 @@ public class IncomeReport : MonoBehaviour
         Player.money += Player.income * (overtime.isOn ? 2f : 1f) - totalCost.Cost;
 
         if (overtime.isOn) Player.stress++;
+        foreach(Expense ex in Player.expenses)
+        {
+            if (ex.newTempCost != 0) ex.newTempCost = 0;
+        }
+        if(Player.tempExpenses.Count > 0) Player.tempExpenses.Clear();
 
         Event.NextMonth();
 
@@ -92,8 +97,13 @@ public class IncomeReport : MonoBehaviour
         
         foreach(Expense ex in Player.expenses)
         {
-            sources = sources + "\n" + ex.Source;
-            costs += ex.Cost;
+            sources = sources + "\n" + ex.getSource();
+            costs += ex.getCost();
+        }
+        foreach(Expense ex in Player.tempExpenses)
+        {
+            sources = sources + "\n" + ex.getSource();
+            costs += ex.getCost();
         }
 
         return new Expense(sources, costs);
@@ -105,7 +115,11 @@ public class IncomeReport : MonoBehaviour
 
         foreach (Expense ex in Player.expenses)
         {
-            costs += $"\n{ex.Cost:N2}$";
+            costs += $"\n{ex.getWritenCost():N2}$";
+        }
+        foreach (Expense ex in Player.tempExpenses)
+        {
+            costs += $"\n{ex.getWritenCost():N2}$";
         }
         return costs;
     }
@@ -119,7 +133,7 @@ public class IncomeReport : MonoBehaviour
         if (i > 100000) return 0.01f;
         if (i > 80000) return 0.05f;
         if (i > 10000) return 0.10f;
-        if (i > 5000) return 0.25f;
+        if (i > 5000) return 0.20f;
         if (i > 1000) return 0.30f;
         if (i > 500) return 0.75f;
         else return 0;

@@ -2102,7 +2102,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 948762619876070280}
   m_HandleRect: {fileID: 1408468644355182415}
   m_Direction: 2
-  m_Value: 1.0000012
+  m_Value: 1.0000006
   m_Size: 0.75
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -2386,8 +2386,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: GOOGL...
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8b07f6c5c0b93054dbe420aa1df8e8f0, type: 2}
+  m_sharedMaterial: {fileID: -8396818003729100188, guid: 8b07f6c5c0b93054dbe420aa1df8e8f0, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4097,7 +4097,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -581, y: 299.9998}
+  m_AnchoredPosition: {x: -581, y: 299.9999}
   m_SizeDelta: {x: 1163, y: 800}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1724273173811782582
@@ -4179,8 +4179,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8b07f6c5c0b93054dbe420aa1df8e8f0, type: 2}
+  m_sharedMaterial: {fileID: -8396818003729100188, guid: 8b07f6c5c0b93054dbe420aa1df8e8f0, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

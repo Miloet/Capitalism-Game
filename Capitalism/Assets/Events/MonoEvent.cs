@@ -58,6 +58,9 @@ public class MonoEvent : MonoBehaviour
     static int buttonInView = 550;
     static int buttonOutofView = buttonInView + 1000;
 
+
+    public static int AliciaFriendShip;
+
     #endregion 
 
     public static void NewEvent(Evnt evnt)
@@ -93,6 +96,9 @@ public class MonoEvent : MonoBehaviour
                     break;
                 case Evnt.Victory:
                     g.AddComponent<Evnt_Victory>();
+                    break;
+                case Evnt.TaxMan:
+                    g.AddComponent<Evnt_Taxman>();
                     break;
             }
         }

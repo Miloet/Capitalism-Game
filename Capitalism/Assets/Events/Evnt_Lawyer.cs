@@ -37,7 +37,7 @@ public class Evnt_Lawyer : MonoEvent
         {
             case 0:
                 Player.money -= 499.99f;
-                Player.expenses.Add(new Expense("Lawyer (the best there is~)", 199f));
+                Player.expenses.Add(new Expense("Lawyer (the best there is~)", 199.99f));
                 Player.AddCard('L');
 
                 text.text = "<wave>Glad to make business with you!</wave>";

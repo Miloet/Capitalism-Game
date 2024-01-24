@@ -30,6 +30,7 @@ public class Evnt_Karen : MonoEvent
 
                 break;
         }
+        RemoveRandomEvent(Evnt.Karen);
         StartCoroutine(Combat());
         base.Respond(n);
         //AltResponse(Evnt.nextEvent);
@@ -48,7 +49,7 @@ public class Evnt_Karen : MonoEvent
 
         yield return new WaitForSeconds(0.5f);
 
-        StartCombat.StartCombatWithEnemy("Karen", Random.Range(1500, 4000), 5, "Karen", opening, repeating);
+        StartCombat.StartCombatWithEnemy("Karen", Random.Range(1500, 4000), 5, "Karen", opening, repeating, Evnt.Victory, 800);
     }
 
 

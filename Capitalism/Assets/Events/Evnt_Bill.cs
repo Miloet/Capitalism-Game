@@ -50,13 +50,13 @@ public class Evnt_Bill : MonoEvent
 
                 text.text = "Seams fair!";
                 Player.money -= tab;
-
+                AliciaFriendShip++;
                 break;
             case 1:
 
                 text.text = "i- but you didnt have to do that- :( thank you so much!!!!! i swear ill pay it next time!!!";
                 Player.money -= tabTogether;
-
+                AliciaFriendShip += 2;
 
                 break;
             case 2:
