@@ -8,6 +8,8 @@ public class Evnt_Bill : MonoEvent
 
     float tab;
     float tabTogether;
+
+    public static bool YouPaid;
     public override void Start()
     {
         name = "The Bill";
@@ -15,7 +17,7 @@ public class Evnt_Bill : MonoEvent
         tab = Evnt_Drinking.tab;
         tabTogether = Evnt_Drinking.tabTogether;
 
-        monolog = new string[] { "Drink", $"<color=#6e0000>Hey ladies, we are closing soon. Your tabes comes out to {tab}$ and {tabTogether - tab}$ respectivly. How you ladies payin'?"};
+        monolog = new string[] { "Drink", $"<color=#6e0000>Hey ladies, we are closing soon. Your tabes comes out to {tab:N2}$ and {(tabTogether - tab):N2}$ respectivly. How you ladies payin'?"};
 
         switch (Evnt_Drinking.drink)
         {
@@ -33,7 +35,7 @@ public class Evnt_Bill : MonoEvent
                 break;
         }
 
-        responses = new string[] { $"Should we split? ({tab}$)", $"I'll pay for both of us. ({tabTogether}$)", "Alicia, could you take it this time?" };
+        responses = new string[] { $"Should we split? ({tab:N2}$)", $"I'll pay for both of us. ({tabTogether:N2}$)", "Alicia, could you take it this time?" };
 
         eventImage = GetImage("imageName");
 
@@ -57,7 +59,7 @@ public class Evnt_Bill : MonoEvent
                 text.text = "i- but you didnt have to do that- :( thank you so much!!!!! i swear ill pay it next time!!!";
                 Player.money -= tabTogether;
                 AliciaFriendShip += 2;
-
+                YouPaid = true;
                 break;
             case 2:
 
@@ -65,7 +67,7 @@ public class Evnt_Bill : MonoEvent
 
                 break;
         }
-
+        if (AliciaFriendShip >= 1) AddRandomEvent(Evnt.Party);
         base.Respond(n);
         //AltResponse(Evnt.nextEvent);
     }

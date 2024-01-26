@@ -38,8 +38,8 @@ Material:
     m_Ints: []
     m_Floats:
     - _ColorResolution: 16
-    - _DitherSpread: 0.05
-    - _Float: -0.5
+    - _DitherSpread: 0.025
+    - _Float: 0.5
     m_Colors:
     - _ColorCorrection: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []

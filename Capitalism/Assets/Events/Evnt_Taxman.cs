@@ -20,7 +20,7 @@ public class Evnt_Taxman : MonoEvent
         };
         responses = new string[] { "Meal ticket (less food cost and stress)", "1000$ Bonus" };
 
-        eventImage = GetImage("Karen");
+        eventImage = GetImage("Taxman");
 
         base.Start();
     }

@@ -1,5 +1,20 @@
-make more events
+Add two combats. 
 
+0 intro(change into tutorial)
+1 partyinvite
+2 r
+3 taxman
+4 r
+5 r
+6 r
+7 r
+8 r
+9 r
+10 r
+11 alicia ending if enough friendship
+12 Boss
 
-the victory event ends with it using the startcombat.nextevent as its altrespons
-the death event should close or restart the game
+unique: 4
+
+repeating: 3
+Person wanting to sue control

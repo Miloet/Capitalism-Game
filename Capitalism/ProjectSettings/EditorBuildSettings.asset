@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Fight.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/Scenes/AwayAtLast.unity
+    guid: ccf3471df45f8984395a961edf8795fc
   m_configObjects: {}

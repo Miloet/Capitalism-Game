@@ -56,6 +56,7 @@ public class Event : MonoBehaviour
     }
     public static void NextMonth()
     {
+        if (MonoEvent.AliciaFriendShip >= 10) MonoEvent.AddRandomEvent(Evnt.AwayTogether);
         date = date.AddMonths(1);
         while (date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday) date = date.AddDays(1);
         month++;
@@ -81,8 +82,11 @@ public class Event : MonoBehaviour
                 return Evnt.PartyInvite;
             case 3:
                 return Evnt.TaxMan;
+            case 11:
+                if (MonoEvent.AliciaFriendShip >= 7 && !AliciaEnding.Ending) return Evnt.AwayTogether;
+                break;
             case 12:
-                return Evnt.Boss1;
+                return Evnt.Boss;
         }
         return MonoEvent.GetRandomEvent();
     }

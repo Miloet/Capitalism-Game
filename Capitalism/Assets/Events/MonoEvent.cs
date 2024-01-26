@@ -19,17 +19,25 @@ public enum Evnt
     TheBill,
     WalkHome,
 
-    Party,
-    Boss1,
+    Spa,
+    OvertimeMandate,
+    NewWorkEquipment,
+    LawyerWantingToSue,
 
+
+    Party,
+    Boss,
 
     Death,
-    Victory
+    Victory,
+
+    AwayTogether,
+    End,
 }
 
 public class MonoEvent : MonoBehaviour
 {
-    public static List<Evnt> randomEvents = new List<Evnt> { Evnt.Karen, Evnt.Lawyer };
+    public static List<Evnt> randomEvents = new List<Evnt> { Evnt.Karen, Evnt.Lawyer, Evnt.OvertimeMandate, Evnt.NewWorkEquipment};
     #region var
 
     public static bool EventDone = true;
@@ -51,7 +59,7 @@ public class MonoEvent : MonoBehaviour
     public static TextAnimator monologAnimator;
     static TextAnimatorPlayer monologPlayer;
     public static TextMeshProUGUI text;
-    static Button[] responsButtons;
+    public static Button[] responsButtons;
     static TextMeshProUGUI[] responsButtonTexts;
     static GameObject earningsRapport;
 
@@ -97,9 +105,37 @@ public class MonoEvent : MonoBehaviour
                 case Evnt.Victory:
                     g.AddComponent<Evnt_Victory>();
                     break;
+                case Evnt.Death:
+                    g.AddComponent<Evnt_Death>();
+                    break;
                 case Evnt.TaxMan:
                     g.AddComponent<Evnt_Taxman>();
                     break;
+                case Evnt.Party:
+                    g.AddComponent<Evnt_Party>();
+                    break;
+                case Evnt.AwayTogether:
+                    SceneManager.LoadScene("AwayAtLast");
+                    break;
+                case Evnt.End:
+                    g.AddComponent<Evnt_End>();
+                    break;
+                case Evnt.LawyerWantingToSue:
+                    g.AddComponent<Evnt_LawyerWantingToSue>();
+                    break;
+                case Evnt.Spa:
+                    g.AddComponent<Evnt_Spa>();
+                    break;
+                case Evnt.OvertimeMandate:
+                    g.AddComponent<Evnt_OvertimeMandate>();
+                    break;
+                case Evnt.NewWorkEquipment:
+                    g.AddComponent<Evnt_NewWorkEquipment>();
+                    break;
+                case Evnt.Boss:
+                    g.AddComponent<Evnt_Boss>();
+                    break;
+
             }
         }
     }
@@ -206,7 +242,7 @@ public class MonoEvent : MonoBehaviour
             yield return null;
         }
     }
-    private IEnumerator ReverseButtonAnimation(int id)
+    public IEnumerator ReverseButtonAnimation(int id)
     {
         Image buttonImage = responsButtons[id].GetComponent<Image>();
         RectTransform trans = responsButtons[id].GetComponent<RectTransform>();
@@ -311,9 +347,11 @@ public class MonoEvent : MonoBehaviour
             StartCoroutine(ReverseButtonAnimation(i));
         }
 
-        StartCoroutine(EaringsRapport());
+        if (AliciaFriendShip >= 1) AddRandomEvent(Evnt.Party);
+        if (AliciaFriendShip >= 3) AddRandomEvent(Evnt.Spa);
+        if (AliciaFriendShip >= 7) AddRandomEvent(Evnt.AwayTogether);
 
-        
+        StartCoroutine(EaringsRapport());
     }
     public void AltResponse(Evnt nextEvent)
     {

@@ -59,7 +59,7 @@ public class Attack
         ReduseStress,
         IncreaseStress,
         IncreaseDamage,
-
+        GainHealth
     }
     public Attack(string Name, int TimesToHit, float Damage, params AttackType[] attackType)
     {
@@ -118,6 +118,9 @@ public class Attack
                     break;
                 case AttackType.IncreaseDamage:
                     Enemy.str += 100;
+                    break;
+                case AttackType.GainHealth:
+                    Enemy.money += 1000f;
                     break;
             }
     }

@@ -79,7 +79,7 @@ public class CardCompiler : MonoBehaviour
             {
                 if(!c.burnt) c.Effect(multiplier);
                 else if (stress < 0) c.Effect(multiplier * 2f);
-                yield return new WaitForSeconds(0.1f);
+                yield return new WaitForSeconds((float)c.clip.length + 0.05f);
             }
 
             if (!(Enemy.money > 0))
@@ -107,7 +107,7 @@ public class CardCompiler : MonoBehaviour
                 if(!(Player.money > 0))
                 {
                     StartCombat.nextEvent = Evnt.Death;
-                    SceneManager.LoadScene("Event");
+                    SceneManager.LoadScene("Events");
                 }
             }
         }

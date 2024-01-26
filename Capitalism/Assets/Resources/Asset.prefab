@@ -506,7 +506,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 16
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.2264151, g: 0.2264151, b: 0.2264151, a: 1}
+  m_Color: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -537,7 +537,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -876546973899608171, guid: fbfb6565040f7a8458ba77ab7d944d47, type: 3}
+  - {fileID: 2100000, guid: 9ae46ed57d4048d4482d35765fd63a1a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -555,10 +555,12 @@ LineRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 351411459
+  m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Positions: []
+  m_Positions:
+  - {x: 1, y: 0, z: -1}
+  - {x: -1, y: 0, z: -1}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.02
@@ -579,22 +581,22 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 0, b: 0, a: 1}
+      key0: {r: 1, g: 1, b: 1, a: 1}
       key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0}
-      key3: {r: 0, g: 0, b: 0, a: 0}
-      key4: {r: 0, g: 0, b: 0, a: 0}
-      key5: {r: 0, g: 0, b: 0, a: 0}
-      key6: {r: 0, g: 0, b: 0, a: 0}
+      key2: {r: 0.05281806, g: 1, b: 0, a: 0}
+      key3: {r: 0.05281806, g: 1, b: 0, a: 0}
+      key4: {r: 0.1000393, g: 0.1000393, b: 0.1000393, a: 0}
+      key5: {r: 0.06265241, g: 0.06265241, b: 0.06265241, a: 0}
+      key6: {r: 0.02058822, g: 0.02058822, b: 0.02058822, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
       ctime1: 65535
-      ctime2: 0
-      ctime3: 0
-      ctime4: 0
-      ctime5: 0
-      ctime6: 0
-      ctime7: 0
+      ctime2: 65535
+      ctime3: 65535
+      ctime4: 33539
+      ctime5: 44718
+      ctime6: 60524
+      ctime7: 65535
       atime0: 0
       atime1: 65535
       atime2: 0
@@ -612,12 +614,12 @@ LineRenderer:
     alignment: 1
     textureMode: 0
     textureScale: {x: 1, y: 1}
-    shadowBias: 0.5
+    shadowBias: 0
     generateLightingData: 0
   m_MaskInteraction: 0
   m_UseWorldSpace: 0
   m_Loop: 0
-  m_ApplyActiveColorSpace: 1
+  m_ApplyActiveColorSpace: 0
 --- !u!1 &6090529265813271410
 GameObject:
   m_ObjectHideFlags: 0

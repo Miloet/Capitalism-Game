@@ -17,6 +17,7 @@ public class SkillBase : CardBehavior
     public string spriteResourcePath = "Skills/Error";
     public string animationResourcePath = "Skills/Error";
     private static GameObject animation;
+    public VideoClip clip;
     SpriteRenderer image;
     TextMeshPro displayName;
     TextMeshPro displayDescription;
@@ -49,16 +50,12 @@ public class SkillBase : CardBehavior
         displayDescription = transform.Find("Body").GetComponent<TextMeshPro>();
 
         animationResourcePath = spriteResourcePath;
+        clip = Resources.Load<VideoClip>(animationResourcePath);
 
         image.sprite = Resources.Load<Sprite>(spriteResourcePath);
         displayName.text = letter + " - " + name;
         displayDescription.text = description;
-        /*var ani = Instantiate(animation, new Vector3(0, 1, -5.25f), Quaternion.identity, null);
-
-        VideoPlayer player = ani.GetComponent<VideoPlayer>();
-        player.clip = Resources.Load<VideoClip>(animationResourcePath);
-        player.Play();
-        Destroy(ani, (float)player.length);*/
+        
 
         if (!requireAsset) transform.Find("AssetInput").gameObject.SetActive(false);
 
@@ -66,7 +63,13 @@ public class SkillBase : CardBehavior
     public virtual void Effect(float multipier = 1f)
     {
         if (letter != "B") CardCompiler.multiplier = 1f;
-        print($"{name} effect played");
+
+        var ani = Instantiate(animation, new Vector3(0, 1, .7f), Quaternion.identity, null);
+
+        VideoPlayer player = ani.GetComponent<VideoPlayer>();
+        player.clip = clip;
+        player.Play();
+        Destroy(ani, (float)player.length);
     }
 
     public virtual string writeEffect()

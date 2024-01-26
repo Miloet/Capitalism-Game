@@ -117,7 +117,6 @@ public class Asset : CardBehavior
         float[] prices = self.price.ToArray();
 
         int max = Mathf.Min(Event.time, 60);
-        Gradient gradient = new Gradient();
 
         for(int i = Event.time - max; i < Event.time; i++)
         {
@@ -130,16 +129,17 @@ public class Asset : CardBehavior
                 lowest = prices[i];
             }
         }
-
-        for(int i = Event.time - max; i < Event.time; i++)
+        for (int i = Event.time - max; i < Event.time; i++)
         {
-            positions.Add(new Vector3(
-                (float)(i - Event.time + max) / (float)max * graphBounds.x,  
+            float xPos = (float)(i - Event.time + max) / (float)max * graphBounds.x;
+            positions.Add(new Vector3(xPos, 
                 graphBounds.y * FindYPosition(prices[i], highest, lowest) , -.01f
                 ) - (Vector3)graphBounds / 2f);
         }
         graphLine.positionCount = positions.Count;
         graphLine.SetPositions(positions.ToArray());
+
+
 
         upperPrice.text = highest.ToString("N1") +"$";
         lowerPrice.text = lowest.ToString("N1") + "$";
@@ -188,9 +188,10 @@ public class Stock
     public float getValue()
     {
         if (price != null)
-            if (Event.time-afterTime >= price.Count) price = InFuture();
+        {
+            if (Event.time - afterTime >= price.Count) price = InFuture();
             if (price[Event.time - afterTime] != -1) return price[Event.time - afterTime];
-
+        }
         Console.WriteLine($"No valid prices not found for {stockSymbol}");
         return -1;
     }

@@ -58,7 +58,7 @@ public class Evnt_Lawyer : MonoEvent
         }
 
         base.Respond(n);
-
+        AddRandomEvent(Evnt.LawyerWantingToSue);
         RemoveRandomEvent(Evnt.Lawyer);
     }
 }

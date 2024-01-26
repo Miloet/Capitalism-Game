@@ -211,11 +211,11 @@ public class Player : MonoBehaviour
             case 'E':
                 newCard.AddComponent<SkillEmbezzle>();
                 break;
-                /*
+                
             case 'F':
-                // newCard.AddComponent<SkillF>();
+                newCard.AddComponent<SkillFinality>();
                 break;
-
+                /*
             case 'G':
                 // newCard.AddComponent<SkillG>();
                 break;
