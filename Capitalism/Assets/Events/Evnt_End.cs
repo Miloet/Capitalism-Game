@@ -15,7 +15,7 @@ public class Evnt_End : MonoEvent
             "haha... to imagine... such power...", 
             "it took me what? 10 years to get here? it even took holmes two years to get to this point...",
             $"kid... {homophobic} go fuck yourself. t-tell me... are you this strong because of primoridal luck...? or are you this strong because of divine suicide...?"};
-        responses = new string[] {gay, };
+        responses = new string[] {gay};
 
         eventImage = GetImage("Defeated");
 

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Evnt_Party : MonoEvent
 {
+    public static bool happendOnce;
     public override void Start()
     {
         
