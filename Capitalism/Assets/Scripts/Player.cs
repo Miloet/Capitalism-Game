@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
 
     public static int stress = 0;
 
-    public static char[] skills = { 'A', 'B', 'C','D', 'E', 'K', 'L'};
+    public static char[] skills = { 'A', 'B', 'C', 'E'};
     public static Stock[] assets = new Stock[0];// = {new Stock("AAPL")};
 
     public static bool loadingStock;

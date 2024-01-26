@@ -107,7 +107,7 @@ public class SkillBase : CardBehavior
 
     public static string GainMoney(string input)
     {
-        return $"<b><color=#44c296>{input}</color></b>";
+        return $"<b><color=#278a67>{input}</color></b>";
     }
     public static string GainStress(string input)
     {
@@ -122,7 +122,7 @@ public class SkillBase : CardBehavior
     }
     public static string MultiplierAssetValue(string input)
     {
-        return $"{input}<color=#1f697a>$</color>";
+        return $"{input}<color=#10434f>$</color>";
     }
 
     public static string NoAsset = "<color=red>(No Asset)</color>";

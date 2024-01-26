@@ -66,47 +66,50 @@ public class SkillToUI : MonoBehaviour
             case 'C':
                 requireAsset = true;
                 name = "Counterfeit";
-                description = $"Print {SkillBase.GainMoney($"{SkillBase.MultiplierAssetValue("(+10%)")} Money")} and gain {SkillBase.GainStress("+1")}";
+                description = $"Print {SkillBase.GainMoney($"{SkillBase.MultiplierAssetValue("(+80%)")} Money")} and gain {SkillBase.GainStress("+1")}";
                 spriteResourcePath = "Skills/Counterfeit";
                 break;
-        case 'D':
+            case 'D':
                 requireAsset = false;
                 name = "Distract and Defund";
                 description = "The enemy permanantly deals 100$ less finacial damage per attack.";
                 spriteResourcePath = "Skills/Distract";
                 break;
-        case 'E':
+            case 'E':
                 requireAsset = true;
                 name = "Embezzle";
                 description = $"Embezzle {SkillBase.FinancialDamage("(+10%)", true)} of the enemies money and gain it as your own causing them {SkillBase.GainStress("+1")} for every 1000$ of financial damage up to {SkillBase.GainStress("+3")}. " +
                     $"This ability becomes more effective the more stress you have ranging from {SkillBase.GainMoney("0% - 200%")} based on{SkillBase.GainStress("")}";
                 break;
 
+            
+            
+            case 'F':
+                requireAsset = false;
+                name = "Finality";
+                description = $"Destroy <b><color=#b83100>30% of the financial value</color></b> of the enemies finances.";
+            break;
             #region Unused Letters
             /*
-                    case 'F':
-                        // newCard.AddComponent<SkillF>();
-                        break;
+                case 'G':
+                    // newCard.AddComponent<SkillG>();
+                    break;
 
-                    case 'G':
-                        // newCard.AddComponent<SkillG>();
-                        break;
+                case 'H':
+                    // newCard.AddComponent<SkillH>();
+                    break;
 
-                    case 'H':
-                        // newCard.AddComponent<SkillH>();
-                        break;
+                case 'I':
+                    // newCard.AddComponent<SkillI>();
+                    break;
 
-                    case 'I':
-                        // newCard.AddComponent<SkillI>();
-                        break;
+                case 'J':
+                    // newCard.AddComponent<SkillJ>();
+                    break;
+        */
+            #endregion
 
-                    case 'J':
-                        // newCard.AddComponent<SkillJ>();
-                        break;
-            */
-                #endregion
-
-                case 'K':
+            case 'K':
                 requireAsset = false;
                 name = "Kustomer";
                 description = $"Deal {SkillBase.FinancialDamage("300", true)} and cause the enemy {SkillBase.GainStress("+1")}";

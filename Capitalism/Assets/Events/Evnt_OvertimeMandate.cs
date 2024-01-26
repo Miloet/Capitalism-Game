@@ -12,7 +12,7 @@ public class Evnt_OvertimeMandate : MonoEvent
         monolog = new string[] {$"<i>The boss has called for mandatory overtime at the offices."};
         responses = new string[] { "Accept the orders", "Ignore the orders"};
 
-        eventImage = GetImage("Party");
+        eventImage = GetImage("Tower");
 
         base.Start();
     }

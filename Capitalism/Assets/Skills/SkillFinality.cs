@@ -10,7 +10,7 @@ public class SkillFinality : SkillBase
 
         letter = "F";
         name = "Finality";
-        description = $"Destroy <b><color=#b83100>30% of the financial value</color></b> of the enemies finances.";
+        description = $"Destroy <b><color=#b83100>30% of the financial value</color></b> to the enemies finances.";
 
         spriteResourcePath = "Skills/Finality";
 

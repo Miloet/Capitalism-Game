@@ -12,7 +12,7 @@ public class Event : MonoBehaviour
     public static DateTime date;
     public static int time;
 
-    public static int month = 0;
+    public static int month = 4;
 
     public static TextMeshProUGUI textBox;
 
@@ -23,12 +23,18 @@ public class Event : MonoBehaviour
         eventObject = gameObject;
         date = DateTime.Parse(StartDate);
 
-        if (month == 0) MonoEvent.NewEvent(Evnt.Intro);
         print("Next event is " + StartCombat.nextEvent.ToString());
-        if (StartCombat.nextEvent != Evnt.Intro && SceneManager.GetActiveScene().name == "Events") 
+        if(SceneManager.GetActiveScene().name == "Events")
         {
-            MonoEvent.NewEvent(StartCombat.nextEvent);
-            StartCombat.nextEvent = Evnt.Intro;
+            if (StartCombat.nextEvent != Evnt.Intro)
+            {
+                MonoEvent.NewEvent(StartCombat.nextEvent);
+                StartCombat.nextEvent = Evnt.Intro;
+            }
+            else
+            {
+                MonoEvent.NewEvent(GetNextEvent());
+            }
         }
     }
 
@@ -56,7 +62,6 @@ public class Event : MonoBehaviour
     }
     public static void NextMonth()
     {
-        if (MonoEvent.AliciaFriendShip >= 10) MonoEvent.AddRandomEvent(Evnt.AwayTogether);
         date = date.AddMonths(1);
         while (date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday) date = date.AddDays(1);
         month++;
@@ -73,7 +78,6 @@ public class Event : MonoBehaviour
 
     public static Evnt GetNextEvent()
     {
-
         switch(month)
         {
             case 0:
@@ -82,8 +86,14 @@ public class Event : MonoBehaviour
                 return Evnt.PartyInvite;
             case 3:
                 return Evnt.TaxMan;
+            case 7:
+                if(!Evnt_Party.happendOnce || MonoEvent.AliciaFriendShip < 3) return Evnt.Party;
+                break;
+            case 10:
+                if (MonoEvent.AliciaFriendShip >= 3 && !Evnt_Spa.happendOnce) return Evnt.Spa;
+                break;
             case 11:
-                if (MonoEvent.AliciaFriendShip >= 7 && !AliciaEnding.Ending) return Evnt.AwayTogether;
+                if (MonoEvent.AliciaFriendShip >= 6 && !AliciaEnding.Ending) return Evnt.AwayTogether;
                 break;
             case 12:
                 return Evnt.Boss;

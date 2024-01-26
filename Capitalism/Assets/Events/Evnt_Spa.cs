@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class Evnt_Spa : MonoEvent
 {
+    public static bool happendOnce;
     public override void Start()
     {
-        
+        happendOnce = true;
         name = "Spa?";
 
         monolog = new string[] {$"<i>Alicia comes into your office and slams down a flyer for a spa on your desk.", 
-            "You have been stressed lately, i can see it on you. Lets go to this spa. Its said to remove all your stress. <size=25>It is kinda expensive though...</>"};
-        responses = new string[] { "Sure, I'd love. (reduse stress massivly, costs 2000$)", "It's a bit too expensive..."};
+            "You have been stressed lately, i can see it on you. Lets go to this spa. Its said to remove all your stress. <size=25>It is kinda expensive though..."};
+        responses = new string[] { "Sure, I'd love to. (reduse stress massivly, costs 2000$)", "It's a bit too expensive..."};
 
-        eventImage = GetImage("Party");
+        eventImage = GetImage("Alicia");
 
         base.Start();
     }

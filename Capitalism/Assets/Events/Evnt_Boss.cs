@@ -43,8 +43,7 @@ public class Evnt_Boss : MonoEvent
         Attack[] repeating = {
                 new Attack("First: Hollow Life", 0, 0, Attack.AttackType.GainHealth),
                 new Attack("Second: Complete Death", 50, 10, Attack.AttackType.Damage),
-                !AliciaEnding.Ending ? new Attack("Third: Infinite Finance", 0, 0, Attack.AttackType.IncreaseDamage, Attack.AttackType.ReduseStress, Attack.AttackType.IncreaseDamage, Attack.AttackType.IncreaseDamage,Attack.AttackType.ReduseStress) :
-                new Attack("Nothing...?", 0, 0, Attack.AttackType.Damage)
+                new Attack("Third: Infinite Finance", 0, 0, Attack.AttackType.IncreaseDamage, Attack.AttackType.ReduseStress, Attack.AttackType.IncreaseDamage, Attack.AttackType.IncreaseDamage,Attack.AttackType.ReduseStress)
                 };
 
         yield return new WaitForSeconds(0.5f);

@@ -19,7 +19,7 @@ public class Evnt_Drinking : MonoEvent
             "<i>The bartender comes up to you two and asks.</i><color=#6e0000> What are you two ladies gonna drink?"};
         responses = new string[] { "Something strong (severly alcoholic)", "Something sweet (alcoholic)", "What she is having (?)" , "Water (non alcoholic)"};
 
-        eventImage = GetImage("Bar");
+        eventImage = GetImage("Barkeep");
 
         base.Start();
     }

@@ -10,7 +10,7 @@ public class SkillCounterfeit : SkillBase
 
         letter = "C";
         name = "Counterfeit";
-        description = $"Print {GainMoney($"{MultiplierAssetValue("(+10%)")} Money")} and gain {GainStress("+1")}";
+        description = $"Print {GainMoney($"{MultiplierAssetValue("(+80%)")} Money")} and gain {GainStress("+1")}";
 
         spriteResourcePath = "Skills/Counterfeit";
 
@@ -19,7 +19,7 @@ public class SkillCounterfeit : SkillBase
 
     public override void Effect(float multiplier = 1f)
     {
-        Player.money += currentAsset.value * multiplier * 0.1f;
+        Player.money += currentAsset.value * multiplier * 0.80f;
 
         Player.stress++;
 
@@ -28,7 +28,7 @@ public class SkillCounterfeit : SkillBase
     public override string writeEffect()
     {
         string effect = NoAsset;
-        if (currentAsset != null) effect = (currentAsset.value * 0.1f * GetMultiplier()).ToString("N0");
+        if (currentAsset != null) effect = (currentAsset.value * 0.80f * GetMultiplier()).ToString("N0");
         return $"Gain {GainMoney(effect)}";
     }
 }

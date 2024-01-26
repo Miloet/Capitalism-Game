@@ -45,8 +45,9 @@ public class Evnt_LawyerWantingToSue : MonoEvent
                 else
                 {
                     text.text = $"<i>Saul Goodman here. Aaaahhh dawn- huh? control did what now? a {sueForKilled}? and how is this your probelm? he wants to sue you? fucking idiot of a lawyer" +
-                        $" <size=60><wave>BET HE DOESNT EVEN HAVE A LAW DEGREE</wave></size>. He heard that right? Anyways call security and ill fix it behind closed doors and you will get a cut from it.";
+                        $" <size=30><wave>BET HE DOESNT EVEN HAVE A LAW DEGREE.</wave></size> He heard that right~? Anyways call security and i'll fix it behind closed doors and you will get a cut from it.";
                     Player.tempExpenses.Add(new Expense("This is why you hired me~", -3000));
+                    Player.AddCard(Resources.Load<SkillWeightList>("LawyerSkillPool").GetRandomSkill());
                 }
                 break;
         }

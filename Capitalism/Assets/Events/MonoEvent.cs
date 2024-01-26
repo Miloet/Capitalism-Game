@@ -349,7 +349,7 @@ public class MonoEvent : MonoBehaviour
 
         if (AliciaFriendShip >= 1) AddRandomEvent(Evnt.Party);
         if (AliciaFriendShip >= 3) AddRandomEvent(Evnt.Spa);
-        if (AliciaFriendShip >= 7) AddRandomEvent(Evnt.AwayTogether);
+        if (AliciaFriendShip >= 6) AddRandomEvent(Evnt.AwayTogether);
 
         StartCoroutine(EaringsRapport());
     }

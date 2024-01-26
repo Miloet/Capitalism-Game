@@ -7,7 +7,7 @@ public class Evnt_Party : MonoEvent
     public static bool happendOnce;
     public override void Start()
     {
-        
+        happendOnce = true;
         name = "Party?";
 
         monolog = new string[] {$"<i>The higher ups needs this work done by tomorrow morning... i might get a raise if i pull an all-nighter on this one.",
@@ -15,7 +15,7 @@ public class Evnt_Party : MonoEvent
             $"Hey hon~ Wanna go with me and the boys to the pub tonight? {(Evnt_Bill.YouPaid ? "The tabs on me this time~<3" : "")}"};
         responses = new string[] { "I'd love to Alicia. (reduse stress)", "Sorry, i cant tonight. I got a lot of work to do. (pay rise)"};
 
-        eventImage = GetImage("Party");
+        eventImage = GetImage("Alicia");
 
         base.Start();
     }
@@ -32,10 +32,15 @@ public class Evnt_Party : MonoEvent
                     text.text = "Amazing! <i>She runs up and gives you a quick friendly kiss on cheek.</i> <wave>See you tonight then babe~</wave>";
                     Player.stress -= 2;
                 }
-                else
+                else if(AliciaFriendShip >= 1)
                 {
                     text.text = "Amazing! <i>She runs up and gives you a quick hug.</i> <wave>See you tonight then~</wave>";
                     Player.stress--;
+                }
+                else
+                {
+                    text.text = "Ok! See you tonight then!";
+                    AltResponse(Evnt.Drinking);
                 }
                 AliciaFriendShip++;
                 break;

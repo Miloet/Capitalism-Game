@@ -14,7 +14,7 @@ public class Evnt_PartyInvite : MonoEvent
             "You new here so I thought I should invite you too. You in?" };
         responses = new string[] { "Sure thing.", "Fucking finally. I need some of that.", "Nah, got other plans." };
 
-        eventImage = GetImage("Party");
+        eventImage = GetImage("Alicia");
 
         base.Start();
     }

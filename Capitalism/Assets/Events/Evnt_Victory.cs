@@ -43,6 +43,12 @@ public class Evnt_Victory : MonoEvent
 
     public override void Respond(int n)
     {
+
+        if(StartCombat.CardReward != '0') Player.AddCard(StartCombat.CardReward);
+        StartCombat.CardReward = '0';
+
+        Player.CardsToDraw++;
+
         Player.AddCard(cardChar[n]);
 
         string responsToCard = $"<i>You took the {cards[n]} card. Truely good fortune lies ahead of you.";
