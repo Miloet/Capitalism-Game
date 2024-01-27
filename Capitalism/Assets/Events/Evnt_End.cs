@@ -14,7 +14,8 @@ public class Evnt_End : MonoEvent
         monolog = new string[] { "<i>...", 
             "haha... to imagine... such power...", 
             "it took me what? 10 years to get here? it even took holmes two years to get to this point...",
-            $"kid... {homophobic} go fuck yourself. t-tell me... are you this strong because of primoridal luck...? or are you this strong because of divine suicide...?"};
+            $"kid... {homophobic} go fuck yourself.",
+            "t-tell me... are you this strong because of primoridal luck...? or are you this strong because of a divine suicide by the third...?"};
         responses = new string[] {gay};
 
         eventImage = GetImage("Defeated");
@@ -31,8 +32,6 @@ public class Evnt_End : MonoEvent
             responsButtons[i].onClick.RemoveAllListeners();
             StartCoroutine(ReverseButtonAnimation(i));
         }
-        base.Respond(n);
-
     }
 
     public IEnumerator StartFinale()

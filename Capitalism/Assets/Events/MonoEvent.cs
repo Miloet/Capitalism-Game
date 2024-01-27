@@ -152,6 +152,7 @@ public class MonoEvent : MonoBehaviour
     }
     public static Evnt GetRandomEvent()
     {
+        if(AliciaEnding.Ending) RemoveRandomEvent(Evnt.AwayTogether);
         int i = Random.Range(0, randomEvents.Count);
         return randomEvents[i];
     }

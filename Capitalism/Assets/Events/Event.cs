@@ -12,7 +12,7 @@ public class Event : MonoBehaviour
     public static DateTime date;
     public static int time;
 
-    public static int month = 4;
+    public static int month = 0;
 
     public static TextMeshProUGUI textBox;
 
@@ -26,13 +26,17 @@ public class Event : MonoBehaviour
         print("Next event is " + StartCombat.nextEvent.ToString());
         if(SceneManager.GetActiveScene().name == "Events")
         {
+            print("In event scene");
             if (StartCombat.nextEvent != Evnt.Intro)
             {
+                print("start combat next event");
+
                 MonoEvent.NewEvent(StartCombat.nextEvent);
                 StartCombat.nextEvent = Evnt.Intro;
             }
             else
             {
+                print("Normal next event");
                 MonoEvent.NewEvent(GetNextEvent());
             }
         }

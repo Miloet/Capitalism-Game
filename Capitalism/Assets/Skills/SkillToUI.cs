@@ -80,6 +80,7 @@ public class SkillToUI : MonoBehaviour
                 name = "Embezzle";
                 description = $"Embezzle {SkillBase.FinancialDamage("(+10%)", true)} of the enemies money and gain it as your own causing them {SkillBase.GainStress("+1")} for every 1000$ of financial damage up to {SkillBase.GainStress("+3")}. " +
                     $"This ability becomes more effective the more stress you have ranging from {SkillBase.GainMoney("0% - 200%")} based on{SkillBase.GainStress("")}";
+                spriteResourcePath = "Skills/Embezzle";
                 break;
 
             
@@ -88,7 +89,8 @@ public class SkillToUI : MonoBehaviour
                 requireAsset = false;
                 name = "Finality";
                 description = $"Destroy <b><color=#b83100>30% of the financial value</color></b> of the enemies finances.";
-            break;
+                spriteResourcePath = "Skills/Finality";
+                break;
             #region Unused Letters
             /*
                 case 'G':

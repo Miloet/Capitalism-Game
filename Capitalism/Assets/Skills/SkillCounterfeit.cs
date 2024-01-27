@@ -10,7 +10,7 @@ public class SkillCounterfeit : SkillBase
 
         letter = "C";
         name = "Counterfeit";
-        description = $"Print {GainMoney($"{MultiplierAssetValue("(+80%)")} Money")} and gain {GainStress("+1")}";
+        description = $"Print {GainMoney($"{MultiplierAssetValue("(+80%)")} Money")} and gain {GainStress("+1")} for every 1,000$ printed.";
 
         spriteResourcePath = "Skills/Counterfeit";
 
@@ -21,7 +21,7 @@ public class SkillCounterfeit : SkillBase
     {
         Player.money += currentAsset.value * multiplier * 0.80f;
 
-        Player.stress++;
+        Player.stress += Mathf.Clamp((int)Mathf.FloorToInt((currentAsset.value * 0.80f * multiplier) / 1000f),0, 9);
 
         base.Effect();
     }
@@ -29,6 +29,6 @@ public class SkillCounterfeit : SkillBase
     {
         string effect = NoAsset;
         if (currentAsset != null) effect = (currentAsset.value * 0.80f * GetMultiplier()).ToString("N0");
-        return $"Gain {GainMoney(effect)}";
+        return $"Gain {GainMoney(effect)} and {(int)Mathf.FloorToInt((currentAsset.value * 0.80f * GetMultiplier())/1000f)}";
     }
 }

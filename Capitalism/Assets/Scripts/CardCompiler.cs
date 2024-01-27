@@ -84,7 +84,6 @@ public class CardCompiler : MonoBehaviour
 
             if (!(Enemy.money > 0))
             {
-                StartCombat.nextEvent = Evnt.Victory;
                 SceneManager.LoadScene("Events");
             }
             else

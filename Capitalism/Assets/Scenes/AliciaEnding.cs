@@ -131,8 +131,17 @@ public class AliciaEnding : MonoBehaviour
         yield return new WaitUntil(() => textAnimator.allLettersShown);
         yield return new WaitForSeconds(2);
         yield return new WaitUntil(() => Input.anyKeyDown);
-        
+
+        StartCombat.nextEvent = Evnt.Intro;
+        MonoEvent.EventDone = true;
         SceneManager.LoadScene("Events");
+    }
+
+
+    public static void NextMonth(Scene scene, LoadSceneMode mode)
+    {
+        SceneManager.sceneLoaded -= NextMonth;
+        Event.NextMonth();
     }
 
     public IEnumerator HideButton()

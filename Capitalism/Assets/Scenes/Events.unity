@@ -211,7 +211,7 @@ MonoBehaviour:
   m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 18
+  m_fontSizeMin: 0
   m_fontSizeMax: 40
   m_fontStyle: 1
   m_HorizontalAlignment: 2
@@ -3084,7 +3084,7 @@ MonoBehaviour:
   m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 18
+  m_fontSizeMin: 0
   m_fontSizeMax: 40
   m_fontStyle: 1
   m_HorizontalAlignment: 2
@@ -3519,7 +3519,7 @@ MonoBehaviour:
   m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 18
+  m_fontSizeMin: 0
   m_fontSizeMax: 40
   m_fontStyle: 1
   m_HorizontalAlignment: 2
@@ -6580,7 +6580,7 @@ MonoBehaviour:
   m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 18
+  m_fontSizeMin: 0
   m_fontSizeMax: 40
   m_fontStyle: 1
   m_HorizontalAlignment: 2
@@ -9738,7 +9738,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7043974434695270592, guid: 203dbd2281cc80e41b3dab6764cf1486, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 299.99957
+      value: 299.9997
       objectReference: {fileID: 0}
     - target: {fileID: 7230113419934419698, guid: 203dbd2281cc80e41b3dab6764cf1486, type: 3}
       propertyPath: m_LocalPosition.y

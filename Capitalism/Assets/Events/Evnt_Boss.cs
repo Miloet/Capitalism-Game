@@ -41,14 +41,14 @@ public class Evnt_Boss : MonoEvent
                 new Attack("Show me what you got.", 0, 0, Attack.AttackType.Damage),
                 new Attack($"Pathetic.", 5, 1000, Attack.AttackType.Damage)};
         Attack[] repeating = {
-                new Attack("First: Hollow Life", 0, 0, Attack.AttackType.GainHealth),
+                new Attack("First: Hollow Life", 0, 0, Attack.AttackType.GainHealth,Attack.AttackType.GainHealth,Attack.AttackType.GainHealth,Attack.AttackType.GainHealth),
                 new Attack("Second: Complete Death", 50, 10, Attack.AttackType.Damage),
                 new Attack("Third: Infinite Finance", 0, 0, Attack.AttackType.IncreaseDamage, Attack.AttackType.ReduseStress, Attack.AttackType.IncreaseDamage, Attack.AttackType.IncreaseDamage,Attack.AttackType.ReduseStress)
                 };
 
         yield return new WaitForSeconds(0.5f);
 
-        StartCombat.StartCombatWithEnemy("Head of Security", 150000, -5, "Security", opening, repeating, Evnt.End, 2000);
+        StartCombat.StartCombatWithEnemy("Head of Security", 150000 + Player.money + Player.assetValue, -5, "Security", opening, repeating, Evnt.End, 2000);
     }
 
 
