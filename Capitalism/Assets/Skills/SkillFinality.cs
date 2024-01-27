@@ -19,7 +19,7 @@ public class SkillFinality : SkillBase
 
     public override void Effect(float multiplier = 1f)
     {
-        Enemy.money -= Enemy.money * 0.3f * -(1f/multiplier) + 0.6f;
+        Enemy.money -= Enemy.money * 0.3f * Mathf.Sqrt(multiplier);
 
         base.Effect();
     }
